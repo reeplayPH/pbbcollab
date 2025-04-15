@@ -386,7 +386,7 @@ function removeRankedTrainee(trainee) {
   return false;
 }
 
-const currentURL = "https://il2ranker.github.io/";
+const currentURL = "https://pbbcollab.github.io/";
 // Serializes the ranking into a string and appends that to the current URL
 function generateShareLink() {
   let shareCode = ranking.map(function (trainee) {
@@ -421,7 +421,7 @@ var ranking = newRanking();
 const rowNums = [1,2,3];
 //window.addEventListener("load", function () {
   populateRanking();
-  readFromCSV("./trainee_info.csv");
+  readFromCSV("./housemate_info.csv");
 //});
 // checks the URL for a ranking and uses it to populate ranking
 getRanking();
