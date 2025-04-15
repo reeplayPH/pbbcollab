@@ -1,5 +1,5 @@
 // This file handles all code relating to drag and drop behavior
-// Additionally: talks to main.js just to swap around rankings
+// Additionally: talks to main.js just to swap around rankings and stuff
 const draggedOverClass = "dragged-over";
 const rankIndex = "rankIndex";
 
@@ -33,11 +33,11 @@ function createDropListener() {
   return function (event) {
     event.preventDefault();
     let elem = event.target;
-    // get the two trainee indices
-    draggedTraineeIndex = event.dataTransfer.getData(rankIndex);
-    droppedTraineeIndex = elem.getAttribute("data-rankid");
+    // get the two housemate indices
+    draggedHousemateIndex = event.dataTransfer.getData(rankIndex);
+    droppedHousemateIndex = elem.getAttribute("data-rankid");
     // swap them
-    swapTrainees(draggedTraineeIndex, droppedTraineeIndex);
+    swapHousemates(draggedHousemateIndex, droppedHousemateIndex);
     // removeClass(elem, draggedOverClass);
   }
 }
