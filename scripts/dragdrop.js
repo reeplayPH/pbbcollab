@@ -1,5 +1,5 @@
 // This file handles all code relating to drag and drop behavior
-// Additionally: talks to main.js just to swap around rankings and stuff
+// Additionally: talks to main.js just to swap around rankings
 const draggedOverClass = "dragged-over";
 const rankIndex = "rankIndex";
 
