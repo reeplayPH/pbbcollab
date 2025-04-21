@@ -33,6 +33,10 @@ body {
   /*TODO: I had the weirdest bug where if i don't have this background white the top banner would disappear
   it's super late right now and I'm not sure what is going on i need to look into this later */
   background-color: white;
+  background-image: url('assets/backgroundpbb.jpg');
+  background-size: cover; /* This makes the image cover the entire background */
+  background-repeat: no-repeat; /* This prevents the image from repeating */
+  background-position: center; /* This centers the image */
 }
 
 /* Styles for banner */
