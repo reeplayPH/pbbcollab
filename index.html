@@ -33,12 +33,12 @@
       </div>
       <div id="table">
         <div id="table__filter-container">
-          <input id="table__filter-input" oninput="filterTrainees(event)" type="text" placeholder="Search"/>
+          <input id="table__filter-input" oninput="filterHousemates(event)" type="text" placeholder="Search"/>
         </div>
         <div id="table__entry-container">
           <!-- <div class="table__entry">
             <div class="table__entry-icon">
-              <img class="table__entry-img" src="assets/trainees/RyuSarang.jpg" />
+              <img class="table__entry-img" src="assets/housemates/RyuSarang.jpg" />
               <div class="table__entry-icon-border a-rank-border"></div>
               <img class="table__entry-check" src="assets/check.png"/>
             </div>
@@ -53,8 +53,8 @@
       <div id="filters-container">
         <div id="filters-header"><strong>Filters</strong></div>
         <div>
-          <input type="checkbox" name="show-eliminated" id="show-eliminated" onclick="showEliminatedClick(event)"/>
-          <label class="checkbox-label" for="show-eliminated">Show Evicted (At Bottom)</label>
+          <input type="checkbox" name="show-evicted" id="show-evicted" onclick="showEvictedClick(event)"/>
+          <label class="checkbox-label" for="show-evicted">Show Evicted (At Bottom)</label>
         </div>
         <div>
           <input type="checkbox" name="show-top6" id="show-top6" onclick="showTop6Click(event)"/>
@@ -75,7 +75,7 @@
       <div class="ranking__row">
         <!-- <div class="ranking__entry">
           <div class="ranking__entry-icon">
-            <img class="ranking__entry-img" src="assets/trainees/RyuSarang.jpg" />
+            <img class="ranking__entry-img" src="assets/housemates/RyuSarang.jpg" />
             <div class="ranking__entry-icon-border a-rank-border"></div>
             <div class="ranking__entry-icon-badge">1</div>
           </div>
@@ -95,7 +95,7 @@
   <script src="scripts/csv.js"></script>
   <script src="scripts/dragula.min.js"></script>
   <script src="scripts/dragdrop.js"></script>
-  <script src="scripts/traineesort.js"></script>
+  <script src="scripts/housematesort.js"></script>
   <script src="scripts/main.js"></script>
 
 </body>
