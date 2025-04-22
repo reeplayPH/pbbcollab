@@ -60,37 +60,32 @@ function getRanking() {
 /*
 housemate: {
   id: ... // position in csv used for simple recognition
-  name_romanized: ...
+  fullname: ...
   name_hangul: ...
   name_japanese: ...
-  nationality: ...
+  location: ...
   grade: a/b/c/d/f
-  birthyear: ...
+  age: ...
   image: ...
   selected: false/true // whether user selected them
   evicted: false/true
-  top6: false/true
+  big4: false/true
 }
 */
 function convertCSVArrayToHousemateData(csvArrays) {
   housemates = csvArrays.map(function(housemateArray, index) {
     housemate = {};
-    housemate.name_romanized = housemateArray[0];
-    if (housemateArray[2] === "-") {
-      // housemate only has hangul
-      housemate.name_hangul = housemateArray[1];
-    } else {
-      housemate.name_japanese = housemateArray[1];
-      housemate.name_hangul = housemateArray[2];
-    }
-    housemate.nationality = housemateArray [3];
-    housemate.grade = housemateArray[4];
-    housemate.birthyear = housemateArray[5];
+    housemate.fullname = housemateArray[0];
+    housemate.shortname = housemateArray[1];
+    housemate.agency = housemateArray[2];
+    housemate.location = housemateArray [3];
+    housemate.agencycolor = housemateArray[4];
+    housemate.age = housemateArray[5];
     housemate.evicted = housemateArray[6] === 'e'; // sets housemate to be evicted if 'e' appears in 6th col
-    housemate.top6 = housemateArray[6] === 't'; // sets housemate to top 6 if 't' appears in 6th column
+    housemate.big4 = housemateArray[6] === 'b'; // sets housemate to top 6 if 't' appears in 6th column
     housemate.id = parseInt(housemateArray[7]) - 1; // housemate id is the original ordering of the housemates in the first csv
     housemate.image =
-      housemate.name_romanized.replaceAll(" ", "").replaceAll("-", "") + ".png";
+      housemate.fullname.replaceAll(" ", "").replaceAll("-", "") + ".png";
     return housemate;
   });
   filteredHousemates = housemates;
@@ -101,10 +96,10 @@ function convertCSVArrayToHousemateData(csvArrays) {
 function newHousemate() {
   return {
     id: -1, // -1 denotes a blank housemate spot
-    name_romanized: '&#8203;', // this is a blank character
-    nationality: '&#8203;',
-    birthyear: '&#8203;',
-    grade: 'no',
+    fullname: '&#8203;', // this is a blank character
+    location: '&#8203;',
+    age: '&#8203;',
+    agencycolor: 'no',
     image: 'emptyrank.png',
   };
 }
@@ -178,24 +173,24 @@ function populateTable(housemates) {
 function populateTableEntry(housemate) {
   // evicted will have value "evicted" only if housemate is evicted and showEvicted is true, otherwise this is ""
   let evicted = (showEvicted && housemate.evicted) && "evicted";
-  let top6 = (showTop6 && housemate.top6) && "top6";
+  let big4 = (showTop6 && housemate.big4) && "big4";
   const tableEntry = `
   <div class="table__entry ${evicted}">
     <div class="table__entry-icon">
       <img class="table__entry-img" src="assets/housemates/${housemate.image}" />
       <div class="table__entry-icon-border ${housemate.grade.toLowerCase()}-rank-border"></div>
       ${
-        top6 ? '<div class="table__entry-icon-crown"></div>' : ''
+        big4 ? '<div class="table__entry-icon-crown"></div>' : ''
       }
       ${
         housemate.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""
       }
     </div>
     <div class="table__entry-text">
-      <span class="name"><strong>${housemate.name_romanized}</strong></span>
+      <span class="name"><strong>${housemate.fullname}</strong></span>
       <span class="hangul">(${housemate.name_hangul})</span>
-      <span class="nationalityandyear">${housemate.nationality.toUpperCase()} •
-      ${housemate.birthyear}</span>
+      <span class="locationandyear">${housemate.location.toUpperCase()} •
+      ${housemate.age}</span>
     </div>
   </div>`;
   return tableEntry;
@@ -239,26 +234,9 @@ function populateRanking() {
   }
 }
 
-const abbreviatedNationalities = {
-  "JAPAN": "JPN 🇯🇵",
-  "CHINA": "CHN 🇨🇳",
-  "SOUTH KOREA": "KOR 🇰🇷",
-  "CANADA": "CAN 🇨🇦",
-  "AUSTRALIA": "AUS 🇦🇺",
-  "THAILAND": "THA 🇹🇭",
-  "MONGOLIA": "MNG 🇲🇳",
-  "MYANMAR": "MMR 🇲🇲",
-  "ITALY": "ITA 🇮🇹",
-  "PHILIPPINES": "PHL 🇵🇭",
-  "MALAYSIA": "MYS 🇲🇾",
-  "JAPAN/FRANCE": "JPN/FRA 🇯🇵🇫🇷",
-  "VIETNAM": "VNM 🇻🇳",
-  "JAPAN/AUSTRALIA": "JPN/AUS 🇯🇵🇦🇺"
-}
-
 function populateRankingEntry(housemate, currRank) {
   let evicted = (showEvicted && housemate.evicted) && "evicted";
-  let top6 = (showTop6 && housemate.top6) && "top6";
+  let big4 = (showTop6 && housemate.big4) && "big4";
   const rankingEntry = `
   <div class="ranking__entry ${evicted}">
     <div class="ranking__entry-view">
@@ -268,12 +246,12 @@ function populateRankingEntry(housemate, currRank) {
       </div>
       <div class="ranking__entry-icon-badge bg-${housemate.grade.toLowerCase()}">${currRank}</div>
       ${
-        top6 ? '<div class="ranking__entry-icon-crown"></div>' : ''
+        big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
     </div>
     <div class="ranking__row-text">
-      <div class="name"><strong>${housemate.name_romanized}</strong></div>
-      <div class="year">${housemate.birthyear}</div>
+      <div class="name"><strong>${housemate.fullname}</strong></div>
+      <div class="year">${housemate.age}</div>
     </div>
   </div>`;
   return rankingEntry;
@@ -343,12 +321,12 @@ const alternateRomanizations = {
 // uses the current filter text to create a subset of housemates with matching info
 function filterHousemates(event) {
   let filterText = event.target.value.toLowerCase();
-  // filters housemates based on name, alternate names, nationality and birth year
+  // filters housemates based on name, alternate names, location and birth year
   filteredHousemates = housemates.filter(function (housemate) {
-    let initialMatch = includesIgnCase(housemate.name_romanized, filterText) || includesIgnCase (housemate.birthyear, filterText) || includesIgnCase (housemate.nationality, filterText);
+    let initialMatch = includesIgnCase(housemate.fullname, filterText) || includesIgnCase (housemate.age, filterText) || includesIgnCase (housemate.location, filterText);
     // if alernates exists then check them as well
     let alternateMatch = false;
-    let alternates = alternateRomanizations[housemate.name_romanized.toLowerCase()]
+    let alternates = alternateRomanizations[housemate.fullname.toLowerCase()]
     if (alternates) {
       for (let i = 0; i < alternates.length; i++) {
         alternateMatch = alternateMatch || includesIgnCase(alternates[i], filterText);
@@ -386,7 +364,7 @@ function removeRankedHousemate(housemate) {
   return false;
 }
 
-const currentURL = "https://il2ranker.github.io/";
+const currentURL = "https://reeplayph.github.io/pbbcollab/";
 // Serializes the ranking into a string and appends that to the current URL
 function generateShareLink() {
   let shareCode = ranking.map(function (housemate) {
