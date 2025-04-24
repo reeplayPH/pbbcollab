@@ -7,21 +7,21 @@ function readFromCSV(path) {
       if (rawFile.status === 200 || rawFile.status == 0) {
         let allText = rawFile.responseText;
         let out = CSV.parse(allText);
-        let housemates = convertCSVArrayToHousemateData(out);
-        populateTable(housemates);
+        let trainees = convertCSVArrayToTraineeData(out);
+        populateTable(trainees);
       }
     }
   };
   rawFile.send(null);
 }
 
-function findHousemateById(id) {
-  for (let i = 0; i < housemates.length; i++) {
-    if (id === housemates[i].id) { // if housemate's match
-      return housemates[i];
+function findTraineeById(id) {
+  for (let i = 0; i < trainees.length; i++) {
+    if (id === trainees[i].id) { // if trainee's match
+      return trainees[i];
     }
   }
-  return newHousemate();
+  return newTrainee();
 }
 
 // If the user has saved a ranking via id, then recover it here
@@ -31,75 +31,80 @@ function getRanking() {
     let rankString = atob(urlParams.get("r")) // decode the saved ranking
     let rankingIds = [];
     for (let i = 0; i < rankString.length; i += 2) {
-      let housemateId = rankString.substr(i, 2); // get each id of the housemate by substringing every 2 chars
-      rankingIds.push(parseInt(housemateId));
+      let traineeId = rankString.substr(i, 2); // get each id of the trainee by substringing every 2 chars
+      rankingIds.push(parseInt(traineeId));
     }
     console.log(rankingIds);
     // use the retrieved rankingIds to populate ranking
     for (let i = 0; i < rankingIds.length; i++) {
-      housemateId = rankingIds[i];
-      if (housemateId < 0) {
-        ranking[i] = newHousemate();
+      traineeId = rankingIds[i];
+      if (traineeId < 0) {
+        ranking[i] = newTrainee();
       } else {
-        let housemate = findHousemateById(rankingIds[i])
-        // let housemate = housemates[rankingIds[i]];
-        housemate.selected = true;
-        ranking[i] = housemate;
+        let trainee = findTraineeById(rankingIds[i])
+        // let trainee = trainees[rankingIds[i]];
+        trainee.selected = true;
+        ranking[i] = trainee;
       }
     }
     // refresh table to show checkboxes
     rerenderTable();
-    // refresh ranking to show newly inserted housemates
+    // refresh ranking to show newly inserted trainees
     rerenderRanking();
     console.log(ranking);
   }
 }
 
-// Takes in an array of housemates and converts it to js objects
+// Takes in an array of trainees and converts it to js objects
 // Follows this schema:
 /*
-housemate: {
+trainee: {
   id: ... // position in csv used for simple recognition
-  fullname: ...
+  name_romanized: ...
   name_hangul: ...
   name_japanese: ...
-  location: ...
+  nationality: ...
   grade: a/b/c/d/f
-  age: ...
+  birthyear: ...
   image: ...
   selected: false/true // whether user selected them
-  evicted: false/true
-  big4: false/true
+  eliminated: false/true
+  top6: false/true
 }
 */
-function convertCSVArrayToHousemateData(csvArrays) {
-  housemates = csvArrays.map(function(housemateArray, index) {
-    housemate = {};
-    housemate.fullname = housemateArray[0];
-    housemate.shortname = housemateArray[1];
-    housemate.agency = housemateArray[2];
-    housemate.location = housemateArray [3];
-    housemate.agencycolor = housemateArray[4];
-    housemate.age = housemateArray[5];
-    housemate.evicted = housemateArray[6] === 'e'; // sets housemate to be evicted if 'e' appears in 6th col
-    housemate.big4 = housemateArray[6] === 'b'; // sets housemate to top 6 if 't' appears in 6th column
-    housemate.id = parseInt(housemateArray[7]) - 1; // housemate id is the original ordering of the housemates in the first csv
-    housemate.image =
-      housemate.fullname.replaceAll(" ", "").replaceAll("-", "") + ".png";
-    return housemate;
+function convertCSVArrayToTraineeData(csvArrays) {
+  trainees = csvArrays.map(function(traineeArray, index) {
+    trainee = {};
+    trainee.name_romanized = traineeArray[0];
+    if (traineeArray[2] === "-") {
+      // trainee only has hangul
+      trainee.name_hangul = traineeArray[1];
+    } else {
+      trainee.name_japanese = traineeArray[1];
+      trainee.name_hangul = traineeArray[2];
+    }
+    trainee.nationality = traineeArray [3];
+    trainee.grade = traineeArray[4];
+    trainee.birthyear = traineeArray[5];
+    trainee.eliminated = traineeArray[6] === 'e'; // sets trainee to be eliminated if 'e' appears in 6th col
+    trainee.top6 = traineeArray[6] === 't'; // sets trainee to top 6 if 't' appears in 6th column
+    trainee.id = parseInt(traineeArray[7]) - 1; // trainee id is the original ordering of the trainees in the first csv
+    trainee.image =
+      trainee.name_romanized.replaceAll(" ", "").replaceAll("-", "") + ".png";
+    return trainee;
   });
-  filteredHousemates = housemates;
-  return housemates;
+  filteredTrainees = trainees;
+  return trainees;
 }
 
-// Constructor for a blank housemate
-function newHousemate() {
+// Constructor for a blank trainee
+function newTrainee() {
   return {
-    id: -1, // -1 denotes a blank housemate spot
-    fullname: '&#8203;', // this is a blank character
-    location: '&#8203;',
-    age: '&#8203;',
-    agencycolor: 'no',
+    id: -1, // -1 denotes a blank trainee spot
+    name_romanized: '&#8203;', // this is a blank character
+    nationality: '&#8203;',
+    birthyear: '&#8203;',
+    grade: 'no',
     image: 'emptyrank.png',
   };
 }
@@ -109,7 +114,7 @@ function newRanking() {
   // holds the ordered list of rankings that the user selects
   let ranking = new Array(7);
   for (let i = 0; i < ranking.length; i++) {
-    ranking[i] = newHousemate();
+    ranking[i] = newTrainee();
   }
   return ranking;
 }
@@ -118,7 +123,7 @@ function newRanking() {
 // TODO: this site might be slow to rerender because it clears + adds everything each time
 function rerenderTable() {
   clearTable();
-  populateTable(filteredHousemates);
+  populateTable(filteredTrainees);
   // populateRanking();
 }
 
@@ -155,42 +160,42 @@ function clearRanking() {
 }
 
 // Uses populated local data structure from readFromCSV to populate table
-function populateTable(housemates) {
+function populateTable(trainees) {
   // Currently just duplicates the first table entry
   let table = document.getElementById("table__entry-container");
   exampleEntry = table.children[0];
-  for (let i = 0; i < housemates.length; i++) {
-    // generate and insert the html for a new housemate table entry
-    table.insertAdjacentHTML("beforeend", populateTableEntry(housemates[i]));
+  for (let i = 0; i < trainees.length; i++) {
+    // generate and insert the html for a new trainee table entry
+    table.insertAdjacentHTML("beforeend", populateTableEntry(trainees[i]));
     // add the click listener to the just inserted element
     let insertedEntry = table.lastChild;
     insertedEntry.addEventListener("click", function (event) {
-      tableClicked(housemates[i]);
+      tableClicked(trainees[i]);
     });
   }
 }
 
-function populateTableEntry(housemate) {
-  // evicted will have value "evicted" only if housemate is evicted and showEvicted is true, otherwise this is ""
-  let evicted = (showEvicted && housemate.evicted) && "evicted";
-  let big4 = (showBig4 && housemate.big4) && "big4";
+function populateTableEntry(trainee) {
+  // eliminated will have value "eliminated" only if trainee is eliminated and showEliminated is true, otherwise this is ""
+  let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
+  let top6 = (showTop6 && trainee.top6) && "top6";
   const tableEntry = `
-  <div class="table__entry ${evicted}">
+  <div class="table__entry ${eliminated}">
     <div class="table__entry-icon">
-      <img class="table__entry-img" src="assets/housemates/${housemate.image}" />
-      <div class="table__entry-agency-color ${housemate.agencycolor.toLowerCase()}-rank-border"></div>
+      <img class="table__entry-img" src="assets/trainees/${trainee.image}" />
+      <div class="table__entry-icon-border ${trainee.grade.toLowerCase()}-rank-border"></div>
       ${
-        big4 ? '<div class="table__entry-icon-crown"></div>' : ''
+        top6 ? '<div class="table__entry-icon-crown"></div>' : ''
       }
       ${
-        housemate.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""
+        trainee.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""
       }
     </div>
     <div class="table__entry-text">
-      <span class="fullname"><strong>${housemate.fullname}</strong></span>
-      <span class="shortname">(${housemate.shortname})</span>
-      <span class="locationandage">${housemate.location.toUpperCase()} •
-      ${housemate.age}</span>
+      <span class="name"><strong>${trainee.name_romanized}</strong></span>
+      <span class="hangul">(${trainee.name_hangul})</span>
+      <span class="nationalityandyear">${trainee.nationality.toUpperCase()} •
+      ${trainee.birthyear}</span>
     </div>
   </div>`;
   return tableEntry;
@@ -206,17 +211,17 @@ function populateRanking() {
   for (let i = 0; i < rowNums.length; i++) {
     let rankRow = rankRows[i];
     for (let j = 0; j < rowNums[i]; j++) {
-      let currHousemate = ranking[currRank-1];
-      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currHousemate, currRank))
+      let currTrainee = ranking[currRank-1];
+      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
 
       let insertedEntry = rankRow.lastChild;
-      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the housemate image and border
+      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
       let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-      // only add these event listeners if a housemate exists in this slot
-      if (currHousemate.id >= 0) {
+      // only add these event listeners if a trainee exists in this slot
+      if (currTrainee.id >= 0) {
         // add event listener to remove item
         insertedEntry.addEventListener("click", function (event) {
-          rankingClicked(currHousemate);
+          rankingClicked(currTrainee);
         });
         // add event listener for dragging
         dragIcon.setAttribute('draggable', true);
@@ -234,44 +239,61 @@ function populateRanking() {
   }
 }
 
-function populateRankingEntry(housemate, currRank) {
-  let evicted = (showEvicted && housemate.evicted) && "evicted";
-  let big4 = (showBig4 && housemate.big4) && "big4";
+const abbreviatedNationalities = {
+  "JAPAN": "JPN 🇯🇵",
+  "CHINA": "CHN 🇨🇳",
+  "SOUTH KOREA": "KOR 🇰🇷",
+  "CANADA": "CAN 🇨🇦",
+  "AUSTRALIA": "AUS 🇦🇺",
+  "THAILAND": "THA 🇹🇭",
+  "MONGOLIA": "MNG 🇲🇳",
+  "MYANMAR": "MMR 🇲🇲",
+  "ITALY": "ITA 🇮🇹",
+  "PHILIPPINES": "PHL 🇵🇭",
+  "MALAYSIA": "MYS 🇲🇾",
+  "JAPAN/FRANCE": "JPN/FRA 🇯🇵🇫🇷",
+  "VIETNAM": "VNM 🇻🇳",
+  "JAPAN/AUSTRALIA": "JPN/AUS 🇯🇵🇦🇺"
+}
+
+function populateRankingEntry(trainee, currRank) {
+  let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
+  let top6 = (showTop6 && trainee.top6) && "top6";
   const rankingEntry = `
-  <div class="ranking__entry ${evicted}">
+  <div class="ranking__entry ${eliminated}">
     <div class="ranking__entry-view">
       <div class="ranking__entry-icon">
-        <img class="ranking__entry-img" src="assets/housemates/${housemate.image}" />
-        <div class="ranking__entry-agency-color ${housemate.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
+        <img class="ranking__entry-img" src="assets/trainees/${trainee.image}" />
+        <div class="ranking__entry-icon-border ${trainee.grade.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
-      <div class="ranking__entry-icon-badge bg-${housemate.agencycolor.toLowerCase()}">${currRank}</div>
+      <div class="ranking__entry-icon-badge bg-${trainee.grade.toLowerCase()}">${currRank}</div>
       ${
-        big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
+        top6 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
     </div>
     <div class="ranking__row-text">
-      <div class="fullname"><strong>${housemate.fullname}</strong></div>
-      <div class="age">${housemate.age}</div>
+      <div class="name"><strong>${trainee.name_romanized}</strong></div>
+      <div class="year">${trainee.birthyear}</div>
     </div>
   </div>`;
   return rankingEntry;
 }
 
 // Event handlers for table
-function tableClicked(housemate) {
-  if (housemate.selected) {
-    // Remove the housemate from the ranking
-    let success = removeRankedHousemate(housemate);
+function tableClicked(trainee) {
+  if (trainee.selected) {
+    // Remove the trainee from the ranking
+    let success = removeRankedTrainee(trainee);
     if (success) { // if removed successfully
-      housemate.selected = !housemate.selected;
+      trainee.selected = !trainee.selected;
     } else {
       return;
     }
   } else {
-    // Add the housemate to the ranking
-    let success = addRankedHousemate(housemate);
+    // Add the trainee to the ranking
+    let success = addRankedTrainee(trainee);
     if (success) { // if added successfully
-      housemate.selected = true;
+      trainee.selected = true;
     } else {
       return;
     }
@@ -281,60 +303,52 @@ function tableClicked(housemate) {
 }
 
 // Event handler for ranking
-function rankingClicked(housemate) {
-	if (housemate.selected) {
-    housemate.selected = !housemate.selected;
-    // Remove the housemate from the ranking
-    removeRankedHousemate(housemate);
+function rankingClicked(trainee) {
+	if (trainee.selected) {
+    trainee.selected = !trainee.selected;
+    // Remove the trainee from the ranking
+    removeRankedTrainee(trainee);
   }
   rerenderTable();
 	rerenderRanking();
 }
 
-function swapHousemates(index1, index2) {
-  tempHousemate = ranking[index1];
+function swapTrainees(index1, index2) {
+  tempTrainee = ranking[index1];
   ranking[index1] = ranking[index2];
-  ranking[index2] = tempHousemate;
+  ranking[index2] = tempTrainee;
   rerenderRanking();
 }
 
-// Controls alternate ways to spell housemate names
+// Controls alternate ways to spell trainee names
 // to add new entries use the following format:
 // <original>: [<alternate1>, <alternate2>, <alternate3>, etc...]
 // <original> is the original name as appearing on csv
 // all of it should be lower case
 const alternateRomanizations = {
-  'az martinez': ['az','martinez','ang miss sunuring daughter ng cebu','cebu'],
-  'bianca de vera': ['bianca','devera','de vera','ang sassy unica hija ng taguig','taguig'],
-  'brent manalo': ['brent','manalo','ang gentle-linong heartthrob ng tarlac','tarlac'],
-  'dustin yu': ['dustin','yu','ang chinito boss-sikap ng quezon city','quezon city','qc'],
-  'emilio daez': ['emilio','mio','daez','ang mr. bankable achiever ng pasig','pasig'],
-  'esnyr ranollo': ['esnyr','ang son-sational viral beshie ng davao del sur','davao'],
-  'josh ford': ['josh','ford','ang survicor lad ng united kingdom','united kingdom','uk'],
-  'klarisse de guzman': ['klang','klarisse','ate klang','deguzman','de guzman','ang kwela soul diva ng antipolo','antipolo'],
-  'michael sager': ['michael','sager','ang diligent wonder son ng marinduque','marinduque'],
-  'mika salamanca': ['mica','salamanca','ang controversial ca-babe-len ng pampanga','pampanga'],
-  'ralph de leon': ['ralph','deleon','de leon','saing','saing king','kaldero','ang dutiful judo-son ng cavite','cavite'],
-  'river joseph': ['river','joseph','ang sporty business bro ng muntinlupa city','muntinlupa'],
-  'shuvee etrata': ['shuvee','etrata','katipunera','island ate ng cebu','ang island ate ng cebu','cebu'],
-  'vince maristela': ['vince','maristela','ang charming bro-next-door ng cainta','charming bro-next-door ng cainta','cainta'],
-  'will ashley': ['will','ashley','ang mama''s dreambae ng cavite','cavite','nation''s son'],
-  'xyriel manabat': ['xyriel','manabat','golden anaktress ng rizal','ang golden anaktress ng rizal','rizal'],
-  'charlie fleming': ['charlie','fleming','ang bubbly bread teener ng cagayan de oro','teen','cagayan de oro','evicted'],
-  'kira balinger': ['kira','balinger','ang hopeful belle ng cavite','cavite','evicted'],
-  'ac bonifacio': ['ac','bonifacio','ang dedicated showstopper ng canada','canada','evicted'],
-  'ashley ortega': ['ashley','ortega','ang independent tis-ice princess ng san juan','san juan','evicted']
+  'choi jungeun': ['bella','capteen','cap-teen'],
+  'nam yuju': ['stars awakening','capteen','evermore muse','cap-teen'],
+  'fuko': ['girls planet 999','gp999'],
+  'kim minsol': ['my teenage girl','mtg'],
+  'kim gyuri': ['hotel del luna','iu','my mister','my ajussi'],
+  'kim sujung': ['street girls fighter','sgdf','mannequeen'],
+  'nana': ['produce 101 japan','pdj'],
+  'bang jeemin': ['r u next','run','runext'],
+  'lingling': ['alicia','huang lingling','huang ling ling','wong ling ling','wong lingling'],
+  'yui': ['avex','xgalx'],
+  'koko': ['avex','xgalx'],
+  'kim chaeeun': ['ballet']
 };
 
-// uses the current filter text to create a subset of housemates with matching info
-function filterHousemates(event) {
+// uses the current filter text to create a subset of trainees with matching info
+function filterTrainees(event) {
   let filterText = event.target.value.toLowerCase();
-  // filters housemates based on name, alternate names, location and birth year
-  filteredHousemates = housemates.filter(function (housemate) {
-    let initialMatch = includesIgnCase(housemate.fullname, filterText) || includesIgnCase (housemate.age, filterText) || includesIgnCase (housemate.location, filterText);
+  // filters trainees based on name, alternate names, nationality and birth year
+  filteredTrainees = trainees.filter(function (trainee) {
+    let initialMatch = includesIgnCase(trainee.name_romanized, filterText) || includesIgnCase (trainee.birthyear, filterText) || includesIgnCase (trainee.nationality, filterText);
     // if alernates exists then check them as well
     let alternateMatch = false;
-    let alternates = alternateRomanizations[housemate.fullname.toLowerCase()]
+    let alternates = alternateRomanizations[trainee.name_romanized.toLowerCase()]
     if (alternates) {
       for (let i = 0; i < alternates.length; i++) {
         alternateMatch = alternateMatch || includesIgnCase(alternates[i], filterText);
@@ -342,7 +356,7 @@ function filterHousemates(event) {
     }
     return initialMatch || alternateMatch;
   });
-  filteredHousemates = sortedHousemates(filteredHousemates);
+  filteredTrainees = sortedTrainees(filteredTrainees);
   rerenderTable();
 }
 
@@ -352,31 +366,31 @@ function includesIgnCase(mainString, subString) {
 }
 
 // Finds the first blank spot for
-function addRankedHousemate(housemate) {
+function addRankedTrainee(trainee) {
   for (let i = 0; i < ranking.length; i++) {
     if (ranking[i].id === -1) { // if spot is blank denoted by -1 id
-      ranking[i] = housemate;
+      ranking[i] = trainee;
       return true;
     }
   }
   return false;
 }
 
-function removeRankedHousemate(housemate) {
+function removeRankedTrainee(trainee) {
   for (let i = 0; i < ranking.length; i++) {
-    if (ranking[i].id === housemate.id) { // if housemate's match
-      ranking[i] = newHousemate();
+    if (ranking[i].id === trainee.id) { // if trainee's match
+      ranking[i] = newTrainee();
       return true;
     }
   }
   return false;
 }
 
-const currentURL = "https://reeplayph.github.io/pbbcollab/";
+const currentURL = "https://il2ranker.github.io/";
 // Serializes the ranking into a string and appends that to the current URL
 function generateShareLink() {
-  let shareCode = ranking.map(function (housemate) {
-    let twoCharID = ("0" + housemate.id).slice(-2); // adds a zero to front of digit if necessary e.g 1 --> 01
+  let shareCode = ranking.map(function (trainee) {
+    let twoCharID = ("0" + trainee.id).slice(-2); // adds a zero to front of digit if necessary e.g 1 --> 01
     return twoCharID;
   }).join("");
   console.log(shareCode);
@@ -398,10 +412,10 @@ function copyLink() {
   document.execCommand("copy");
 }
 
-// holds the list of all housemates
-var housemates = [];
-// holds the list of housemates to be shown on the table
-var filteredHousemates = [];
+// holds the list of all trainees
+var trainees = [];
+// holds the list of trainees to be shown on the table
+var filteredTrainees = [];
 // holds the ordered list of rankings that the user selects
 var ranking = newRanking();
 const rowNums = [1,2,3];
