@@ -178,7 +178,7 @@ function populateTableEntry(housemate) {
   <div class="table__entry ${evicted}">
     <div class="table__entry-icon">
       <img class="table__entry-img" src="assets/housemates/${housemate.image}" />
-      <div class="table__entry-icon-border ${housemate.agencycolor.toLowerCase()}-rank-border"></div>
+      <div class="table__entry-agency-color ${housemate.agencycolor.toLowerCase()}-rank-border"></div>
       ${
         big4 ? '<div class="table__entry-icon-crown"></div>' : ''
       }
@@ -187,9 +187,9 @@ function populateTableEntry(housemate) {
       }
     </div>
     <div class="table__entry-text">
-      <span class="name"><strong>${housemate.fullname}</strong></span>
-      <span class="hangul">(${housemate.name_hangul})</span>
-      <span class="locationandyear">${housemate.location.toUpperCase()} •
+      <span class="fullname"><strong>${housemate.fullname}</strong></span>
+      <span class="shortname">(${housemate.shortname})</span>
+      <span class="locationandage">${housemate.location.toUpperCase()} •
       ${housemate.age}</span>
     </div>
   </div>`;
@@ -242,16 +242,16 @@ function populateRankingEntry(housemate, currRank) {
     <div class="ranking__entry-view">
       <div class="ranking__entry-icon">
         <img class="ranking__entry-img" src="assets/housemates/${housemate.image}" />
-        <div class="ranking__entry-icon-border ${housemate.grade.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
+        <div class="ranking__entry-agency-color ${housemate.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
-      <div class="ranking__entry-icon-badge bg-${housemate.grade.toLowerCase()}">${currRank}</div>
+      <div class="ranking__entry-icon-badge bg-${housemate.agencycolor.toLowerCase()}">${currRank}</div>
       ${
         big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
     </div>
     <div class="ranking__row-text">
-      <div class="name"><strong>${housemate.fullname}</strong></div>
-      <div class="year">${housemate.age}</div>
+      <div class="fullname"><strong>${housemate.fullname}</strong></div>
+      <div class="age">${housemate.age}</div>
     </div>
   </div>`;
   return rankingEntry;
