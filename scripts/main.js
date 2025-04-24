@@ -326,18 +326,26 @@ function swapTrainees(index1, index2) {
 // <original> is the original name as appearing on csv
 // all of it should be lower case
 const alternateRomanizations = {
-  'choi jungeun': ['bella','capteen','cap-teen'],
-  'nam yuju': ['stars awakening','capteen','evermore muse','cap-teen'],
-  'fuko': ['girls planet 999','gp999'],
-  'kim minsol': ['my teenage girl','mtg'],
-  'kim gyuri': ['hotel del luna','iu','my mister','my ajussi'],
-  'kim sujung': ['street girls fighter','sgdf','mannequeen'],
-  'nana': ['produce 101 japan','pdj'],
-  'bang jeemin': ['r u next','run','runext'],
-  'lingling': ['alicia','huang lingling','huang ling ling','wong ling ling','wong lingling'],
-  'yui': ['avex','xgalx'],
-  'koko': ['avex','xgalx'],
-  'kim chaeeun': ['ballet']
+  'az martinez': ['az','martinez','ang miss sunuring daughter ng cebu','cebu'],
+  'bianca de vera': ['bianca','devera','de vera','ang sassy unica hija ng taguig','taguig'],
+  'brent manalo': ['brent','manalo','ang gentle-linong heartthrob ng tarlac','tarlac'],
+  'dustin yu': ['dustin','yu','ang chinito boss-sikap ng quezon city','quezon city','qc'],
+  'emilio daez': ['emilio','mio','daez','ang mr. bankable achiever ng pasig','pasig'],
+  'esnyr ranollo': ['esnyr','ang son-sational viral beshie ng davao del sur','davao'],
+  'josh ford': ['josh','ford','ang survicor lad ng united kingdom','united kingdom','uk'],
+  'klarisse de guzman': ['klang','klarisse','ate klang','deguzman','de guzman','ang kwela soul diva ng antipolo','antipolo'],
+  'michael sager': ['michael','sager','ang diligent wonder son ng marinduque','marinduque'],
+  'mika salamanca': ['mica','salamanca','ang controversial ca-babe-len ng pampanga','pampanga'],
+  'ralph de leon': ['ralph','deleon','de leon','saing','saing king','kaldero','ang dutiful judo-son ng cavite','cavite'],
+  'river joseph': ['river','joseph','ang sporty business bro ng muntinlupa city','muntinlupa'],
+  'shuvee etrata': ['shuvee','etrata','katipunera','island ate ng cebu','ang island ate ng cebu','cebu'],
+  'vince maristela': ['vince','maristela','ang charming bro-next-door ng cainta','charming bro-next-door ng cainta','cainta'],
+  'will ashley': ['will','ashley','ang mama''s dreambae ng cavite','cavite','nation''s son'],
+  'xyriel manabat': ['xyriel','manabat','golden anaktress ng rizal','ang golden anaktress ng rizal','rizal'],
+  'charlie fleming': ['charlie','fleming','ang bubbly bread teener ng cagayan de oro','teen','cagayan de oro','evicted'],
+  'kira balinger': ['kira','balinger','ang hopeful belle ng cavite','cavite','evicted'],
+  'ac bonifacio': ['ac','bonifacio','ang dedicated showstopper ng canada','canada','evicted'],
+  'ashley ortega': ['ashley','ortega','ang independent tis-ice princess ng san juan','san juan','evicted']
 };
 
 // uses the current filter text to create a subset of trainees with matching info
