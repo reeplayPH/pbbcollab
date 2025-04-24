@@ -263,7 +263,7 @@ function populateRankingEntry(trainee, currRank) {
   <div class="ranking__entry ${eliminated}">
     <div class="ranking__entry-view">
       <div class="ranking__entry-icon">
-        <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
+        <img class="ranking__entry-img" src="assets/trainees/${trainee.image}" />
         <div class="ranking__entry-icon-border ${trainee.grade.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
       <div class="ranking__entry-icon-badge bg-${trainee.grade.toLowerCase()}">${currRank}</div>
