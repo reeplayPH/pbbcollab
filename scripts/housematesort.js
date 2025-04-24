@@ -5,33 +5,33 @@ var activeCompares = [idCompare]
 var showEliminated = false;
 var showTop6 = false;
 
-// This a compare by id on the trainees and guarantees stability of the sort
-function idCompare(trainee1, trainee2) {
-  if (trainee1.id < trainee2.id) {
+// This a compare by id on the housemates and guarantees stability of the sort
+function idCompare(housemate1, housemate2) {
+  if (housemate1.id < housemate2.id) {
     return -1;
   }
-  else if (trainee1.id > trainee2.id) {
+  else if (housemate1.id > housemate2.id) {
     return 1;
   }
   return 0;
 }
 
-// compare by whether trainee is eliminated and put eliminated at bottom
-function eliminatedAtBottomCompare(trainee1, trainee2) {
-  if (trainee1.eliminated && !trainee2.eliminated) {
+// compare by whether housemate is eliminated and put eliminated at bottom
+function eliminatedAtBottomCompare(housemate1, housemate2) {
+  if (housemate1.eliminated && !housemate2.eliminated) {
     return 1;
   }
-  else if (!trainee1.eliminated && trainee2.eliminated) {
+  else if (!housemate1.eliminated && housemate2.eliminated) {
     return -1;
   }
   return 0;
 }
 
 // uses all compares in the activeCompare to return a final -1 or 1 or 0
-function combinedCompare(trainee1, trainee2) {
+function combinedCompare(housemate1, housemate2) {
   let finalCompare = 0;
   for (let compareFunc of activeCompares) {
-    let result = compareFunc(trainee1, trainee2);
+    let result = compareFunc(housemate1, housemate2);
     if (result != 0) {
       finalCompare = result;
     }
@@ -39,9 +39,9 @@ function combinedCompare(trainee1, trainee2) {
   return finalCompare;
 }
 
-// returns a list of sorted trainees based on the active compares
-function sortedTrainees(trainees) {
-  let sortedTrainees = trainees.slice();
+// returns a list of sorted housemates based on the active compares
+function sortedTrainees(housemates) {
+  let sortedTrainees = housemates.slice();
   sortedTrainees.sort(combinedCompare);
   return sortedTrainees;
 }
