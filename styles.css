@@ -173,7 +173,7 @@ body {
   display: block;
   box-sizing: border-box;
   position: relative;
-  /* background-image: url(assets/trainees/leegaeun.jpg);
+  /* background-image: url(assets/housemates/leegaeun.jpg);
   background-size: 60px; */
 }
 .table__entry-img {
@@ -251,7 +251,7 @@ body {
 .eliminated .ranking__entry-icon-border {
   border: 5px solid var(--no-rank);
 }
-.ranking__entry-icon-border.dragged-over { /* defines a border for when you drag over a trainee in ranking */
+.ranking__entry-icon-border.dragged-over { /* defines a border for when you drag over a housemate in ranking */
   border: 5px solid var(--checked-grey);
 }
 
