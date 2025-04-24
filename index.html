@@ -13,7 +13,7 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>PBB COLLAB RANKING</title>
+  <title>I-LAND 2 Ranker</title>
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
   <meta name="viewport" content="initial-scale = 2.0, maximum-scale=1.0" />
   <link rel="icon" type="image/png" href="/favicon.png">
@@ -23,8 +23,8 @@
 <body>
   <div id="top-banner">
     <img id="banner-image" src="assets/logo_white.png"/>
-    <p id="banner-title">PBB COLLAB RANKING</p>
-    <p id="banner-subtitle">Sinu-sino ang Big 4 Duos mo?</p>
+    <p id="banner-title">I-LAND 2 RANKER</p>
+    <p id="banner-subtitle">Make your own top 6!</p>
   </div>
   <div class="flex-container padded-box">
     <div>
@@ -33,12 +33,12 @@
       </div>
       <div id="table">
         <div id="table__filter-container">
-          <input id="table__filter-input" oninput="filterHousemates(event)" type="text" placeholder="Search"/>
+          <input id="table__filter-input" oninput="filterTrainees(event)" type="text" placeholder="Search"/>
         </div>
         <div id="table__entry-container">
           <!-- <div class="table__entry">
             <div class="table__entry-icon">
-              <img class="table__entry-img" src="assets/housemates/RyuSarang.jpg" />
+              <img class="table__entry-img" src="assets/trainees/RyuSarang.jpg" />
               <div class="table__entry-icon-border a-rank-border"></div>
               <img class="table__entry-check" src="assets/check.png"/>
             </div>
@@ -53,12 +53,12 @@
       <div id="filters-container">
         <div id="filters-header"><strong>Filters</strong></div>
         <div>
-          <input type="checkbox" name="show-evicted" id="show-evicted" onclick="showEvictedClick(event)"/>
-          <label class="checkbox-label" for="show-evicted">Show Evicted (At Bottom)</label>
+          <input type="checkbox" name="show-eliminated" id="show-eliminated" onclick="showEliminatedClick(event)"/>
+          <label class="checkbox-label" for="show-eliminated">Show Eliminated (At Bottom)</label>
         </div>
         <div>
-          <input type="checkbox" name="show-big4" id="show-big4" onclick="showBig4Click(event)"/>
-          <label class="checkbox-label" for="show-big4">Show Current Big 4 Duos</label>
+          <input type="checkbox" name="show-top6" id="show-top6" onclick="showTop6Click(event)"/>
+          <label class="checkbox-label" for="show-top6">Show Current Top 6</label>
         </div>
       </div>
       <div id="sharelink-container">
@@ -71,11 +71,11 @@
       </div>
     </div>
     <div id="ranking__pyramid">
-      <div id="ranking__title"><strong>BIG 4 DUOS</strong></div>
+      <div id="ranking__title"><strong>TOP 6</strong></div>
       <div class="ranking__row">
         <!-- <div class="ranking__entry">
           <div class="ranking__entry-icon">
-            <img class="ranking__entry-img" src="assets/housemates/RyuSarang.jpg" />
+            <img class="ranking__entry-img" src="assets/trainees/RyuSarang.jpg" />
             <div class="ranking__entry-icon-border a-rank-border"></div>
             <div class="ranking__entry-icon-badge">1</div>
           </div>
@@ -95,7 +95,7 @@
   <script src="scripts/csv.js"></script>
   <script src="scripts/dragula.min.js"></script>
   <script src="scripts/dragdrop.js"></script>
-  <script src="scripts/housematesort.js"></script>
+  <script src="scripts/traineesort.js"></script>
   <script src="scripts/main.js"></script>
 
 </body>
