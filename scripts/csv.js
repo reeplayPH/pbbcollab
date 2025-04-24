@@ -6,7 +6,7 @@ var CSV = {};
   "use strict";
   my.__type__ = "csv";
 
-  // Use either jQuery or Underscore Deferred depending on what is available
+  // use either jQuery or Underscore Deferred depending on what is available
   var Deferred =
     (typeof jQuery !== "undefined" && jQuery.Deferred) ||
     (typeof _ !== "undefined" && _.Deferred) ||
