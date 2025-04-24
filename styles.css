@@ -37,10 +37,14 @@ body {
   background-position: center;
 }
 
+
 /* Styles for banner */
 #top-banner {
   background: radial-gradient(circle, var(--banner-bg-start), var(--banner-bg-end) 70%);
+  /* background-color: var(--banner-bg-color); */
   padding: 25px;
+
+  /* these will be unnecessary once we get the banner image */
   color: white;
   text-align: center;
 }
@@ -84,6 +88,7 @@ body {
   background-color: var(--search-gray);
   border: none;
   outline: 0;
+  /* setting up search icon */
   background-image: url("assets/search.png");
   background-size: 10px 10px;
   background-position: 7px 7px;
@@ -110,14 +115,14 @@ body {
 #getlink-button {
   border: none;
   border-radius: 3px;
-  padding: 4px 6px;
+  padding: 4px 6px 4px 6px;
   background-color: #f4466f;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: 700;
   color: white;
 }
-#getlink-button:active {
+#getlink-button:active { /* these styles are active while get link is being pressed */
   background-color: #F2819D;
 }
 #getlink-textbox {
@@ -128,7 +133,7 @@ body {
   padding: 5px;
   padding-right: 50px;
   flex: 1;
-  display: none;
+  display:none;
 }
 #copylink-button {
   height: inherit;
@@ -138,9 +143,9 @@ body {
   border-radius: 0px 3px 3px 0;
   background-color: var(--save-box-gray);
   font-weight: 700;
-  display: none;
+  display:none;
 }
-#copylink-button:active {
+#copylink-button:active { /* these styles are active while copylink is being pressed */
   background-color: var(--other-name-gray);
 }
 
@@ -155,7 +160,7 @@ body {
   cursor: pointer;
 }
 .table__entry:last-child {
-  border-bottom: none;
+	border-bottom: none;
 }
 .table__entry:hover {
   background-color: #f0f0f0;
@@ -168,16 +173,19 @@ body {
   display: block;
   box-sizing: border-box;
   position: relative;
+  /* background-image: url(assets/trainees/leegaeun.jpg);
+  background-size: 60px; */
 }
 .table__entry-img {
   border-radius: 50%;
   width: inherit;
   height: inherit;
 }
-.evicted .table__entry-img {
-  -webkit-filter: grayscale(100%);
+.eliminated .table__entry-img {
+  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
+/* only applied when an entry is selected/checked */
 .table__entry-check {
   position: absolute;
   top: 0;
@@ -185,11 +193,13 @@ body {
   width: inherit;
   height: inherit;
   border-radius: 50%;
+  /* blue background */
   background-color: var(--checked-grey);
+  /* the padding insets the checkbox (makes it bigger/smaller) */
   padding: 10px;
   box-sizing: border-box;
 }
-.table__entry-agency-color {
+.table__entry-icon-border {
   position: absolute;
   top: 0;
   left: 0;
@@ -216,37 +226,48 @@ body {
   background-position: center center;
   background-origin: content-box;
 }
+/* Different entry borders */
 .a-rank-border {
   border: 5px solid var(--a-rank);
 }
 .b-rank-border {
   border: 5px solid var(--b-rank);
 }
+.c-rank-border {
+  border: 5px solid var(--c-rank);
+}
+.d-rank-border {
+  border: 5px solid var(--d-rank);
+}
+.f-rank-border {
+  border: 5px solid var(--f-rank);
+}
 .no-rank-border {
   border: none;
 }
-.evicted .table__entry-agency-color {
+.eliminated .table__entry-icon-border {
   border: 5px solid var(--no-rank);
 }
-.evicted .ranking__entry-agency-color {
+.eliminated .ranking__entry-icon-border {
   border: 5px solid var(--no-rank);
 }
-.ranking__entry-agency-color.dragged-over {
+.ranking__entry-icon-border.dragged-over { /* defines a border for when you drag over a trainee in ranking */
   border: 5px solid var(--checked-grey);
 }
 
 .table__entry-text {
-  margin: auto 5px;
+  margin: auto 5px auto 5px;
+  /* margin: auto auto; */
 }
-.table__entry-text .fullname {
+.table__entry-text .name {
   font-size: 12px;
   color: var(--name-gray);
 }
-.table__entry .shortname {
+.table__entry .hangul {
   font-size: 12px;
   color: var(--other-name-gray);
 }
-.table__entry .locationandage {
+.table__entry .nationalityandyear {
   font-size: 10px;
   color: var(--affil-gray);
   display: block;
@@ -254,7 +275,8 @@ body {
 
 /* Ranking Styles */
 #ranking__pyramid {
-  margin: 40px 40px 10px;
+  /* min-width: 350px; */
+  margin: 40px 40px 10px 40px;
   display: flex;
   flex-direction: column;
 }
@@ -286,11 +308,11 @@ body {
   width: inherit;
   height: inherit;
 }
-.evicted .ranking__entry-img {
+.eliminated .ranking__entry-img {
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
-.ranking__entry-agency-color {
+.ranking__entry-icon-border {
   position: absolute;
   top: 0;
   left: 0;
@@ -333,12 +355,20 @@ body {
 .bg-b {
   background-color: var(--b-rank);
 }
-
-.evicted .ranking__entry-icon-badge {
+.bg-c {
+  background-color: var(--c-rank);
+}
+.bg-d {
+  background-color: var(--d-rank);
+}
+.bg-f {
+  background-color: var(--f-rank);
+}
+.eliminated .ranking__entry-icon-badge {
   background-color: var(--no-rank);
 }
 
-.ranking__entry .age {
+.ranking__entry .year {
   color: var(--ranking-affil-gray);
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
