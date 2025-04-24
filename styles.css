@@ -53,12 +53,11 @@ body {
   margin-bottom: 15px;
 }
 #banner-title {
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   font-size: 16px;
 }
 #banner-subtitle {
-  /*font-family: 'Roboto Condensed', sans-serif;*/
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
   color: #da82eb;
   font-size: 12px;
 }
@@ -369,7 +368,7 @@ body {
   background-color: var(--no-rank);
 }
 
-.ranking__entry .ageandlocation {
+.ranking__entry .year {
   color: var(--ranking-affil-gray);
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
