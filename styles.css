@@ -189,7 +189,7 @@ body {
   padding: 10px;
   box-sizing: border-box;
 }
-.table__entry-icon-border {
+.table__entry-agency-color {
   position: absolute;
   top: 0;
   left: 0;
@@ -234,13 +234,13 @@ body {
 .no-rank-border {
   border: none;
 }
-.evicted .table__entry-icon-border {
+.evicted .table__entry-agency-color {
   border: 5px solid var(--no-rank);
 }
-.evicted .ranking__entry-icon-border {
+.evicted .ranking__entry-agency-color {
   border: 5px solid var(--no-rank);
 }
-.ranking__entry-icon-border.dragged-over {
+.ranking__entry-agency-color.dragged-over {
   border: 5px solid var(--checked-grey);
 }
 
@@ -299,7 +299,7 @@ body {
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
-.ranking__entry-icon-border {
+.ranking__entry-agency-color {
   position: absolute;
   top: 0;
   left: 0;
@@ -355,7 +355,7 @@ body {
   background-color: var(--no-rank);
 }
 
-.ranking__entry .year {
+.ranking__entry .age {
   color: var(--ranking-affil-gray);
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
