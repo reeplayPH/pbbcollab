@@ -182,7 +182,7 @@ function populateTableEntry(trainee) {
   const tableEntry = `
   <div class="table__entry ${eliminated}">
     <div class="table__entry-icon">
-      <img class="table__entry-img" src="assets/trainees/${trainee.image}" />
+      <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
       <div class="table__entry-icon-border ${trainee.grade.toLowerCase()}-rank-border"></div>
       ${
         top6 ? '<div class="table__entry-icon-crown"></div>' : ''
@@ -377,7 +377,7 @@ function removeRankedTrainee(trainee) {
   return false;
 }
 
-const currentURL = "https://il2ranker.github.io/";
+const currentURL = "https://pbbcollab.github.io/";
 // Serializes the ranking into a string and appends that to the current URL
 function generateShareLink() {
   let shareCode = ranking.map(function (trainee) {
