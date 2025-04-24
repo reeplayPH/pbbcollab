@@ -369,7 +369,7 @@ body {
   background-color: var(--no-rank);
 }
 
-.ranking__entry .age {
+.ranking__entry .ageandlocation {
   color: var(--ranking-affil-gray);
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
