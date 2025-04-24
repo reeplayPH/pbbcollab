@@ -255,8 +255,8 @@ function populateRankingEntry(trainee, currRank) {
       }
     </div>
     <div class="ranking__row-text">
-      <div class="shortname"><strong>${trainee.name_japanese.toUpperCase()}</strong></div>
-      <div class="age">${trainee.birthyear}</div>
+      <div class="name"><strong>${trainee.name_romanized.toUpperCase()}</strong></div>
+      <div class="year">${trainee.birthyear}</div>
     </div>
   </div>`;
   return rankingEntry;
