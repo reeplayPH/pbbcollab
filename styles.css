@@ -53,11 +53,12 @@ body {
   margin-bottom: 15px;
 }
 #banner-title {
-  font-family: 'Roboto Condensed', sans-serif;
+  font-family: 'Montserrat', sans-serif;
   font-size: 16px;
 }
 #banner-subtitle {
-  font-family: 'Roboto Condensed', sans-serif;
+  /*font-family: 'Roboto Condensed', sans-serif;*/
+  font-family: 'Montserrat', sans-serif;
   color: #da82eb;
   font-size: 12px;
 }
