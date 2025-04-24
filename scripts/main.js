@@ -76,13 +76,8 @@ function convertCSVArrayToTraineeData(csvArrays) {
   trainees = csvArrays.map(function(traineeArray, index) {
     trainee = {};
     trainee.name_romanized = traineeArray[0];
-    if (traineeArray[2] === "-") {
-      // trainee only has hangul
-      trainee.name_hangul = traineeArray[1];
-    } else {
-      trainee.name_japanese = traineeArray[1];
-      trainee.name_hangul = traineeArray[2];
-    }
+    trainee.name_japanese = traineeArray[1];
+    trainee.name_hangul = traineeArray[2];
     trainee.nationality = traineeArray [3];
     trainee.grade = traineeArray[4];
     trainee.birthyear = traineeArray[5];
@@ -255,7 +250,7 @@ function populateRankingEntry(trainee, currRank) {
       }
     </div>
     <div class="ranking__row-text">
-      <div class="name"><strong>${trainee.name_romanized.toUpperCase()}</strong></div>
+      <div class="name"><strong>${trainee.name_japanese.toUpperCase()}</strong></div>
       <div class="year">${trainee.birthyear}</div>
     </div>
   </div>`;
