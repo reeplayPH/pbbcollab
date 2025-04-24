@@ -34,10 +34,10 @@ function createDropListener() {
     event.preventDefault();
     let elem = event.target;
     // get the two housemate indices
-    draggedHousemateIndex = event.dataTransfer.getData(rankIndex);
-    droppedHousemateIndex = elem.getAttribute("data-rankid");
+    draggedTraineeIndex = event.dataTransfer.getData(rankIndex);
+    droppedTraineeIndex = elem.getAttribute("data-rankid");
     // swap them
-    swapHousemates(draggedHousemateIndex, droppedHousemateIndex);
+    swapTrainees(draggedTraineeIndex, droppedTraineeIndex);
     // removeClass(elem, draggedOverClass);
   }
 }
