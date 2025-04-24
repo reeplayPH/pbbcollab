@@ -239,23 +239,6 @@ function populateRanking() {
   }
 }
 
-const abbreviatedNationalities = {
-  "JAPAN": "JPN 🇯🇵",
-  "CHINA": "CHN 🇨🇳",
-  "SOUTH KOREA": "KOR 🇰🇷",
-  "CANADA": "CAN 🇨🇦",
-  "AUSTRALIA": "AUS 🇦🇺",
-  "THAILAND": "THA 🇹🇭",
-  "MONGOLIA": "MNG 🇲🇳",
-  "MYANMAR": "MMR 🇲🇲",
-  "ITALY": "ITA 🇮🇹",
-  "PHILIPPINES": "PHL 🇵🇭",
-  "MALAYSIA": "MYS 🇲🇾",
-  "JAPAN/FRANCE": "JPN/FRA 🇯🇵🇫🇷",
-  "VIETNAM": "VNM 🇻🇳",
-  "JAPAN/AUSTRALIA": "JPN/AUS 🇯🇵🇦🇺"
-}
-
 function populateRankingEntry(trainee, currRank) {
   let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
   let top6 = (showTop6 && trainee.top6) && "top6";
@@ -326,7 +309,7 @@ function swapTrainees(index1, index2) {
 // <original> is the original name as appearing on csv
 // all of it should be lower case
 const alternateRomanizations = {
-  /*'az martinez': ['az','martinez','ang miss sunuring daughter ng cebu','cebu'],
+  'az martinez': ['az','martinez','ang miss sunuring daughter ng cebu','cebu'],
   'bianca de vera': ['bianca','devera','de vera','ang sassy unica hija ng taguig','taguig'],
   'brent manalo': ['brent','manalo','ang gentle-linong heartthrob ng tarlac','tarlac'],
   'dustin yu': ['dustin','yu','ang chinito boss-sikap ng quezon city','quezon city','qc'],
@@ -345,7 +328,7 @@ const alternateRomanizations = {
   'charlie fleming': ['charlie','fleming','ang bubbly bread teener ng cagayan de oro','teen','cagayan de oro','evicted'],
   'kira balinger': ['kira','balinger','ang hopeful belle ng cavite','cavite','evicted'],
   'ac bonifacio': ['ac','bonifacio','ang dedicated showstopper ng canada','canada','evicted'],
-  'ashley ortega': ['ashley','ortega','ang independent tis-ice princess ng san juan','san juan','evicted']*/
+  'ashley ortega': ['ashley','ortega','ang independent tis-ice princess ng san juan','san juan','evicted']
 };
 
 // uses the current filter text to create a subset of trainees with matching info
