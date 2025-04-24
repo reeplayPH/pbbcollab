@@ -1,9 +1,9 @@
 // File holds lots of sorting logic for the filter checkboxes
 
 // always initially sort by id
-var activeCompares = [idCompare]
+var activeCompares = [idCompare];
 var showEvicted = false;
-var showTop6 = false;
+var showBig4 = false;
 
 // This a compare by id on the housemates and guarantees stability of the sort
 function idCompare(housemate1, housemate2) {
@@ -63,12 +63,12 @@ function showEvictedClick(event) {
   rerenderRanking();
 }
 
-function showTop6Click(event) {
+function showBig4Click(event) {
   let checkbox = event.target;
   if (checkbox.checked) {
-    showTop6 = true;
+    showBig4 = true;
   } else {
-    showTop6 = false;
+    showBig4 = false;
   }
   rerenderTable();
   rerenderRanking();
