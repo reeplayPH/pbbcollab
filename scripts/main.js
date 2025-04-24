@@ -323,7 +323,7 @@ const alternateRomanizations = {
   'river joseph': ['river','joseph','ang sporty business bro ng muntinlupa city','muntinlupa'],
   'shuvee etrata': ['shuvee','etrata','katipunera','island ate ng cebu','ang island ate ng cebu','cebu'],
   'vince maristela': ['vince','maristela','ang charming bro-next-door ng cainta','charming bro-next-door ng cainta','cainta'],
-  'will ashley': ['will','ashley','ang mama''s dreambae ng cavite','cavite','nation''s son'],
+  'will ashley': ['will','ashley','ang mamas dreambae ng cavite','cavite','nations son'],
   'xyriel manabat': ['xyriel','manabat','golden anaktress ng rizal','ang golden anaktress ng rizal','rizal'],
   'charlie fleming': ['charlie','fleming','ang bubbly bread teener ng cagayan de oro','teen','cagayan de oro','evicted'],
   'kira balinger': ['kira','balinger','ang hopeful belle ng cavite','cavite','evicted'],
