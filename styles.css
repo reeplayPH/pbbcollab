@@ -114,6 +114,7 @@ body {
   opacity: 1; /* Show the label on hover */
 }
 .click-menu {
+  overflow-y: scroll;
   display: none; /* Hide the menu initially */
   position: absolute;
   top: 0; /* Position below the icon */
