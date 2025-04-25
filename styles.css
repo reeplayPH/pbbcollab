@@ -194,7 +194,7 @@ body {
   cursor: pointer;
 }
 .table__entry:last-child {
-	border-bottom: none;
+  border-bottom: none;
 }
 .table__entry:hover {
   background-color: #f0f0f0;
