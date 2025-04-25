@@ -171,9 +171,9 @@ body {
 }
 
 /* Styles for filtering at bottom of table */
-/*#filters-container {
+#filters-container {
   margin: 10px;
-}*/
+}
 .checkbox-label {
   font-size: 12px;
   color: var(--affil-gray);
