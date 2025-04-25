@@ -76,6 +76,7 @@ body {
 }
 #table__filter-container {
   padding: 8px;
+  padding-right: 30px;
   border-bottom: 1px solid var(--produce-gray);
 }
 .display-options-icon {
@@ -89,7 +90,7 @@ body {
 #table__filter-input {
   padding: 5px;
   padding-left: 25px;
-  padding-right: 25px;
+  padding-right: 35px;
   height: 100%;
   width: 100%;
   box-sizing: border-box;
