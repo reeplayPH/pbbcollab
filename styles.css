@@ -129,7 +129,7 @@ body {
   z-index: 1000;
 }
 .click-menu ul {
-  list-style: none;
+  list-style-type: none; /* Remove bullet points */
   margin: 0;
   padding: 10px;
 }
