@@ -116,7 +116,7 @@ body {
   display: none; /* Hide the menu initially */
   position: absolute;
   top: 0; /* Position below the icon */
-  left: 100%;
+  right: 100%;
   /*transform: translateX(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
