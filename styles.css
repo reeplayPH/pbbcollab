@@ -78,7 +78,8 @@ body {
   padding: 8px;
   border: 1px solid var(--save-box-gray);
 }
-.display-options-icon {
+.display-options-icon { 
+  padding-left: 5px;
   position: relative; /* Needed for positioning the label */
   font-size: 12px;
   color: var(--search-text-gray);
