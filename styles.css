@@ -89,7 +89,6 @@ body {
   color: #2D84F8;
   filter: brightness(0.5); /* Apply filter on hover */
 }
-
 .display-options-icon::after {
   content: "Display Options"; /* Text for the label */
   position: absolute;
@@ -104,6 +103,7 @@ body {
   transition: opacity 0.3s ease; /* Smooth transition */
   pointer-events: none; /* Prevent interaction with the label */
 }
+
 #table__filter-input {
   padding: 5px;
   padding-left: 25px;
