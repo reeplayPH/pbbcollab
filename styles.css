@@ -285,7 +285,7 @@ body {
   /* min-width: 350px; */
   margin: 40px 40px 10px 80px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
 }
 
 #ranking__title {
