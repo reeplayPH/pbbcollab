@@ -95,13 +95,16 @@ body {
   bottom: -30px; /* Position below the icon */
   left: 50%;
   transform: translateX(-50%);
-  background-color: #000;
+  /*background-color: #000;*/
   color: #fff;
   padding: 5px;
   border-radius: 5px;
   opacity: 0;
   transition: opacity 0.3s ease; /* Smooth transition */
   pointer-events: none; /* Prevent interaction with the label */
+}
+.display-options-icon:hover::after {
+  opacity: 1; /* Show the label on hover */
 }
 
 #table__filter-input {
