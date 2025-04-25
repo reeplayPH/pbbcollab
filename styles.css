@@ -280,6 +280,14 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+#ranking__pyramid2 {
+  /* min-width: 350px; */
+  margin: 40px 40px 10px 80px;
+  display: flex;
+  flex-direction: row;
+}
+
 #ranking__title {
   text-align: center;
   font-family: 'Open Sans', sans-serif;
