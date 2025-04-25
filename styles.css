@@ -81,6 +81,7 @@ body {
 .icon-container {
   position: relative; /* Needed for positioning the menu */
   display: inline-block;
+  z-index: 1000;
 }
 .display-options-icon { 
   padding-left: 5px;
