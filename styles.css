@@ -165,6 +165,7 @@ body {
 /* Styles for table entries */
 #table__entry-container {
   overflow-y: scroll;
+  background-color: var(--save-box-gray);
 }
 .table__entry {
   display: flex;
