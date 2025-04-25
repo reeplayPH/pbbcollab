@@ -79,7 +79,7 @@ body {
   border-bottom: 1px solid var(--produce-gray);
 }
 .display-options-icon {
-  font-size: 50px;
+  font-size: 5px;
   color: #000;
   transition: filter 0.3s ease; /* Smooth transition */
 }
@@ -89,6 +89,7 @@ body {
 #table__filter-input {
   padding: 5px;
   padding-left: 25px;
+  padding-right: 25px;
   height: 100%;
   width: 100%;
   box-sizing: border-box;
