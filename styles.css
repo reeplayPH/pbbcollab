@@ -124,11 +124,13 @@ body {
   border-radius: 5px;
   z-index: 1000;*/
   margin-left: 10px; /* Add some space between the icon and the menu */
-  background-color: #fff;
-  border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
+  border-radius: 8px;
+  border: 1px solid var(--save-box-gray);
   z-index: 1000;
+  width: 200px; /* Set the width of the menu */
+  height: 150px; /* Set the height of the menu */
+
 }
 .click-menu ul {
   list-style-type: none; /* Remove bullet points */
