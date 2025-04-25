@@ -82,6 +82,9 @@ body {
 .display-options-icon {
   font-size: 5px;
   color: var(--search-text-gray);
+  padding: 8px;
+  padding-right: 5px;
+  border-bottom: 1px solid var(--produce-gray);
   transition: filter 0.3s ease; /* Smooth transition */
 }
 .display-options-icon:hover {
