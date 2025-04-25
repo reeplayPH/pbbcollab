@@ -133,19 +133,19 @@ body {
   height: 150px; /* Set the height of the menu */
 
 }
-.click-menu ul {
+/*.click-menu ul {
   list-style-type: none; /* Remove bullet points */
-  margin: 0;
+ /* margin: 0;
   padding: 10px;
 }
 .click-menu ul li {
   /*display: inline; /* Display list items inline */
-  padding: 8px 12px;
+/*  padding: 8px 12px;
   cursor: pointer;
 }
 .click-menu ul li:hover {
   background-color: #f0f0f0;
-}
+}*/
 
 #table__filter-input {
   padding: 5px;
