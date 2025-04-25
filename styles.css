@@ -76,7 +76,7 @@ body {
 }
 #table__filter-container {
   padding: 8px;
-  padding-right: 30px;
+  padding-right: 40px;
   border-bottom: 1px solid var(--produce-gray);
 }
 .display-options-icon {
