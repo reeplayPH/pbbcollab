@@ -96,7 +96,8 @@ function convertCSVArrayToTraineeData(csvArrays) {
 function newTrainee() {
   return {
     id: -1, // -1 denotes a blank trainee spot
-    name_romanized: '&#8203;', // this is a blank character
+    name_romanized: '&#8203;', // this is a blank character 
+    name_japanese: '&#8203;',
     nationality: '&#8203;',
     birthyear: '&#8203;',
     grade: 'no',
@@ -250,7 +251,7 @@ function populateRankingEntry(trainee, currRank) {
       }
     </div>
     <div class="ranking__row-text">
-      <div class="name"><strong>${trainee.name_romanized.toUpperCase()}</strong></div>
+      <div class="name"><strong>${trainee.name_japanese.toUpperCase()}</strong></div>
       <div class="year">${trainee.birthyear}</div>
     </div>
   </div>`;
