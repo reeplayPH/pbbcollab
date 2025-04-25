@@ -60,12 +60,12 @@ function getRanking() {
 /*
 trainee: {
   id: ... // position in csv used for simple recognition
-  name_romanized: ...
-  name_hangul: ...
-  name_japanese: ...
-  nationality: ...
-  grade: a/b/c/d/f
-  birthyear: ...
+  fullname: ...
+  agency: ...
+  shortname: ...
+  location: ...
+  agencycolor: a/b/c/d/f
+  age: ...
   image: ...
   selected: false/true // whether user selected them
   eliminated: false/true
@@ -75,17 +75,17 @@ trainee: {
 function convertCSVArrayToTraineeData(csvArrays) {
   trainees = csvArrays.map(function(traineeArray, index) {
     trainee = {};
-    trainee.name_romanized = traineeArray[0];
-    trainee.name_japanese = traineeArray[1];
-    trainee.name_hangul = traineeArray[2];
-    trainee.nationality = traineeArray [3];
-    trainee.grade = traineeArray[4];
-    trainee.birthyear = traineeArray[5];
+    trainee.fullname = traineeArray[0];
+    trainee.shortname = traineeArray[1];
+    trainee.agency = traineeArray[2];
+    trainee.location = traineeArray [3];
+    trainee.agencycolor = traineeArray[4];
+    trainee.age = traineeArray[5];
     trainee.eliminated = traineeArray[6] === 'e'; // sets trainee to be eliminated if 'e' appears in 6th col
     trainee.top6 = traineeArray[6] === 'b'; // sets trainee to top 6 if 't' appears in 6th column
     trainee.id = parseInt(traineeArray[7]) - 1; // trainee id is the original ordering of the trainees in the first csv
     trainee.image =
-      trainee.name_romanized.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
+      trainee.fullname.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
     return trainee;
   });
   filteredTrainees = trainees;
@@ -96,11 +96,11 @@ function convertCSVArrayToTraineeData(csvArrays) {
 function newTrainee() {
   return {
     id: -1, // -1 denotes a blank trainee spot
-    name_romanized: '&#8203;', // this is a blank character 
-    name_japanese: '&#8203;',
-    nationality: '&#8203;',
-    birthyear: '&#8203;',
-    grade: 'no',
+    fullname: '&#8203;', // this is a blank character 
+    shortname: '&#8203;',
+    location: '&#8203;',
+    age: '&#8203;',
+    agencycolor: 'no',
     image: 'emptyrank.png',
   };
 }
@@ -179,7 +179,7 @@ function populateTableEntry(trainee) {
   <div class="table__entry ${eliminated}">
     <div class="table__entry-icon">
       <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
-      <div class="table__entry-icon-border ${trainee.grade.toLowerCase()}-rank-border"></div>
+      <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
       ${
         top6 ? '<div class="table__entry-icon-crown"></div>' : ''
       }
@@ -188,10 +188,10 @@ function populateTableEntry(trainee) {
       }
     </div>
     <div class="table__entry-text">
-      <span class="fullname"><strong>${trainee.name_romanized}</strong></span>
-      <span class="agency">(${trainee.name_hangul})</span>
-      <span class="ageandlocation">${trainee.birthyear} •
-      ${trainee.nationality.toUpperCase()}</span>
+      <span class="fullname"><strong>${trainee.fullname}</strong></span>
+      <span class="agency">(${trainee.agency})</span>
+      <span class="ageandlocation">${trainee.age} •
+      ${trainee.location.toUpperCase()}</span>
     </div>
   </div>`;
   return tableEntry;
@@ -243,16 +243,16 @@ function populateRankingEntry(trainee, currRank) {
     <div class="ranking__entry-view">
       <div class="ranking__entry-icon">
         <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
-        <div class="ranking__entry-icon-border ${trainee.grade.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
+        <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
-      <div class="ranking__entry-icon-badge bg-${trainee.grade.toLowerCase()}">${currRank}</div>
+      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${currRank}</div>
       ${
         top6 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
     </div>
     <div class="ranking__row-text">
-      <div class="name"><strong>${trainee.name_japanese.toUpperCase()}</strong></div>
-      <div class="year">${trainee.birthyear}</div>
+      <div class="name"><strong>${trainee.shortname.toUpperCase()}</strong></div>
+      <div class="year">${trainee.age}</div>
     </div>
   </div>`;
   return rankingEntry;
@@ -330,12 +330,12 @@ const alternateRomanizations = {
 // uses the current filter text to create a subset of trainees with matching info
 function filterTrainees(event) {
   let filterText = event.target.value.toLowerCase();
-  // filters trainees based on name, alternate names, nationality and birth year
+  // filters trainees based on name, alternate names, location and birth year
   filteredTrainees = trainees.filter(function (trainee) {
-    let initialMatch = includesIgnCase(trainee.name_romanized, filterText) || includesIgnCase (trainee.birthyear, filterText) || includesIgnCase (trainee.nationality, filterText);
+    let initialMatch = includesIgnCase(trainee.fullname, filterText) || includesIgnCase (trainee.age, filterText) || includesIgnCase (trainee.location, filterText);
     // if alernates exists then check them as well
     let alternateMatch = false;
-    let alternates = alternateRomanizations[trainee.name_romanized.toLowerCase()]
+    let alternates = alternateRomanizations[trainee.fullname.toLowerCase()]
     if (alternates) {
       for (let i = 0; i < alternates.length; i++) {
         alternateMatch = alternateMatch || includesIgnCase(alternates[i], filterText);
