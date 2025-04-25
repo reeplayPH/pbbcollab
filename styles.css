@@ -76,7 +76,7 @@ body {
 }
 #table__filter-container {
   padding: 8px;
-  border: 1px solid var(--save-box-gray);
+  /*border: 1px solid var(--save-box-gray);*/
 }
 .display-options-icon { 
   padding-left: 5px;
@@ -114,7 +114,8 @@ body {
   height: 100%;
   width: 90%;
   box-sizing: border-box;
-  border-radius: 3px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   background-color: var(--search-gray);
   border: none;
   outline: 0;
@@ -183,6 +184,8 @@ body {
 #table__entry-container {
   overflow-y: scroll;
   border: 1px solid var(--save-box-gray);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 .table__entry {
   display: flex;
