@@ -78,12 +78,16 @@ body {
   padding: 8px;
   /*border: 1px solid var(--save-box-gray);*/
 }
+.icon-container {
+  position: relative; /* Needed for positioning the menu */
+  display: inline-block;
+}
 .display-options-icon { 
   padding-left: 5px;
   position: relative; /* Needed for positioning the label */
   font-size: 12px;
   color: var(--search-text-gray);
-  transition: filter 0.3s ease; /* Smooth transition */
+  transition: color 0.3s ease, filter 0.3s ease;  /* Smooth transition */
 }
 .display-options-icon:hover {
   color: #2D84F8;
@@ -105,6 +109,30 @@ body {
 }
 .display-options-icon:hover::after {
   opacity: 1; /* Show the label on hover */
+}
+.click-menu {
+  display: none; /* Hide the menu initially */
+  position: absolute;
+  top: 60px; /* Position below the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;
+}
+.click-menu ul {
+  list-style: none;
+  margin: 0;
+  padding: 10px;
+}
+.click-menu ul li {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.click-menu ul li:hover {
+  background-color: #f0f0f0;
 }
 
 #table__filter-input {
