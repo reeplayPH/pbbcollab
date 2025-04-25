@@ -110,7 +110,7 @@ body {
 #table__filter-input {
   padding: 5px;
   padding-left: 25px;
-  padding-right: 35px;
+  /*padding-right: 35px;*/
   height: 100%;
   width: 100%;
   box-sizing: border-box;
