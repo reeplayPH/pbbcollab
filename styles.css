@@ -134,6 +134,7 @@ body {
   padding: 10px;
 }
 .click-menu ul li {
+  display: inline; /* Display list items inline */
   padding: 8px 12px;
   cursor: pointer;
 }
