@@ -55,6 +55,27 @@ function getRanking() {
   }
 }
 
+function toggleMenu() {
+  var menu = document.getElementById('clickMenu');
+  if (menu.style.display === 'block') {
+    menu.style.display = 'none';
+  } else {
+    menu.style.display = 'block';
+  }
+}
+
+// Optional: Close the menu if clicked outside
+window.onclick = function(event) {
+  if (!event.target.matches('.display-options-icon')) {
+    var menus = document.getElementsByClassName('click-menu');
+    for (var i = 0; i < menus.length; i++) {
+      var openMenu = menus[i];
+      if (openMenu.style.display === 'block') {
+        openMenu.style.display = 'none';
+      }
+    }
+  }
+}
 // Takes in an array of trainees and converts it to js objects
 // Follows this schema:
 /*
