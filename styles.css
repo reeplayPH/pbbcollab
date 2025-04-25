@@ -76,6 +76,7 @@ body {
 }
 #table__filter-container {
   padding: 8px;
+  border-radius: 0;
   /*border: 1px solid var(--save-box-gray);*/
 }
 .icon-container {
