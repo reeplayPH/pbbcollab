@@ -113,9 +113,15 @@ body {
 .click-menu {
   display: none; /* Hide the menu initially */
   position: absolute;
-  top: 60px; /* Position below the icon */
-  left: 50%;
-  transform: translateX(-50%);
+  top: 0; /* Position below the icon */
+  left: 100%;
+  /*transform: translateX(-50%);
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000;*/
+  margin-left: 10px; /* Add some space between the icon and the menu */
   background-color: #fff;
   border: 1px solid #ccc;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
