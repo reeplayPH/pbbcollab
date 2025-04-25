@@ -80,7 +80,7 @@ body {
 }
 .display-options-icon {
   font-size: 5px;
-  color: #000;
+  color: var(--search-text-gray);
   transition: filter 0.3s ease; /* Smooth transition */
 }
 .display-options-icon:hover {
