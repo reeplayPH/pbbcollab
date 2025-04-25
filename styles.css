@@ -78,6 +78,15 @@ body {
   padding: 8px;
   border-bottom: 1px solid var(--produce-gray);
 }
+.display-options-icon {
+  font-size: 50px;
+  color: #000;
+  transition: filter 0.3s ease; /* Smooth transition */
+}
+
+.display-options-icon:hover {
+  filter: brightness(0.5); /* Apply filter on hover */
+}
 #table__filter-input {
   padding: 5px;
   padding-left: 25px;
