@@ -98,6 +98,7 @@ body {
 .display-options-icon::after {
   content: "Display Options"; /* Text for the label */
   position: absolute;
+  font-size: 12px;
   bottom: -30px; /* Position below the icon */
   left: 50%;
   transform: translateX(-50%);
