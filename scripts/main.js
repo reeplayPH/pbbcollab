@@ -119,6 +119,8 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.agency = traineeArray[2];
     trainee.location = traineeArray [3];
     trainee.agencycolor = traineeArray[4];
+    trainee.agencysp = traineeArray[4] === 'A';
+    trainee.agencysm = traineeArray[4] === 'B';
     trainee.age = traineeArray[5];
     trainee.eliminated = traineeArray[6] === 'e'; // sets trainee to be eliminated if 'e' appears in 6th col
     trainee.top6 = traineeArray[6] === 'b'; // sets trainee to top 6 if 't' appears in 6th column
