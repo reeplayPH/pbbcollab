@@ -349,6 +349,11 @@ body {
   display: block;
 }
 
+.parent-ranking {
+  display: flex;
+  flex-direction: column; /* This arranges the child containers in a column */
+}
+
 /* Ranking Styles */
 #ranking__pyramid {
   /* min-width: 350px; */
