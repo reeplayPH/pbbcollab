@@ -50,7 +50,11 @@ body {
 }
 #banner-image {
   width: 150px;
-  margin-bottom: 15px;
+  /*margin-bottom: 15px;*/
+  background-image: url("assets/pbb_header.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 }
 #banner-title {
   font-family: 'Roboto Condensed', sans-serif;
