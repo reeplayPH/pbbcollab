@@ -439,7 +439,7 @@ var trainees = [];
 var filteredTrainees = [];
 // holds the ordered list of rankings that the user selects
 var ranking = newRanking();
-const rowNums = [1,1,1];
+const rowNums = [1,1,1,1];
 //window.addEventListener("load", function () {
   populateRanking();
   readFromCSV("./housemate_info.csv");
