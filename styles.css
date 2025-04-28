@@ -345,24 +345,38 @@ body {
 }
 
 #parent-ranking {
-  display: flex;
-  flex-direction: row; /* This arranges the child containers in a row */
+  display: flex;
+  gap: 20px; /* Add space between the two pyramids */
 }
 
+#ranking__pyramid, #ranking__pyramid2 {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 200px; /* Set a fixed width for each pyramid */
+}
+
+/*#parent-ranking {
+  display: flex;
+  flex-direction: row; /* This arranges the child containers in a row */
+/*}*/
+
 /* Ranking Styles */
-#ranking__pyramid {
+/*#ranking__pyramid {*/
   /* min-width: 350px; */
-  margin: 40px 40px 10px 40px;
+ /* margin: 40px 40px 10px 40px;
   display: flex;
   flex-direction: column;
 }
 
 #ranking__pyramid2 {
   /* min-width: 350px; */
-  margin: 40px 40px 10px 40px;
+  /*margin: 40px 40px 10px 40px;
   display: flex;
   flex-direction: column;
-}
+}*/
 
 #ranking__title {
   text-align: center;
