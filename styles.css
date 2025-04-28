@@ -42,7 +42,7 @@ body {
 #top-banner {
   /*background: radial-gradient(circle, var(--banner-bg-start), var(--banner-bg-end) 15%);*/
   /* background-color: var(--banner-bg-color); */
-  padding: 25px;
+  /*padding: 25px;*/
 
   /* these will be unnecessary once we get the banner image */
   color: white;
@@ -54,7 +54,7 @@ body {
 }
 #banner-image {
   width: 150px;
-  /*margin-bottom: 15px;*/
+  margin-top: 45px;
 }
 #banner-title {
   font-family: 'Roboto Condensed', sans-serif;
