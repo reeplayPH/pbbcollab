@@ -47,14 +47,14 @@ body {
   /* these will be unnecessary once we get the banner image */
   color: white;
   text-align: center;
-}
-#banner-image {
-  width: 150px;
-  /*margin-bottom: 15px;*/
   background-image: url("assets/pbb_header.png");
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+#banner-image {
+  width: 150px;
+  /*margin-bottom: 15px;*/
 }
 #banner-title {
   font-family: 'Roboto Condensed', sans-serif;
