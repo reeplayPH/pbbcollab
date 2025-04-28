@@ -91,11 +91,8 @@ body {
   padding-left: 25px;
   /*padding-right: 10px;*/
   height: 100%;
-  /*width: 100%;*/
+  width: 100%;
   box-sizing: border-box;
-  /*border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background-color: var(--search-gray);*/
   border: none;
   outline: 0;
   /* setting up search icon */
