@@ -78,7 +78,7 @@ function toggleMenu() {
 }
 
 // Optional: Close the menu if clicked outside
-window.onclick = function(event) {
+/*window.onclick = function(event) {
   if (!event.target.matches('.display-options-icon')) {
     var menus = document.getElementsByClassName('click-menu');
     for (var i = 0; i < menus.length; i++) {
@@ -88,7 +88,7 @@ window.onclick = function(event) {
       }
     }
   }
-}
+}*/
 // Takes in an array of trainees and converts it to js objects
 // Follows this schema:
 /*
