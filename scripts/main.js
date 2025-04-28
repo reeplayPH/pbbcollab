@@ -397,26 +397,26 @@ function swapTrainees(index1, index2) {
 // <original> is the original name as appearing on csv
 // all of it should be lower case
 const alternateRomanizations = {
-  'az martinez': ['az','martinez','ang miss sunuring daughter ng cebu','cebu'],
-  'bianca de vera': ['bianca','devera','de vera','ang sassy unica hija ng taguig','taguig'],
-  'brent manalo': ['brent','manalo','ang gentle-linong heartthrob ng tarlac','tarlac'],
-  'dustin yu': ['dustin','yu','ang chinito boss-sikap ng quezon city','quezon city','qc'],
-  'emilio daez': ['emilio','mio','daez','ang mr. bankable achiever ng pasig','pasig'],
-  'esnyr ranollo': ['esnyr','ang son-sational viral beshie ng davao del sur','davao'],
-  'josh ford': ['josh','ford','ang survicor lad ng united kingdom','united kingdom','uk'],
-  'klarisse de guzman': ['klang','klarisse','ate klang','deguzman','de guzman','ang kwela soul diva ng antipolo','antipolo'],
-  'michael sager': ['michael','sager','ang diligent wonder son ng marinduque','marinduque'],
-  'mika salamanca': ['mica','salamanca','ang controversial ca-babe-len ng pampanga','pampanga'],
-  'ralph de leon': ['ralph','deleon','de leon','saing','saing king','kaldero','ang dutiful judo-son ng cavite','cavite'],
-  'river joseph': ['river','joseph','ang sporty business bro ng muntinlupa city','muntinlupa'],
-  'shuvee etrata': ['shuvee','etrata','katipunera','island ate ng cebu','ang island ate ng cebu','cebu'],
-  'vince maristela': ['vince','maristela','ang charming bro-next-door ng cainta','charming bro-next-door ng cainta','cainta'],
-  'will ashley': ['will','ashley','ang mamas dreambae ng cavite','cavite','nations son'],
-  'xyriel manabat': ['xyriel','manabat','golden anaktress ng rizal','ang golden anaktress ng rizal','rizal'],
-  'charlie fleming': ['charlie','fleming','ang bubbly bread teener ng cagayan de oro','teen','cagayan de oro','evicted'],
-  'kira balinger': ['kira','balinger','ang hopeful belle ng cavite','cavite','evicted'],
-  'ac bonifacio': ['ac','bonifacio','ang dedicated showstopper ng canada','canada','evicted'],
-  'ashley ortega': ['ashley','ortega','ang independent tis-ice princess ng san juan','san juan','evicted']
+  'az martinez': ['az','martinez','ang miss sunuring daughter ng cebu','cebu','sparkle','kapuso'],
+  'bianca de vera': ['bianca','devera','de vera','ang sassy unica hija ng taguig','taguig','star magic','kapamilya'],
+  'brent manalo': ['brent','manalo','ang gentle-linong heartthrob ng tarlac','tarlac','star magic','kapamilya'],
+  'dustin yu': ['dustin','yu','ang chinito boss-sikap ng quezon city','quezon city','qc','sparkle','kapuso'],
+  'emilio daez': ['emilio','mio','daez','ang mr. bankable achiever ng pasig','pasig','star magic','kapamilya'],
+  'esnyr ranollo': ['esnyr','ang son-sational viral beshie ng davao del sur','davao','star magic','kapamilya'],
+  'josh ford': ['josh','ford','ang survicor lad ng united kingdom','united kingdom','uk','sparkle','kapuso'],
+  'klarisse de guzman': ['klang','klarisse','ate klang','deguzman','de guzman','ang kwela soul diva ng antipolo','antipolo','star magic','kapamilya'],
+  'michael sager': ['michael','sager','ang diligent wonder son ng marinduque','marinduque','sparkle','kapuso'],
+  'mika salamanca': ['mica','salamanca','ang controversial ca-babe-len ng pampanga','pampanga','sparkle','kapuso'],
+  'ralph de leon': ['ralph','deleon','de leon','saing','saing king','kaldero','ang dutiful judo-son ng cavite','cavite','star magic','kapamilya'],
+  'river joseph': ['river','joseph','ang sporty business bro ng muntinlupa city','muntinlupa','star magic','kapamilya'],
+  'shuvee etrata': ['shuvee','etrata','katipunera','island ate ng cebu','ang island ate ng cebu','cebu','sparkle','kapuso'],
+  'vince maristela': ['vince','maristela','ang charming bro-next-door ng cainta','cainta','sparkle','kapuso'],
+  'will ashley': ['will','ashley','ang mamas dreambae ng cavite','cavite','nations son','sparkle','kapuso'],
+  'xyriel manabat': ['xyriel','manabat','ang golden anaktress ng rizal','rizal','star magic','kapamilya'],
+  'charlie fleming': ['charlie','fleming','ang bubbly bread teener ng cagayan de oro','teen','cagayan de oro','evicted','sparkle','kapuso'],
+  'kira balinger': ['kira','balinger','ang hopeful belle ng cavite','cavite','evicted','star magic','kapamilya'],
+  'ac bonifacio': ['ac','bonifacio','ang dedicated showstopper ng canada','canada','evicted','star magic','kapamilya'],
+  'ashley ortega': ['ashley','ortega','ang independent tis-ice princess ng san juan','san juan','evicted','sparkle','kapuso']
 };
 
 // uses the current filter text to create a subset of trainees with matching info
