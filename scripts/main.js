@@ -58,7 +58,7 @@ function getRanking() {
 window.onload = function() {
     document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
 
-    document.getElementById('.display-options-icon').addEventListener('click', function() {
+    document.getElementById('display-options-icon').addEventListener('click', function() {
         var menu = document.getElementById('clickMenu');
         if (menu.style.display === 'none') {
             menu.style.display = 'block';
