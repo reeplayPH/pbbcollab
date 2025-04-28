@@ -359,7 +359,7 @@ body {
 
 #ranking__pyramid2 {
   /* min-width: 350px; */
-  margin: 40px 40px 10px 80px;
+  margin: 40px 40px 10px 40px;
   display: flex;
   flex-direction: column;
 }
