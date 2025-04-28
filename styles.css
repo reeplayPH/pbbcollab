@@ -346,7 +346,7 @@ body {
 
 #parent-ranking {
   display: flex;
-  gap: 20px; /* Add space between the two pyramids */
+  gap: 5px; /* Add space between the two pyramids */
 }
 
 #ranking__pyramid, #ranking__pyramid2 {
@@ -355,7 +355,7 @@ body {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  width: 200px; /* Set a fixed width for each pyramid */
+  /*width: 200px; /* Set a fixed width for each pyramid */
 }
 
 /*#parent-ranking {
