@@ -80,7 +80,7 @@ body {
   /*border: 1px solid var(--save-box-gray);*/
 }
 .icon-container {
-  margin: 10px;
+  /*margin: 10px;*/
   position: relative; /* Needed for positioning the menu */
   display: inline-block;
   z-index: 1000;
