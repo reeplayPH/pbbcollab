@@ -74,7 +74,8 @@ body {
   box-shadow: 0px 2px 4px 0.1px var(--produce-gray);
   border-radius: 8px;
   border: 1px solid var(--save-box-gray);
-  margin: 10px;
+  margin-left: 10px;
+  margin-right: 10px;
   display: flex;
   flex-direction: column;
 }
@@ -346,7 +347,7 @@ body {
 
 #parent-ranking {
   display: flex;
-  gap: 5px; /* Add space between the two pyramids */
+  gap: 10px; /* Add space between the two pyramids */
 }
 
 #ranking__pyramid, #ranking__pyramid2 {
@@ -354,7 +355,7 @@ body {
   flex-direction: column;
   padding: 10px;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 8px;
   width: 150px; /* Set a fixed width for each pyramid */
 }
 
@@ -476,7 +477,7 @@ body {
 
 /* Generic Styles */
 .padded-box {
-  padding: 40px;
+  padding: 15px;
 }
 
 .flex-container {
