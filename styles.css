@@ -85,6 +85,29 @@ body {
   flex-direction: row;
   /*border: 1px solid var(--save-box-gray);*/
 }
+
+#table__filter-input {
+  padding: 5px;
+  padding-left: 25px;
+  /*padding-right: 10px;*/
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  background-color: var(--search-gray);
+  border: none;
+  outline: 0;
+  /* setting up search icon */
+  background-image: url("assets/search.png");
+  background-size: 10px 10px;
+  background-position: 7px 7px;
+  background-repeat: no-repeat;
+}
+::placeholder {
+  color: var(--search-text-gray);
+}
+
 .icon-container {
   /*margin: 10px;*/
   position: relative; /* Needed for positioning the menu */
@@ -155,28 +178,6 @@ body {
 .click-menu ul li:hover {
   background-color: #f0f0f0;
 }*/
-
-#table__filter-input {
-  padding: 5px;
-  padding-left: 25px;
-  /*padding-right: 10px;*/
-  height: 100%;
-  width: 100%;
-  box-sizing: border-box;
-  border-top-left-radius: 8px;
-  border-top-right-radius: 8px;
-  background-color: var(--search-gray);
-  border: none;
-  outline: 0;
-  /* setting up search icon */
-  background-image: url("assets/search.png");
-  background-size: 10px 10px;
-  background-position: 7px 7px;
-  background-repeat: no-repeat;
-}
-::placeholder {
-  color: var(--search-text-gray);
-}
 
 /* Styles for filtering at bottom of table */
 /*#filters-container {
