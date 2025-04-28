@@ -161,6 +161,8 @@ function rerenderTable() {
 function rerenderRanking() {
   clearRanking();
   populateRanking();
+  clearRanking2();
+  populateRanking2();
 }
 
 function removeAllChildren(element) {
@@ -175,10 +177,24 @@ function clearTable() {
   removeAllChildren(table);
 }
 
-// Clears out the ranking
+// Clears out the ranking (KAPAMILYA)
 function clearRanking() {
   // Currently just duplicates first ranking entry
   let ranking_chart = document.getElementById("ranking__pyramid");
+  let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
+  // let rankEntry = rankRows[0].children[0];
+  for (let i = 0; i < rowNums.length; i++) {
+    let rankRow = rankRows[i];
+    for (let j = 0; j < rowNums[i]; j++) {
+      removeAllChildren(rankRow);
+    }
+  }
+}
+
+// Clears out the ranking (KAPUSO)
+function clearRanking2() {
+  // Currently just duplicates first ranking entry
+  let ranking_chart = document.getElementById("ranking__pyramid2");
   let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
   // let rankEntry = rankRows[0].children[0];
   for (let i = 0; i < rowNums.length; i++) {
@@ -235,6 +251,43 @@ function populateTableEntry(trainee) {
 function populateRanking() {
   // Currently just duplicates first ranking entry
   let ranking_chart = document.getElementById("ranking__pyramid");
+  let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
+  // let rankEntry = rankRows[0].children[0];
+  let currRank = 1;
+  for (let i = 0; i < rowNums.length; i++) {
+    let rankRow = rankRows[i];
+    for (let j = 0; j < rowNums[i]; j++) {
+      let currTrainee = ranking[currRank-1];
+      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
+
+      let insertedEntry = rankRow.lastChild;
+      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
+      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
+      // only add these event listeners if a trainee exists in this slot
+      if (currTrainee.id >= 0) {
+        // add event listener to remove item
+        insertedEntry.addEventListener("click", function (event) {
+          rankingClicked(currTrainee);
+        });
+        // add event listener for dragging
+        dragIcon.setAttribute('draggable', true);
+        dragIcon.classList.add("drag-cursor");
+        dragIcon.addEventListener("dragstart", createDragStartListener(currRank - 1));
+      }
+      // add event listeners for blank/filled ranking entries
+      iconBorder.addEventListener("dragenter", createDragEnterListener());
+      iconBorder.addEventListener("dragleave", createDragLeaveListener());
+      iconBorder.addEventListener("dragover", createDragOverListener());
+      iconBorder.addEventListener("drop", createDropListener());
+      // }
+      currRank++;
+    }
+  }
+}
+
+function populateRanking2() {
+  // Currently just duplicates first ranking entry
+  let ranking_chart = document.getElementById("ranking__pyramid2");
   let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
   // let rankEntry = rankRows[0].children[0];
   let currRank = 1;
@@ -442,6 +495,7 @@ var ranking = newRanking();
 const rowNums = [1,1,1,1];
 //window.addEventListener("load", function () {
   populateRanking();
+  populateRanking2();
   readFromCSV("./housemate_info.csv");
 //});
 // checks the URL for a ranking and uses it to populate ranking
