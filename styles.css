@@ -91,11 +91,11 @@ body {
   padding-left: 25px;
   /*padding-right: 10px;*/
   height: 100%;
-  width: 100%;
+  /*width: 100%;*/
   box-sizing: border-box;
-  border-top-left-radius: 8px;
+  /*border-top-left-radius: 8px;
   border-top-right-radius: 8px;
-  /*background-color: var(--search-gray);*/
+  background-color: var(--search-gray);*/
   border: none;
   outline: 0;
   /* setting up search icon */
@@ -359,7 +359,7 @@ body {
 
 #parent-ranking {
   display: flex;
-  flex-direction: row; /* This arranges the child containers in a column */
+  flex-direction: row; /* This arranges the child containers in a row */
 }
 
 /* Ranking Styles */
