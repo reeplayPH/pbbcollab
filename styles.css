@@ -154,10 +154,10 @@ body {
 
 #table__filter-input {
   padding: 5px;
-  padding-left: 25px;
-  padding-right: 10px;
+  /*padding-left: 25px;
+  padding-right: 10px;*/
   height: 100%;
-  width: 90%;
+  width: 100%;
   box-sizing: border-box;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
