@@ -142,16 +142,8 @@ body {
 }
 .click-menu {
   overflow-y: scroll;
-  display: none; /* Hide the menu initially */
+  /*display: none; /* Hide the menu initially */
   position: absolute;
-  /*top: 0; /* Position below the icon */
-  /*right: 100%;
-  /*transform: translateX(-50%);
-  background-color: #fff;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 1000;*/
   background-color: white;
   margin-left: 10px; /* Add some space between the icon and the menu */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -159,8 +151,6 @@ body {
   border: 1px solid var(--save-box-gray);
   z-index: 1000;
   width: 200px; /* Set the width of the menu */
-  /*height: 150px; /* Set the height of the menu */
-
 }
 /*.click-menu ul {
   list-style-type: none; /* Remove bullet points */
