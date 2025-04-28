@@ -352,7 +352,7 @@ body {
   display: block;
 }
 
-.parent-ranking {
+#parent-ranking {
   display: flex;
   flex-direction: row; /* This arranges the child containers in a column */
 }
