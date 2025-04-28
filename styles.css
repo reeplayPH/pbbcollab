@@ -109,7 +109,7 @@ body {
   /*margin: 10px;*/
   position: relative; /* Needed for positioning the menu */
   display: inline-block;
-  z-index: 1000;
+  z-index: 1;
 }
 .display-options-icon { 
   padding-left: 5px;
