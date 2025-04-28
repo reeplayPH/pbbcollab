@@ -115,11 +115,11 @@ body {
   opacity: 1; /* Show the label on hover */
 }
 .click-menu {
-  /*overflow-y: scroll;*/
+  overflow-y: scroll;
   display: none; /* Hide the menu initially */
   position: absolute;
-  top: 0; /* Position below the icon */
-  right: 100%;
+  /*top: 0; /* Position below the icon */
+  /*right: 100%;
   /*transform: translateX(-50%);
   background-color: #fff;
   border: 1px solid #ccc;
@@ -132,7 +132,7 @@ body {
   border: 1px solid var(--save-box-gray);
   z-index: 1000;
   width: 200px; /* Set the width of the menu */
-  height: 150px; /* Set the height of the menu */
+  /*height: 150px; /* Set the height of the menu */
 
 }
 /*.click-menu ul {
