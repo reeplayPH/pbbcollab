@@ -338,10 +338,9 @@ function populateRanking2() {
 function populateRankingEntry(trainee, currRank) {
   let evicted = (showEvicted && trainee.evicted) && "evicted";
   let big4 = (showBig4 && trainee.big4) && "big4";
-  if (currRank === 1) {
-	  let RankTag = "BIG WINNER";
-  } else {
-	  let RankTag = currRank;
+  let RankTag = "BIG WINNER"
+  if (currRank != 1) {
+	  RankTag = currRank.toString(); 
   }
   const rankingEntry = `
   <div class="ranking__entry ${evicted}">
