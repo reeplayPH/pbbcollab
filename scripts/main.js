@@ -338,6 +338,11 @@ function populateRanking2() {
 function populateRankingEntry(trainee, currRank) {
   let evicted = (showEvicted && trainee.evicted) && "evicted";
   let big4 = (showBig4 && trainee.big4) && "big4";
+  if (currRank === 1) {
+	  let RankTag = "BIG WINNER";
+  } else {
+	  let RankTag = currRank;
+  }
   const rankingEntry = `
   <div class="ranking__entry ${evicted}">
     <div class="ranking__entry-view">
@@ -345,7 +350,7 @@ function populateRankingEntry(trainee, currRank) {
         <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
         <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
-      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${currRank}</div>
+      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${RankTag}</div>
       ${
         big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
