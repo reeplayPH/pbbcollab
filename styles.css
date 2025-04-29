@@ -42,7 +42,7 @@ body {
 #top-banner {
   /*background: radial-gradient(circle, var(--banner-bg-start), var(--banner-bg-end) 15%);*/
   /* background-color: var(--banner-bg-color); */
-  /*padding: 25px;*/
+  padding: 7px;
 
   /* these will be unnecessary once we get the banner image */
   color: white;
@@ -153,19 +153,19 @@ body {
   z-index: 1000;
   width: 200px; /* Set the width of the menu */
 }
-/*.click-menu ul {
+.click-menu ul {
   list-style-type: none; /* Remove bullet points */
- /* margin: 0;
+  margin: 0;
   padding: 10px;
 }
 .click-menu ul li {
-  /*display: inline; /* Display list items inline */
-/*  padding: 8px 12px;
+  display: inline; /* Display list items inline */
+  padding: 8px 12px;
   cursor: pointer;
 }
 .click-menu ul li:hover {
   background-color: #f0f0f0;
-}*/
+}
 
 /* Styles for filtering at bottom of table */
 /*#filters-container {
