@@ -108,7 +108,7 @@ trainee: {
   image: ...
   selected: false/true // whether user selected them
   eliminated: false/true
-  top6: false/true
+  big4: false/true
 }
 */
 function convertCSVArrayToTraineeData(csvArrays) {
@@ -123,7 +123,7 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.agencysm = traineeArray[4] === 'B';
     trainee.age = traineeArray[5];
     trainee.eliminated = traineeArray[6] === 'e'; // sets trainee to be eliminated if 'e' appears in 6th col
-    trainee.top6 = traineeArray[6] === 'b'; // sets trainee to top 6 if 't' appears in 6th column
+    trainee.big4 = traineeArray[6] === 'b'; // sets trainee to top 6 if 't' appears in 6th column
     trainee.id = parseInt(traineeArray[7]) - 1; // trainee id is the original ordering of the trainees in the first csv
     trainee.image =
       trainee.fullname.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
@@ -237,14 +237,14 @@ function populateTable(trainees) {
 function populateTableEntry(trainee) {
   // eliminated will have value "eliminated" only if trainee is eliminated and showEliminated is true, otherwise this is ""
   let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
-  let top6 = (showTop6 && trainee.top6) && "top6";
+  let big4 = (showBig4 && trainee.big4) && "big4";
   const tableEntry = `
   <div class="table__entry ${eliminated}">
     <div class="table__entry-icon">
       <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
       <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
       ${
-        top6 ? '<div class="table__entry-icon-crown"></div>' : ''
+        big4 ? '<div class="table__entry-icon-crown"></div>' : ''
       }
       ${
         trainee.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""
@@ -337,7 +337,7 @@ function populateRanking2() {
 
 function populateRankingEntry(trainee, currRank) {
   let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
-  let top6 = (showTop6 && trainee.top6) && "top6";
+  let big4 = (showBig4 && trainee.big4) && "big4";
   const rankingEntry = `
   <div class="ranking__entry ${eliminated}">
     <div class="ranking__entry-view">
@@ -347,7 +347,7 @@ function populateRankingEntry(trainee, currRank) {
       </div>
       <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${currRank}</div>
       ${
-        top6 ? '<div class="ranking__entry-icon-crown"></div>' : ''
+        big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
     </div>
     <div class="ranking__row-text">
