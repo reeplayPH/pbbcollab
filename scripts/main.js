@@ -168,8 +168,8 @@ function rerenderTable() {
 function rerenderRanking() {
   clearRanking();
   populateRanking();
-  clearRanking2();
-  populateRanking2();
+  /*clearRanking2();
+  populateRanking2();*/
 }
 
 function removeAllChildren(element) {
