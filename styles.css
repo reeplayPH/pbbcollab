@@ -70,7 +70,7 @@ body {
 #table {
   height: 40vh;
   min-height: 300px;
-  width: 250px;
+  width: 280px;
   box-shadow: 0px 2px 4px 0.1px var(--produce-gray);
   border-radius: 8px;
   border: 1px solid var(--save-box-gray);
