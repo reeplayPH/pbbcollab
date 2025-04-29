@@ -146,7 +146,7 @@ body {
   opacity: 1; /* Show the label on hover */
 }
 .click-menu {
-  overflow-y: scroll;
+  /*overflow-y: scroll;*/
   position: absolute;
   background-color: white;
   margin-left: 10px;
@@ -154,7 +154,7 @@ body {
   border-radius: 8px;
   border: 1px solid var(--save-box-gray);
   z-index: 1000;
-  width: 200px;
+  width: 150px;
 }
 
 .click-menu ul {
@@ -362,26 +362,6 @@ body {
   border-radius: 8px;
   width: 150px; /* Set a fixed width for each pyramid */
 }
-
-/*#parent-ranking {
-  display: flex;
-  flex-direction: row; /* This arranges the child containers in a row */
-/*}*/
-
-/* Ranking Styles */
-/*#ranking__pyramid {*/
-  /* min-width: 350px; */
- /* margin: 40px 40px 10px 40px;
-  display: flex;
-  flex-direction: column;
-}
-
-#ranking__pyramid2 {
-  /* min-width: 350px; */
-  /*margin: 40px 40px 10px 40px;
-  display: flex;
-  flex-direction: column;
-}*/
 
 #ranking__title {
   text-align: center;
