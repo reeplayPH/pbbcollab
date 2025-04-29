@@ -158,8 +158,9 @@ body {
   width: 200px; /* Set the width of the menu */
 }
 .click-menu ul {
+  list-style-type: none;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   margin: 0;
   padding: 0;
 }
