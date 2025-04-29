@@ -147,31 +147,28 @@ body {
 }
 .click-menu {
   overflow-y: scroll;
-  /*display: none; /* Hide the menu initially */
-  position: absolute;
+  position: absolute;
   background-color: white;
-  margin-left: 10px; /* Add some space between the icon and the menu */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
+  margin-left: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
   border: 1px solid var(--save-box-gray);
-  z-index: 1000;
-  width: 200px; /* Set the width of the menu */
+  z-index: 1000;
+  width: 200px;
 }
+
 .click-menu ul {
   list-style-type: none;
   display: flex;
-  flex-direction: column;
-  margin: 0;
-  padding: 0;
-}
-.click-menu ul li {
-  /*display: block;*/
+  flex-direction: column;
+  margin: 0;
   padding: 0;
-  cursor: pointer;
 }
-/*.click-menu ul li:hover {
-  background-color: #f0f0f0;
-}*/
+
+.click-menu ul li {
+  padding: 0;
+  cursor: pointer;
+}
 
 /* Styles for filtering at bottom of table */
 /*#filters-container {
