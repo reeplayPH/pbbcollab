@@ -2,7 +2,7 @@
 
 // always initially sort by id
 var activeCompares = [idCompare]
-var showEliminated = false;
+var showEvicted = false;
 var showBig4 = false;
 
 // This a compare by id on the trainees and guarantees stability of the sort
@@ -47,17 +47,17 @@ function sortedTrainees(trainees) {
 }
 
 // Event handler for when user checks show eliminated
-function showEliminatedClick(event) {
+function showEvictedClick(event) {
   console.log(event);
   let checkbox = event.target;
   if (checkbox.checked) {
     activeCompares.push(eliminatedAtBottomCompare);
-    showEliminated = true;
+    showEvicted = true;
   } else {
     // remove the show eliminated compare
     let i = activeCompares.indexOf(eliminatedAtBottomCompare)
     if (i >= 0) activeCompares.splice(i, 1);
-    showEliminated = false;
+    showEvicted = false;
   }
   sortRenderTable();
   rerenderRanking();
