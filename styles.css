@@ -78,6 +78,7 @@ body {
   margin-right: 10px;
   display: flex;
   flex-direction: column;
+  z-index: 1;
 }
 #table__filter-container {
   padding: 8px;
@@ -159,13 +160,13 @@ body {
   padding: 10px;
 }
 .click-menu ul li {
-  display: inline; /* Display list items inline */
+  display: block;
   padding: 8px 12px;
   cursor: pointer;
 }
-.click-menu ul li:hover {
+/*.click-menu ul li:hover {
   background-color: #f0f0f0;
-}
+}*/
 
 /* Styles for filtering at bottom of table */
 /*#filters-container {
