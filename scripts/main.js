@@ -94,23 +94,7 @@ function toggleMenu() {
     }
   }
 }*/
-// Takes in an array of trainees and converts it to js objects
-// Follows this schema:
-/*
-trainee: {
-  id: ... // position in csv used for simple recognition
-  fullname: ...
-  agency: ...
-  shortname: ...
-  location: ...
-  agencycolor: a/b/c/d/f
-  age: ...
-  image: ...
-  selected: false/true // whether user selected them
-  evicted: false/true
-  big4: false/true
-}
-*/
+
 function convertCSVArrayToTraineeData(csvArrays) {
   trainees = csvArrays.map(function(traineeArray, index) {
     trainee = {};
@@ -124,6 +108,7 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.age = traineeArray[5];
     trainee.evicted = traineeArray[6] === 'e'; // sets trainee to be evicted if 'e' appears in 6th col
     trainee.big4 = traineeArray[6] === 'b'; // sets trainee to top 6 if 't' appears in 6th column
+    trainee.nominated = traineeArray[6] === 'n'; // sets trainee to be nominated if 'e' appears in 6th column
     trainee.id = parseInt(traineeArray[7]) - 1; // trainee id is the original ordering of the trainees in the first csv
     trainee.image =
       trainee.fullname.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
@@ -238,6 +223,7 @@ function populateTableEntry(trainee) {
   // evicted will have value "evicted" only if trainee is evicted and showEvicted is true, otherwise this is ""
   let evicted = (showEvicted && trainee.evicted) && "evicted";
   let big4 = (showBig4 && trainee.big4) && "big4";
+  let nominated = (showNominated && trainee.nominated) && "nominated";
   const tableEntry = `
   <div class="table__entry ${evicted}">
     <div class="table__entry-icon">
@@ -245,6 +231,9 @@ function populateTableEntry(trainee) {
       <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
       ${
         big4 ? '<div class="table__entry-icon-crown"></div>' : ''
+      }
+      ${
+        nominated ? '<div class="table__entry-nominated"></div>' : ''
       }
       ${
         trainee.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""
@@ -338,6 +327,7 @@ function populateRanking2() {
 function populateRankingEntry(trainee, currRank) {
   let evicted = (showEvicted && trainee.evicted) && "evicted";
   let big4 = (showBig4 && trainee.big4) && "big4";
+   let nominated = (showNominated && trainee.nominated) && "nominated";
   let RankTag = "BIG WINNER"
   if (currRank != 1) {
 	  RankTag = currRank.toString(); 
@@ -352,6 +342,9 @@ function populateRankingEntry(trainee, currRank) {
       <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${RankTag}</div>
       ${
         big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
+      }
+      ${
+        nominated ? '<div class="ranking__entry-nominated"></div>' : ''
       }
       </div>
     <div class="ranking__row-text">
