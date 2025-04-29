@@ -308,16 +308,14 @@ body {
 
 .table__entry-nominated, .ranking__entry-nominated {
   position: absolute;
-  padding: 2px;
   box-sizing: border-box;
-  top: -5px;
+  top: 0;
   left: 0;
   right: 0;
   margin: auto;
-  width: 15px;
-  height: 15px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background-color: #e3e3e3;
   background-image: url(assets/nominated.png);
   background-size: cover;
   background-repeat: no-repeat;
