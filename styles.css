@@ -170,6 +170,10 @@ body {
   cursor: pointer;
 }
 
+.click-menu ul li:hover {
+  background-color: #f0f0f0;
+}
+
 /* Styles for filtering at bottom of table */
 /*#filters-container {
   margin: 10px;
