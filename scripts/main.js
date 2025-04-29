@@ -258,9 +258,11 @@ function populateRanking() {
   let rankRows2 = Array.from(ranking_chart2.children).slice(1); 
   // let rankEntry = rankRows[0].children[0];
   let currRank = 1;
+  let x = 0;
+  let y = 0;
   for (let i = 0; i < rowNums.length; i++) {
-    let rankRow = rankRows[i];
-    let rankRow2 = rankRows2[i];
+    let rankRow = rankRows[x];
+    let rankRow2 = rankRows2[y];
     for (let j = 0; j < rowNums[i]; j++) {
       let currTrainee = ranking[currRank-1];
       if (currTrainee.agencysm) {
@@ -285,6 +287,7 @@ function populateRanking() {
 	      iconBorder.addEventListener("dragleave", createDragLeaveListener());
 	      iconBorder.addEventListener("dragover", createDragOverListener());
 	      iconBorder.addEventListener("drop", createDropListener());
+	      x++;
       } else if (currTrainee.agencysp){
 	      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
 		      
@@ -307,6 +310,7 @@ function populateRanking() {
 	      iconBorder2.addEventListener("dragleave", createDragLeaveListener());
 	      iconBorder2.addEventListener("dragover", createDragOverListener());
 	      iconBorder2.addEventListener("drop", createDropListener());
+	      y++;
       }
 	    currRank++;
     }
