@@ -175,7 +175,7 @@ function clearTable() {
 	removeAllChildren(table);
 }
 
-// Clears out the ranking (KAPAMILYA)
+// Clears out the ranking
 function clearRanking() {
   // Currently just duplicates first ranking entry
   let ranking_chart = document.getElementById("ranking__pyramid");
@@ -189,16 +189,16 @@ function clearRanking() {
   }
 }
 
-// Clears out the ranking (KAPUSO)
+// Clears out the ranking
 function clearRanking2() {
   // Currently just duplicates first ranking entry
-  let ranking_chart = document.getElementById("ranking__pyramid2");
-  let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
+  let ranking_chart2 = document.getElementById("ranking__pyramid2");
+  let rankRows2 = Array.from(ranking_chart2.children).slice(1); // remove the title element
   // let rankEntry = rankRows[0].children[0];
   for (let i = 0; i < rowNums.length; i++) {
-    let rankRow = rankRows[i];
+    let rankRow2 = rankRows2[i];
     for (let j = 0; j < rowNums[i]; j++) {
-      removeAllChildren(rankRow);
+      removeAllChildren(rankRow2);
     }
   }
 }
@@ -253,73 +253,62 @@ function populateTableEntry(trainee) {
 function populateRanking() {
   // Currently just duplicates first ranking entry
   let ranking_chart = document.getElementById("ranking__pyramid");
+  let ranking_chart2 = document.getElementById("ranking__pyramid2");
   let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
+  let rankRows2 = Array.from(ranking_chart2.children).slice(1); 
   // let rankEntry = rankRows[0].children[0];
   let currRank = 1;
   for (let i = 0; i < rowNums.length; i++) {
     let rankRow = rankRows[i];
+    let rankRow2 = rankRows2[i];
     for (let j = 0; j < rowNums[i]; j++) {
       let currTrainee = ranking[currRank-1];
-      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
-
-      let insertedEntry = rankRow.lastChild;
-      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
-      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-      // only add these event listeners if a trainee exists in this slot
-      if (currTrainee.id >= 0) {
-        // add event listener to remove item
-        insertedEntry.addEventListener("click", function (event) {
-          rankingClicked(currTrainee);
-        });
-        // add event listener for dragging
-        dragIcon.setAttribute('draggable', true);
-        dragIcon.classList.add("drag-cursor");
-        dragIcon.addEventListener("dragstart", createDragStartListener(currRank - 1));
+      if (currTrainee.agencysm) {
+	      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
+		      
+	      let insertedEntry = rankRow.lastChild;
+	      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
+	      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
+	      // only add these event listeners if a trainee exists in this slot
+	      if (currTrainee.id >= 0) {
+		      // add event listener to remove item
+		      insertedEntry.addEventListener("click", function (event) {
+			      rankingClicked(currTrainee);
+		      });
+		      // add event listener for dragging
+		      dragIcon.setAttribute('draggable', true);
+		      dragIcon.classList.add("drag-cursor");
+		      dragIcon.addEventListener("dragstart", createDragStartListener(currRank - 1));
+	      }
+	      // add event listeners for blank/filled ranking entries
+	      iconBorder.addEventListener("dragenter", createDragEnterListener());
+	      iconBorder.addEventListener("dragleave", createDragLeaveListener());
+	      iconBorder.addEventListener("dragover", createDragOverListener());
+	      iconBorder.addEventListener("drop", createDropListener());
+      } else if (currTrainee.agencysp){
+	      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
+		      
+	      let insertedEntry2 = rankRow2.lastChild;
+	      let dragIcon2 = insertedEntry2.children[0].children[0]; // drag icon is just the trainee image and borde
+	      let iconBorder2 = dragIcon2.children[1]; // this is just the border and the recipient of dragged elements
+	      // only add these event listeners if a trainee exists in this slot
+	      if (currTrainee.id >= 0) {
+		      // add event listener to remove item
+		      insertedEntry2.addEventListener("click", function (event) {
+			      rankingClicked2(currTrainee);
+		      });
+		      // add event listener for dragging
+		      dragIcon2.setAttribute('draggable', true);
+		      dragIcon2.classList.add("drag-cursor");
+		      dragIcon2.addEventListener("dragstart", createDragStartListener(currRank - 1));
+	      }
+	      // add event listeners for blank/filled ranking entries
+	      iconBorder2.addEventListener("dragenter", createDragEnterListener());
+	      iconBorder2.addEventListener("dragleave", createDragLeaveListener());
+	      iconBorder2.addEventListener("dragover", createDragOverListener());
+	      iconBorder2.addEventListener("drop", createDropListener());
       }
-      // add event listeners for blank/filled ranking entries
-      iconBorder.addEventListener("dragenter", createDragEnterListener());
-      iconBorder.addEventListener("dragleave", createDragLeaveListener());
-      iconBorder.addEventListener("dragover", createDragOverListener());
-      iconBorder.addEventListener("drop", createDropListener());
-      // }
-      currRank++;
-    }
-  }
-}
-
-function populateRanking2() {
-  // Currently just duplicates first ranking entry
-  let ranking_chart = document.getElementById("ranking__pyramid2");
-  let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
-  // let rankEntry = rankRows[0].children[0];
-  let currRank = 1;
-  for (let i = 0; i < rowNums.length; i++) {
-    let rankRow = rankRows[i];
-    for (let j = 0; j < rowNums[i]; j++) {
-      let currTrainee = ranking[currRank-1];
-      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
-
-      let insertedEntry = rankRow.lastChild;
-      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
-      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-      // only add these event listeners if a trainee exists in this slot
-      if (currTrainee.id >= 0) {
-        // add event listener to remove item
-        insertedEntry.addEventListener("click", function (event) {
-          rankingClicked(currTrainee);
-        });
-        // add event listener for dragging
-        dragIcon.setAttribute('draggable', true);
-        dragIcon.classList.add("drag-cursor");
-        dragIcon.addEventListener("dragstart", createDragStartListener(currRank - 1));
-      }
-      // add event listeners for blank/filled ranking entries
-      iconBorder.addEventListener("dragenter", createDragEnterListener());
-      iconBorder.addEventListener("dragleave", createDragLeaveListener());
-      iconBorder.addEventListener("dragover", createDragOverListener());
-      iconBorder.addEventListener("drop", createDropListener());
-      // }
-      currRank++;
+	    currRank++;
     }
   }
 }
@@ -375,7 +364,11 @@ function tableClicked(trainee) {
     }
   }
   rerenderTable();
-  rerenderRanking();
+  if (trainee.agencysm) {
+	  rerenderRanking();
+  } else if (trainee.agencysp) {
+	  rerenderRanking2();
+  }
 }
 
 // Event handler for ranking
@@ -389,11 +382,29 @@ function rankingClicked(trainee) {
 	rerenderRanking();
 }
 
+// Event handler for ranking
+function rankingClicked2(trainee) {
+	if (trainee.selected) {
+		trainee.selected = !trainee.selected;
+		// Remove the trainee from the ranking
+		removeRankedTrainee(trainee);
+	}
+	rerenderTable();
+	rerenderRanking2();
+}
+
 function swapTrainees(index1, index2) {
 	tempTrainee = ranking[index1];
 	ranking[index1] = ranking[index2];
 	ranking[index2] = tempTrainee;
 	rerenderRanking();
+}
+
+function swapTrainees2(index1, index2) {
+	tempTrainee = ranking[index1];
+	ranking[index1] = ranking[index2];
+	ranking[index2] = tempTrainee;
+	rerenderRanking2();
 }
 
 // Controls alternate ways to spell trainee names
@@ -505,7 +516,6 @@ var ranking = newRanking();
 const rowNums = [1,1,1,1];
 //window.addEventListener("load", function () {
   populateRanking();
-  populateRanking2();
   readFromCSV("./housemate_info.csv");
 //});
 // checks the URL for a ranking and uses it to populate ranking
