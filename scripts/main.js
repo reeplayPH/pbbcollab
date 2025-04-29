@@ -164,7 +164,7 @@ function rerenderTable() {
   // populateRanking();
 }
 
-// rerender method for ranking
+// rerender method for ranking (KAPAMILYA)
 function rerenderRanking() {
   clearRanking();
   populateRanking();
@@ -172,16 +172,22 @@ function rerenderRanking() {
   populateRanking2();*/
 }
 
+// rerender method for ranking (KAPUSO)
+function rerenderRanking2() {
+  clearRanking2();
+  populateRanking2();
+}
+
 function removeAllChildren(element) {
-  while (element.firstChild) {
-    element.removeChild(element.firstChild);
-  }
+	while (element.firstChild) {
+		element.removeChild(element.firstChild);
+	}
 }
 
 // Clears out the table
 function clearTable() {
-  let table = document.getElementById("table__entry-container");
-  removeAllChildren(table);
+	let table = document.getElementById("table__entry-container");
+	removeAllChildren(table);
 }
 
 // Clears out the ranking (KAPAMILYA)
@@ -378,19 +384,19 @@ function tableClicked(trainee) {
 // Event handler for ranking
 function rankingClicked(trainee) {
 	if (trainee.selected) {
-    trainee.selected = !trainee.selected;
-    // Remove the trainee from the ranking
-    removeRankedTrainee(trainee);
-  }
-  rerenderTable();
+		trainee.selected = !trainee.selected;
+		// Remove the trainee from the ranking
+		removeRankedTrainee(trainee);
+	}
+	rerenderTable();
 	rerenderRanking();
 }
 
 function swapTrainees(index1, index2) {
-  tempTrainee = ranking[index1];
-  ranking[index1] = ranking[index2];
-  ranking[index2] = tempTrainee;
-  rerenderRanking();
+	tempTrainee = ranking[index1];
+	ranking[index1] = ranking[index2];
+	ranking[index2] = tempTrainee;
+	rerenderRanking();
 }
 
 // Controls alternate ways to spell trainee names
