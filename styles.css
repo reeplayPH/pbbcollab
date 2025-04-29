@@ -198,18 +198,19 @@ body {
 }
 #getlink-textbox {
   margin-left: 5px;
+  width: 135px;
   border: 1px solid var(--save-box-gray);
   border-radius: 3px;
   box-sizing: border-box;
   padding: 5px;
-  padding-right: 50px;
-  flex: 1;
+  padding-right: 10px;
+  /*flex: 1;*/
   display:none;
 }
 #copylink-button {
   height: inherit;
   width: 50px;
-  margin-left: -50px;
+  margin-left: -5px;
   border: 1px solid var(--save-box-gray);
   border-radius: 0px 3px 3px 0;
   background-color: var(--save-box-gray);
