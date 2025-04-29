@@ -162,6 +162,7 @@ body {
   flex-direction: column;
   margin: 0;
   padding: 0;
+  padding-bottom: 5px;
 }
 
 .click-menu ul li {
@@ -178,7 +179,7 @@ body {
   margin: 10px;
 }*/
 .checkbox-label {
-  font-size: 8px;
+  font-size: 10px;
   color: var(--affil-gray);
 }
 
