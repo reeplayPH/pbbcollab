@@ -84,7 +84,7 @@ function toggleMenu() {
 
 // Optional: Close the menu if clicked outside
 /*window.onclick = function(event) {
-  if (!event.target.matches('.display-options-icon')) {
+   (!event.target.matches('.display-options-icon')) {
     var menus = document.getElementsByClassName('click-menu');
     for (var i = 0; i < menus.length; i++) {
       var openMenu = menus[i];
@@ -345,11 +345,15 @@ function populateRankingEntry(trainee, currRank) {
         <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
         <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
-      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${currRank}</div>
+      if (currRank === '1') {
+            <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">BIG WINNER</div>
+        } else {
+            <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${currRank}</div>
+        }
       ${
         big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
-    </div>
+      </div>
     <div class="ranking__row-text">
       <div class="name"><strong>${trainee.shortname.toUpperCase()}</strong></div>
       <div class="year">${trainee.age}</div>
