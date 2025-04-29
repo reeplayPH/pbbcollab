@@ -74,8 +74,7 @@ body {
   box-shadow: 0px 2px 4px 0.1px var(--produce-gray);
   border-radius: 8px;
   border: 1px solid var(--save-box-gray);
-  margin-left: 10px;
-  margin-right: 10px;
+  margin: 10px;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -356,6 +355,7 @@ body {
 #parent-ranking {
   display: flex;
   gap: 10px; /* Add space between the two pyramids */
+  margin-top: 10px;
 }
 
 #ranking__pyramid, #ranking__pyramid2 {
