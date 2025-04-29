@@ -142,7 +142,7 @@ body {
   transition: opacity 0.3s ease; /* Smooth transition */
   pointer-events: none; /* Prevent interaction with the label */
 }
-.display-options-icon:hover::after {
+.display-options-icon:hover::after, .display-options-icon:focus::after {
   opacity: 1; /* Show the label on hover */
 }
 .click-menu {
