@@ -345,11 +345,7 @@ function populateRankingEntry(trainee, currRank) {
         <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
         <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
-      if (currRank === 1) {
-            <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">BIG WINNER</div>
-        } else {
-            <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${currRank}</div>
-        }
+      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${currRank}</div>
       ${
         big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
       }
