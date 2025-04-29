@@ -17,12 +17,12 @@ function idCompare(trainee1, trainee2) {
   return 0;
 }
 
-// compare by whether trainee is eliminated and put eliminated at bottom
-function eliminatedAtBottomCompare(trainee1, trainee2) {
-  if (trainee1.eliminated && !trainee2.eliminated) {
+// compare by whether trainee is evicted and put evicted at bottom
+function evictedAtBottomCompare(trainee1, trainee2) {
+  if (trainee1.evicted && !trainee2.evicted) {
     return 1;
   }
-  else if (!trainee1.eliminated && trainee2.eliminated) {
+  else if (!trainee1.evicted && trainee2.evicted) {
     return -1;
   }
   return 0;
@@ -47,16 +47,16 @@ function sortedTrainees(trainees) {
   return sortedTrainees;
 }
 
-// Event handler for when user checks show eliminated
+// Event handler for when user checks show evicted
 function showEvictedClick(event) {
   console.log(event);
   let checkbox = event.target;
   if (checkbox.checked) {
-    activeCompares.push(eliminatedAtBottomCompare);
+    activeCompares.push(evictedAtBottomCompare);
     showEvicted = true;
   } else {
-    // remove the show eliminated compare
-    let i = activeCompares.indexOf(eliminatedAtBottomCompare)
+    // remove the show evicted compare
+    let i = activeCompares.indexOf(evictedAtBottomCompare)
     if (i >= 0) activeCompares.splice(i, 1);
     showEvicted = false;
   }
