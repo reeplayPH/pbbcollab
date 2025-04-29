@@ -158,13 +158,14 @@ body {
   width: 200px; /* Set the width of the menu */
 }
 .click-menu ul {
-  list-style-type: none; /* Remove bullet points */
+  display: flex;
+  flex-direction: column;
   margin: 0;
-  padding: 10px;
+  padding: 0;
 }
 .click-menu ul li {
-  display: block;
-  padding: 8px 12px;
+  /*display: block;*/
+  padding: 0;
   cursor: pointer;
 }
 /*.click-menu ul li:hover {
