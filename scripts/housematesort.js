@@ -4,6 +4,7 @@
 var activeCompares = [idCompare]
 var showEvicted = false;
 var showBig4 = false;
+var showNominated = false;
 
 // This a compare by id on the trainees and guarantees stability of the sort
 function idCompare(trainee1, trainee2) {
@@ -69,6 +70,17 @@ function showBig4Click(event) {
     showBig4 = true;
   } else {
     showBig4 = false;
+  }
+  rerenderTable();
+  rerenderRanking();
+}
+
+function showNominatedClick(event) {
+  let checkbox = event.target;
+  if (checkbox.checked) {
+    showNominated = true;
+  } else {
+    showNominated = false;
   }
   rerenderTable();
   rerenderRanking();
