@@ -426,13 +426,13 @@ body {
 }
 .ranking__entry-icon-badge {
   position: absolute;
-  width: 15px;
+  width: 60px;
   height: 15px;
   left: 0;
   right: 0;
   bottom: -5px;
   margin: auto;
-  border-radius: 50%;
+  border-radius: 3px;
   background-color: var(--a-rank);
   box-sizing: border-box;
   padding: 2px;
