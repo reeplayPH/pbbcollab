@@ -309,8 +309,8 @@ body {
 .table__entry-nominated, .ranking__entry-nominated {
   position: absolute;
   box-sizing: border-box;
-  top: 0;
-  left: 0;
+  top: 2px;
+  left: -2px;
   right: 0;
   margin: auto;
   width: 70px;
