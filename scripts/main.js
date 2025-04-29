@@ -50,7 +50,11 @@ function getRanking() {
     // refresh table to show checkboxes
     rerenderTable();
     // refresh ranking to show newly inserted trainees
-    rerenderRanking();
+    if (trainee.agencysm) {
+	    rerenderRanking();
+    } else if (trainee.agencysp) {
+	    rerenderRanking2();
+    }
     console.log(ranking);
   }
 }
