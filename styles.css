@@ -78,6 +78,7 @@ body {
   margin-right: 10px;
   display: flex;
   flex-direction: column;
+  position: relative;
   z-index: 1;
 }
 #table__filter-container {
