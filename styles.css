@@ -305,6 +305,25 @@ body {
   background-position: center center;
   background-origin: content-box;
 }
+
+.table__entry-nominated, .ranking__entry-nominated {
+  position: absolute;
+  padding: 2px;
+  box-sizing: border-box;
+  top: -5px;
+  left: 0;
+  right: 0;
+  margin: auto;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: #e3e3e3;
+  background-image: url(assets/nominated.png);
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-origin: content-box;
+}
 /* Different entry borders */
 .a-rank-border {
   border: 5px solid var(--a-rank);
