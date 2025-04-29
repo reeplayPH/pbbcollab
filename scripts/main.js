@@ -107,7 +107,7 @@ trainee: {
   age: ...
   image: ...
   selected: false/true // whether user selected them
-  eliminated: false/true
+  evicted: false/true
   big4: false/true
 }
 */
@@ -122,7 +122,7 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.agencysp = traineeArray[4] === 'A';
     trainee.agencysm = traineeArray[4] === 'B';
     trainee.age = traineeArray[5];
-    trainee.eliminated = traineeArray[6] === 'e'; // sets trainee to be eliminated if 'e' appears in 6th col
+    trainee.evicted = traineeArray[6] === 'e'; // sets trainee to be evicted if 'e' appears in 6th col
     trainee.big4 = traineeArray[6] === 'b'; // sets trainee to top 6 if 't' appears in 6th column
     trainee.id = parseInt(traineeArray[7]) - 1; // trainee id is the original ordering of the trainees in the first csv
     trainee.image =
@@ -235,11 +235,11 @@ function populateTable(trainees) {
 }
 
 function populateTableEntry(trainee) {
-  // eliminated will have value "eliminated" only if trainee is eliminated and showEliminated is true, otherwise this is ""
-  let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
+  // evicted will have value "evicted" only if trainee is evicted and showEvicted is true, otherwise this is ""
+  let evicted = (showEvicted && trainee.evicted) && "evicted";
   let big4 = (showBig4 && trainee.big4) && "big4";
   const tableEntry = `
-  <div class="table__entry ${eliminated}">
+  <div class="table__entry ${evicted}">
     <div class="table__entry-icon">
       <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
       <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
@@ -336,10 +336,10 @@ function populateRanking2() {
 }
 
 function populateRankingEntry(trainee, currRank) {
-  let eliminated = (showEliminated && trainee.eliminated) && "eliminated";
+  let evicted = (showEvicted && trainee.evicted) && "evicted";
   let big4 = (showBig4 && trainee.big4) && "big4";
   const rankingEntry = `
-  <div class="ranking__entry ${eliminated}">
+  <div class="ranking__entry ${evicted}">
     <div class="ranking__entry-view">
       <div class="ranking__entry-icon">
         <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
