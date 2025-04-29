@@ -257,7 +257,7 @@ body {
   width: inherit;
   height: inherit;
 }
-.eliminated .table__entry-img {
+.evicted .table__entry-img {
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
@@ -321,10 +321,10 @@ body {
 .no-rank-border {
   border: none;
 }
-.eliminated .table__entry-icon-border {
+.evicted .table__entry-icon-border {
   border: 5px solid var(--no-rank);
 }
-.eliminated .ranking__entry-icon-border {
+.evicted .ranking__entry-icon-border {
   border: 5px solid var(--no-rank);
 }
 .ranking__entry-icon-border.dragged-over { /* defines a border for when you drag over a trainee in ranking */
@@ -411,7 +411,7 @@ body {
   width: inherit;
   height: inherit;
 }
-.eliminated .ranking__entry-img {
+.evicted .ranking__entry-img {
   -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
   filter: grayscale(100%);
 }
@@ -467,7 +467,7 @@ body {
 .bg-f {
   background-color: var(--f-rank);
 }
-.eliminated .ranking__entry-icon-badge {
+.evicted .ranking__entry-icon-badge {
   background-color: var(--no-rank);
 }
 
