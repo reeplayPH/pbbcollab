@@ -87,7 +87,7 @@ function toggleMenu() {
 }
 
 // Optional: Close the menu if clicked outside
-/*window.onclick = function(event) {
+window.onclick = function(event) {
    (!event.target.matches('.display-options-icon')) {
     var menus = document.getElementsByClassName('click-menu');
     for (var i = 0; i < menus.length; i++) {
@@ -97,7 +97,7 @@ function toggleMenu() {
       }
     }
   }
-}*/
+}
 
 function convertCSVArrayToTraineeData(csvArrays) {
   trainees = csvArrays.map(function(traineeArray, index) {
