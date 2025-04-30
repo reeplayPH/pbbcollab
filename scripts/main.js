@@ -256,101 +256,77 @@ function populateTableEntry(trainee) {
 
 // Uses populated local data structure from getRanking to populate ranking
 function populateRanking() {
-  // Currently just duplicates first ranking entry
-  let ranking_chart = document.getElementById("ranking__pyramid");
-  let ranking_chart2 = document.getElementById("ranking__pyramid2");
-  let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
-  let rankRows2 = Array.from(ranking_chart2.children).slice(1); 
-  // let rankEntry = rankRows[0].children[0];
-  let currRank = 1;
-  let sp = 1;
-  let sm = 1;
-  for (let i = 0; i < rowNums.length;) {
-    let rankRow = rankRows[sm-1];
-    let rankRow2 = rankRows2[sp-1];
-    for (let j = 0; j < rowNums[i]; j++) {
-      let currTrainee = ranking[currRank-1];
-      if (currTrainee.agencysm) {
-	      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, sm))
-		      
-	      let insertedEntry = rankRow.lastChild;
-	      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
-	      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
-		      // add event listener to remove item
-		      insertedEntry.addEventListener("click", function (event) {
-			      rankingClicked(currTrainee);
-		      });
-		      // add event listener for dragging
-		      dragIcon.setAttribute('draggable', true);
-		      dragIcon.classList.add("drag-cursor");
-		      dragIcon.addEventListener("dragstart", createDragStartListener(sm - 1));
-	      }
-	      // add event listeners for blank/filled ranking entries
-	      iconBorder.addEventListener("dragenter", createDragEnterListener());
-	      iconBorder.addEventListener("dragleave", createDragLeaveListener());
-	      iconBorder.addEventListener("dragover", createDragOverListener());
-	      iconBorder.addEventListener("drop", createDropListener());
-	      sm++;
-	      currRank++;
-      } else if (currTrainee.agencysp){
-	      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, sp))
-		      
-	      let insertedEntry2 = rankRow2.lastChild;
-	      let dragIcon2 = insertedEntry2.children[0].children[0]; // drag icon is just the trainee image and borde
-	      let iconBorder2 = dragIcon2.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
-		      // add event listener to remove item
-		      insertedEntry2.addEventListener("click", function (event) {
-			      rankingClicked2(currTrainee);
-		      });
-		      // add event listener for dragging
-		      dragIcon2.setAttribute('draggable', true);
-		      dragIcon2.classList.add("drag-cursor");
-		      dragIcon2.addEventListener("dragstart", createDragStartListener(sp - 1));
-	      }
-	      // add event listeners for blank/filled ranking entries
-	      iconBorder2.addEventListener("dragenter", createDragEnterListener());
-	      iconBorder2.addEventListener("dragleave", createDragLeaveListener());
-	      iconBorder2.addEventListener("dragover", createDragOverListener());
-	      iconBorder2.addEventListener("drop", createDropListener());
-	      sp++;
-	      currRank++;
-      } else {
-	      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
-	      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
-		      
-	      /*let insertedEntry = rankRow.lastChild;
-	      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
-	      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
-		      // add event listener to remove item
-		      insertedEntry.addEventListener("click", function (event) {
-			      rankingClicked(currTrainee);
-		      });
-		      // add event listener for dragging
-		      dragIcon.setAttribute('draggable', true);
-		      dragIcon.classList.add("drag-cursor");
-		      dragIcon.addEventListener("dragstart", createDragStartListener(currRank - 1));
-	      }
-	      // add event listeners for blank/filled ranking entries
-	      iconBorder.addEventListener("dragenter", createDragEnterListener());
-	      iconBorder.addEventListener("dragleave", createDragLeaveListener());
-	      iconBorder.addEventListener("dragover", createDragOverListener());
-	      iconBorder.addEventListener("drop", createDropListener());*/
-	      
-	      currRank++;
-	      sm++;
-	      sp++;
+  // Clear the current rankings
+  clearRanking();
+  clearRanking2();
+
+  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // rows for "A"
+  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // rows for "B"
+
+  let rankCounterA = 0; // Counter for agencysp (A) trainees
+  let rankCounterB = 0; // Counter for agencysm (B) trainees
+
+  for (let i = 0; i < ranking.length; i++) {
+    let currentTrainee = ranking[i];
+
+    if (currentTrainee.agencysp && rankCounterA < 4) {
+      // Add trainee to "A" pyramid
+      let rankRow = rankRowsA[rankCounterA];
+      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounterA + 1));
+
+      let insertedEntry = rankRow.lastChild;
+      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
+      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
+
+      // Only add event listeners if a trainee exists in this slot
+      if (currentTrainee.id >= 0) {
+        // Add event listener to remove item
+        insertedEntry.addEventListener("click", function (event) {
+          rankingClicked(currentTrainee);
+        });
+
+        // Add event listener for dragging
+        dragIcon.setAttribute("draggable", true);
+        dragIcon.classList.add("drag-cursor");
+        dragIcon.addEventListener("dragstart", createDragStartListener(rankCounterA));
       }
-	    if (sm < sp) {
-		    i=sp-2;
-	    } else {
-		    i=sm-2;
-	    }
+
+      // Add event listeners for blank/filled ranking entries
+      iconBorder.addEventListener("dragenter", createDragEnterListener());
+      iconBorder.addEventListener("dragleave", createDragLeaveListener());
+      iconBorder.addEventListener("dragover", createDragOverListener());
+      iconBorder.addEventListener("drop", createDropListener());
+
+      rankCounterA++;
+    } else if (currentTrainee.agencysm && rankCounterB < 4) {
+      // Add trainee to "B" pyramid
+      let rankRow = rankRowsB[rankCounterB];
+      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounterB + 1));
+
+      let insertedEntry = rankRow.lastChild;
+      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
+      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
+
+      // Only add event listeners if a trainee exists in this slot
+      if (currentTrainee.id >= 0) {
+        // Add event listener to remove item
+        insertedEntry.addEventListener("click", function (event) {
+          rankingClicked2(currentTrainee);
+        });
+
+        // Add event listener for dragging
+        dragIcon.setAttribute("draggable", true);
+        dragIcon.classList.add("drag-cursor");
+        dragIcon.addEventListener("dragstart", createDragStartListener(rankCounterB));
+      }
+
+      // Add event listeners for blank/filled ranking entries
+      iconBorder.addEventListener("dragenter", createDragEnterListener());
+      iconBorder.addEventListener("dragleave", createDragLeaveListener());
+      iconBorder.addEventListener("dragover", createDragOverListener());
+      iconBorder.addEventListener("drop", createDropListener());
+
+      rankCounterB++;
     }
   }
 }
