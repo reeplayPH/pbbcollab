@@ -1,18 +1,14 @@
 // Takes in name of csv and populates necessary data in table
-function readFromCSV(path) {
-  var rawFile = new XMLHttpRequest();
-  rawFile.open("GET", path, false);
-  rawFile.onreadystatechange = function() {
-    if (rawFile.readyState === 4) {
-      if (rawFile.status === 200 || rawFile.status == 0) {
-        let allText = rawFile.responseText;
-        let out = CSV.parse(allText);
-        let trainees = convertCSVArrayToTraineeData(out);
-        populateTable(trainees);
-      }
-    }
-  };
-  rawFile.send(null);
+async function readFromCSV(path) {
+  const response = await fetch(path);
+  if (response.ok) {
+    const allText = await response.text();
+    const csvData = CSV.parse(allText);
+    const trainees = convertCSVArrayToTraineeData(csvData);
+    populateTable(trainees);
+  } else {
+    console.error("Failed to fetch CSV:", response.status);
+  }
 }
 
 function findTraineeById(id) {
@@ -519,10 +515,14 @@ function showShareLink(shareURL) {
   document.getElementById("copylink-button").style.display = "block";
 }
 
-function copyLink() {
-  let shareBox = document.getElementById("getlink-textbox");
-  shareBox.select();
-  document.execCommand("copy");
+async function copyLink() {
+  try {
+    const shareBox = document.getElementById("getlink-textbox");
+    await navigator.clipboard.writeText(shareBox.value);
+    alert("Link copied to clipboard!");
+  } catch (err) {
+    console.error("Failed to copy text:", err);
+  }
 }
 
 // holds the list of all trainees
