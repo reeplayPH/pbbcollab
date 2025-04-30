@@ -259,13 +259,13 @@ function populateRanking() {
   let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // rows for "A"
   let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // rows for "B"
 
-  let rankCounterA = 0; // Counter for agencysp (A) trainees
-  let rankCounterB = 0; // Counter for agencysm (B) trainees
+  let rankCounterA = 0; // Counter for agencysm (A) trainees
+  let rankCounterB = 0; // Counter for agencysp (B) trainees
 
   for (let i = 0; i < ranking.length; i++) {
     let currentTrainee = ranking[i];
 
-    if (currentTrainee.agencysp && rankCounterA < 4) {
+    if (currentTrainee.agencysm && rankCounterA < 4) {
       // Add trainee to "A" pyramid
       let rankRow = rankRowsA[rankCounterA];
       rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounterA + 1));
@@ -294,7 +294,7 @@ function populateRanking() {
       iconBorder.addEventListener("drop", createDropListener());
 
       rankCounterA++;
-    } else if (currentTrainee.agencysm && rankCounterB < 4) {
+    } else if (currentTrainee.agencysp && rankCounterB < 4) {
       // Add trainee to "B" pyramid
       let rankRow = rankRowsB[rankCounterB];
       rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounterB + 1));
