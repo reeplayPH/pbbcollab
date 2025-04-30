@@ -322,7 +322,7 @@ function populateRanking() {
 	      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
 	      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
 		      
-	      let insertedEntry = rankRow.lastChild;
+	      /*let insertedEntry = rankRow.lastChild;
 	      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
 	      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
 	      // only add these event listeners if a trainee exists in this slot
@@ -340,7 +340,7 @@ function populateRanking() {
 	      iconBorder.addEventListener("dragenter", createDragEnterListener());
 	      iconBorder.addEventListener("dragleave", createDragLeaveListener());
 	      iconBorder.addEventListener("dragover", createDragOverListener());
-	      iconBorder.addEventListener("drop", createDropListener());
+	      iconBorder.addEventListener("drop", createDropListener());*/
 	      
 	      currRank++;
 	      sm++;
