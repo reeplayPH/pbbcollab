@@ -26,7 +26,7 @@ function findTraineeById(id) {
 
 // If the user has saved a ranking via id, then recover it here
 function getRanking() {
-  var urlParams = new URLSearchParams(window.location.search);
+ (window.location.search);
   if (urlParams.has("r")) {
     let rankString = atob(urlParams.get("r")) // decode the saved ranking
     let rankingIds = [];
@@ -42,7 +42,6 @@ function getRanking() {
         ranking[i] = newTrainee();
       } else {
         let trainee = findTraineeById(rankingIds[i])
-        // let trainee = trainees[rankingIds[i]];
         trainee.selected = true;
         ranking[i] = trainee;
       }
@@ -51,53 +50,47 @@ function getRanking() {
     rerenderTable();
     // refresh ranking to show newly inserted trainees
     if (trainee.agencysp) {
-	    rerenderRanking2();
+      rerenderRanking2();
     } else {
-	    rerenderRanking();
+      rerenderRanking();
     }
-    /*rerenderRanking();*/
     console.log(ranking);
   }
 }
 
-window.onload = function() {
-    document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
+() {
+  document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
 
-    document.getElementById('.display-options-icon').addEventListener('click', function() {
-        var menu = document.getElementById('clickMenu');
-        if (menu.style.display === 'none') {
-            menu.style.display = 'block';
-        } else {
-            menu.style.display = 'none';
-        }
-    });
+  document.getElementById('.display-options-icon').addEventListener('click', function() {
+    var menu = document.getElementById('clickMenu');
+    if (menu.style.display === 'none') {
+      menu.style.display = 'block';
+    } else {
+      menu.style.display = 'none';
+    }
+  });
 };
 
 function toggleMenu() {
-  var menu = document.getElementById('clickMenu');
-  /*if (menu.style.display === 'block') {
-    menu.style.display = 'none';
-  } else {
-    menu.style.display = 'block';
-  }*/
-        if (menu.style.display === 'none') {
-            menu.style.display = 'block';
-        } else {
-            menu.style.display = 'none';
-        }
+  var menu = document.getElementById('clickMenu');
+  if (menu.style.display === 'none') {
+    menu.style.display = 'block';
+  } else {
+    menu.style.display = 'none';
+  }
 }
 
 // Optional: Close the menu if clicked outside
 /*window.onclick = function(event) {
-   (!event.target.matches('.display-options-icon')) {
-    var menus = document.getElementsByClassName('click-menu');
-    for (var i = 0; i < menus.length; i++) {
-      var openMenu = menus[i];
-      if (openMenu.style.display === 'block') {
-        openMenu.style.display = 'none';
-      }
-    }
-  }
+  if (!event.target.matches('.display-options-icon')) {
+    var menus = document.getElementsByClassName('click-menu');
+    for (var i = 0; i < menus.length; i++) {
+      var openMenu = menus[i];
+      if (openMenu.style.display === 'block') {
+        openMenu.style.display = 'none';
+      }
+    }
+  }
 }*/
 
 function convertCSVArrayToTraineeData(csvArrays) {
@@ -106,7 +99,7 @@ function convertCSVArrayToTraineeData(csvArrays) {
     trainee.fullname = traineeArray[0];
     trainee.shortname = traineeArray[1];
     trainee.agency = traineeArray[2];
-    trainee.location = traineeArray [3];
+    trainee.location = traineeArray[3];
     trainee.agencycolor = traineeArray[4];
     trainee.agencysp = traineeArray[4] === 'A';
     trainee.agencysm = traineeArray[4] === 'B';
@@ -147,19 +140,15 @@ function newRanking() {
 }
 
 // rerender method for table (search box)
-// TODO: this site might be slow to rerender because it clears + adds everything each time
 function rerenderTable() {
   clearTable();
   populateTable(filteredTrainees);
-  // populateRanking();
 }
 
 // rerender method for ranking (KAPAMILYA)
 function rerenderRanking() {
   clearRanking();
   populateRanking();
-  /*clearRanking2();
-  populateRanking2();*/
 }
 
 // rerender method for ranking (KAPUSO)
@@ -169,26 +158,23 @@ function rerenderRanking2() {
 }
 
 function removeAllChildren(element) {
-	while (element.firstChild) {
-		element.removeChild(element.firstChild);
-	}
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
+  }
 }
 
 // Clears out the table
 function clearTable() {
-	let table = document.getElementById("table__entry-container");
-	removeAllChildren(table);
+  let table = document.getElementById("table__entry-container");
+  removeAllChildren(table);
 }
 
 // Clears out the ranking
 function clearRanking() {
-  // Currently just duplicates first ranking entry
   let ranking_chart = document.getElementById("ranking__pyramid");
   let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
-  // let rankEntry = rankRows[0].children[0];
   for (let i = 0; i < rowNums.length; i++) {
-    let rankRow = rankRows[i];
-    for (let j = 0; j < rowNums[i]; j++) {
+       for (let j = 0; j < rowNums[i]; j++) {
       removeAllChildren(rankRow);
     }
   }
@@ -196,10 +182,8 @@ function clearRanking() {
 
 // Clears out the ranking
 function clearRanking2() {
-  // Currently just duplicates first ranking entry
   let ranking_chart2 = document.getElementById("ranking__pyramid2");
   let rankRows2 = Array.from(ranking_chart2.children).slice(1); // remove the title element
-  // let rankEntry = rankRows[0].children[0];
   for (let i = 0; i < rowNums.length; i++) {
     let rankRow2 = rankRows2[i];
     for (let j = 0; j < rowNums[i]; j++) {
@@ -208,11 +192,47 @@ function clearRanking2() {
   }
 }
 
+// Function to populate ranking
+function populateRanking() {
+  let selectedA = 0;
+  let ranking_chart = document.getElementById("ranking__pyramid");
+  let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
+
+  for (let i = 0; i < trainees.length; i++) {
+    if (trainees[i].agencycolor === 'A' && selectedA < 4) {
+      let rankRow = rankRows[selectedA];
+      let rankEntry = document.createElement("div");
+      rankEntry.className = "rank-entry";
+      rankEntry.innerHTML = trainees[i].fullname;
+      rankRow.appendChild(rankEntry);
+      selectedA++;
+    }
+  }
+}
+
+// Function to populate ranking2
+function populateRanking2() {
+  let selectedB = 0;
+  let ranking_chart2 = document.getElementById("ranking__pyramid2");
+  let rankRows2 = Array.from(ranking_chart2.children).slice(1); // remove the title element
+
+  for (let i = 0; i < trainees.length; i++) {
+    if (trainees[i].agencycolor === 'B' && selectedB < 4) {
+      let rankRow2 = rankRows2[selectedB];
+      let rankEntry2 = document.createElement("div");
+      rankEntry2.className = "rank-entry";
+      rankEntry2.innerHTML = trainees[i].fullname;
+      rankRow2.appendChild(rankEntry2);
+      selectedB++;
+    }
+  }
+}
+
 // Uses populated local data structure from readFromCSV to populate table
 function populateTable(trainees) {
   // Currently just duplicates the first table entry
   let table = document.getElementById("table__entry-container");
-  exampleEntry = table.children[0];
+  let exampleEntry = table.children[0];
   for (let i = 0; i < trainees.length; i++) {
     // generate and insert the html for a new trainee table entry
     table.insertAdjacentHTML("beforeend", populateTableEntry(trainees[i]));
@@ -226,29 +246,22 @@ function populateTable(trainees) {
 
 function populateTableEntry(trainee) {
   // evicted will have value "evicted" only if trainee is evicted and showEvicted is true, otherwise this is ""
-  let evicted = (showEvicted && trainee.evicted) && "evicted";
-  let big4 = (showBig4 && trainee.big4) && "big4";
-  let nominated = (showNominated && trainee.nominated) && "nominated";
+  let evicted = (showEvicted && trainee.evicted) ? "evicted" : "";
+  let big4 = (showBig4 && trainee.big4) ? "big4" : "";
+  let nominated = (showNominated && trainee.nominated) ? "nominated" : "";
   const tableEntry = `
   <div class="table__entry ${evicted}">
     <div class="table__entry-icon">
       <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
       <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
-      ${
-        big4 ? '<div class="table__entry-icon-crown"></div>' : ''
-      }
-      ${
-        nominated ? '<div class="table__entry-nominated"></div>' : ''
-      }
-      ${
-        trainee.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""
-      }
+      ${big4 ? '<div class="table__entry-icon-crown"></div>' : ''}
+      ${nominated ? '<div class="table__entry-nominated"></div>' : ''}
+      ${trainee.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""}
     </div>
     <div class="table__entry-text">
       <span class="fullname"><strong>${trainee.fullname}</strong></span>
       <span class="agency">(${trainee.agency})</span>
-      <span class="ageandlocation">${trainee.age} •
-      ${trainee.location.toUpperCase()}</span>
+      <span class="ageandlocation">${trainee.age} • ${trainee.location.toUpperCase()}</span>
     </div>
   </div>`;
   return tableEntry;
@@ -256,14 +269,12 @@ function populateTableEntry(trainee) {
 
 // Uses populated local data structure from getRanking to populate ranking
 function populateRanking() {
-  // Currently just duplicates first ranking entry
   let ranking_chart = document.getElementById("ranking__pyramid");
   let ranking_chart2 = document.getElementById("ranking__pyramid2");
   let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
   let rankRows2 = Array.from(ranking_chart2.children).slice(1); 
-  // let rankEntry = rankRows[0].children[0];
   let currRank = 1;
-  let sp = 1;
+  sp = 1;
   let sm = 1;
   for (let i = 0; i < rowNums.length;) {
     let rankRow = rankRows[sm-1];
@@ -271,97 +282,74 @@ function populateRanking() {
     for (let j = 0; j < rowNums[i]; j++) {
       let currTrainee = ranking[currRank-1];
       if (currTrainee.agencysm) {
-	      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, sm))
-		      
-	      let insertedEntry = rankRow.lastChild;
-	      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
-	      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
-		      // add event listener to remove item
-		      insertedEntry.addEventListener("click", function (event) {
-			      rankingClicked(currTrainee);
-		      });
-		      // add event listener for dragging
-		      dragIcon.setAttribute('draggable', true);
-		      dragIcon.classList.add("drag-cursor");
-		      dragIcon.addEventListener("dragstart", createDragStartListener(sm - 1));
-	      }
-	      // add event listeners for blank/filled ranking entries
-	      iconBorder.addEventListener("dragenter", createDragEnterListener());
-	      iconBorder.addEventListener("dragleave", createDragLeaveListener());
-	      iconBorder.addEventListener("dragover", createDragOverListener());
-	      iconBorder.addEventListener("drop", createDropListener());
-	      sm++;
-	      currRank++;
-      } else if (currTrainee.agencysp){
-	      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, sp))
-		      
-	      let insertedEntry2 = rankRow2.lastChild;
-	      let dragIcon2 = insertedEntry2.children[0].children[0]; // drag icon is just the trainee image and borde
-	      let iconBorder2 = dragIcon2.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
-		      // add event listener to remove item
-		      insertedEntry2.addEventListener("click", function (event) {
-			      rankingClicked2(currTrainee);
-		      });
-		      // add event listener for dragging
-		      dragIcon2.setAttribute('draggable', true);
-		      dragIcon2.classList.add("drag-cursor");
-		      dragIcon2.addEventListener("dragstart", createDragStartListener(sp - 1));
-	      }
-	      // add event listeners for blank/filled ranking entries
-	      iconBorder2.addEventListener("dragenter", createDragEnterListener());
-	      iconBorder2.addEventListener("dragleave", createDragLeaveListener());
-	      iconBorder2.addEventListener("dragover", createDragOverListener());
-	      iconBorder2.addEventListener("drop", createDropListener());
-	      sp++;
-	      currRank++;
+        rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, sm));
+        let insertedEntry = rankRow.lastChild;
+        let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
+        let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
+        // only add these event listeners if a trainee exists in this slot
+        if (currTrainee.id >= 0) {
+          // add event listener to remove item
+          insertedEntry.addEventListener("click", function (event) {
+            rankingClicked(currTrainee);
+          });
+          // add event listener for dragging
+          dragIcon.setAttribute('draggable', true);
+          dragIcon.classList.add("drag-cursor");
+          dragIcon.addEventListener("dragstart", createDragStartListener(sm - 1));
+        }
+        // add event listeners for blank/filled ranking entries
+        iconBorder.addEventListener("dragenter", createDragEnterListener());
+        iconBorder.addEventListener("dragleave", createDragLeaveListener());
+        iconBorder.addEventListener("dragover", createDragOverListener());
+        iconBorder.addEventListener("drop", createDropListener());
+        sm++;
+        currRank++;
+      } else if (currTrainee.agencysp) {
+        rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, sp));
+        let insertedEntry2 = rankRow2.lastChild;
+        let dragIcon2 = insertedEntry2.children[0].children[0]; // drag icon is just the trainee image and border
+        let iconBorder2 = dragIcon2.children[1]; // this is just the border and the recipient of dragged elements
+        // only add these event listeners if a trainee exists in this slot
+        if (currTrainee.id >= 0) {
+          // add event listener to remove item
+          insertedEntry2.addEventListener("click", function (event) {
+            rankingClicked2(currTrainee);
+          });
+          // add event listener for dragging
+          dragIcon2.setAttribute('draggable', true);
+          dragIcon2.classList.add("drag-cursor");
+          dragIcon2.addEventListener("dragstart", createDragStartListener(sp - 1));
+        }
+        // add event listeners for blank/filled ranking entries
+        iconBorder2.addEventListener("dragenter", createDragEnterListener());
+        iconBorder2.addEventListener("dragleave", createDragLeaveListener());
+        iconBorder2.addEventListener("dragover", createDragOverListener());
+        iconBorder2.addEventListener("drop", createDropListener());
+        sp++;
+        currRank++;
       } else {
-	      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
-	      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank))
-		      
-	      /*let insertedEntry = rankRow.lastChild;
-	      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
-	      let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
-		      // add event listener to remove item
-		      insertedEntry.addEventListener("click", function (event) {
-			      rankingClicked(currTrainee);
-		      });
-		      // add event listener for dragging
-		      dragIcon.setAttribute('draggable', true);
-		      dragIcon.classList.add("drag-cursor");
-		      dragIcon.addEventListener("dragstart", createDragStartListener(currRank - 1));
-	      }
-	      // add event listeners for blank/filled ranking entries
-	      iconBorder.addEventListener("dragenter", createDragEnterListener());
-	      iconBorder.addEventListener("dragleave", createDragLeaveListener());
-	      iconBorder.addEventListener("dragover", createDragOverListener());
-	      iconBorder.addEventListener("drop", createDropListener());*/
-	      
-	      currRank++;
-	      sm++;
-	      sp++;
+        rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank));
+        rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currTrainee, currRank));
+        currRank++;
+        sm++;
+        sp++;
       }
-	    if (sm < sp) {
-		    i=sp-2;
-	    } else {
-		    i=sm-2;
-	    }
+      if (sm < sp) {
+        i = sp - 2;
+      } else {
+        i = sm - 2;
+      }
     }
   }
 }
 
 function populateRankingEntry(trainee, currRank) {
-  let evicted = (showEvicted && trainee.evicted) && "evicted";
-  let big4 = (showBig4 && trainee.big4) && "big4";
-  let nominated = (showNominated && trainee.nominated) && "nominated";
-  let RankTag = "BIG WINNER"
+  let evicted = (showEvicted && trainee.evicted) ? "evicted" : "";
+  let big4 = (showBig4 && trainee.big4) ? "big4" : "";
+  let nominated = (showNominated && trainee.nominated) ? "nominated" : "";
+  let RankTag = "BIG WINNER";
   if (currRank != 1) {
-	  RankTag = currRank.toString(); 
+    RankTag = currRank.toString(); 
   }
   const rankingEntry = `
   <div class="ranking__entry ${evicted}">
@@ -371,13 +359,9 @@ function populateRankingEntry(trainee, currRank) {
         <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
       <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${RankTag}</div>
-      ${
-        big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
-      }
-      ${
-        nominated ? '<div class="ranking__entry-nominated"></div>' : ''
-      }
-      </div>
+      ${big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''}
+      ${nominated ? '<div class="ranking__entry-nominated"></div>' : ''}
+    </div>
     <div class="ranking__row-text">
       <div class="name"><strong>${trainee.shortname.toUpperCase()}</strong></div>
       <div class="year">${trainee.age}</div>
@@ -407,53 +391,49 @@ function tableClicked(trainee) {
   }
   rerenderTable();
   if (trainee.agencysm) {
-	  rerenderRanking();
+    rerenderRanking();
   } else if (trainee.agencysp) {
-	  rerenderRanking2();
+    rerenderRanking2();
   }
 }
 
 // Event handler for ranking
 function rankingClicked(trainee) {
-	if (trainee.selected) {
-		trainee.selected = !trainee.selected;
-		// Remove the trainee from the ranking
-		removeRankedTrainee(trainee);
-	}
-	rerenderTable();
-	rerenderRanking();
+  if (trainee.selected) {
+    trainee.selected = !trainee.selected;
+    // Remove the trainee from the ranking
+    removeRankedTrainee(trainee);
+  }
+  rerenderTable();
+  rerenderRanking();
 }
 
 // Event handler for ranking
 function rankingClicked2(trainee) {
-	if (trainee.selected) {
-		trainee.selected = !trainee.selected;
-		// Remove the trainee from the ranking
-		removeRankedTrainee(trainee);
-	}
-	rerenderTable();
-	rerenderRanking2();
+  if (trainee.selected) {
+    trainee.selected = !trainee.selected;
+    // Remove the trainee from the ranking
+    removeRankedTrainee(trainee);
+  }
+  rerenderTable();
+  rerenderRanking2();
 }
 
 function swapTrainees(index1, index2) {
-	tempTrainee = ranking[index1];
-	ranking[index1] = ranking[index2];
-	ranking[index2] = tempTrainee;
-	rerenderRanking();
+  let tempTrainee = ranking[index1];
+  ranking[index1] = ranking[index2];
+  ranking[index2] = tempTrainee;
+  rerenderRanking();
 }
 
 function swapTrainees2(index1, index2) {
-	tempTrainee = ranking[index1];
-	ranking[index1] = ranking[index2];
-	ranking[index2] = tempTrainee;
-	rerenderRanking2();
+  let tempTrainee = ranking[index1];
+  ranking[index1] = ranking[index2];
+  ranking[index2] = tempTrainee;
+  rerenderRanking2();
 }
 
 // Controls alternate ways to spell trainee names
-// to add new entries use the following format:
-// <original>: [<alternate1>, <alternate2>, <alternate3>, etc...]
-// <original> is the original name as appearing on csv
-// all of it should be lower case
 const alternateRomanizations = {
   'az martinez': ['az','martinez','ang miss sunuring daughter ng cebu','cebu','sparkle','kapuso'],
   'bianca de vera': ['bianca','devera','de vera','ang sassy unica hija ng taguig','taguig','star magic','kapamilya'],
@@ -482,10 +462,10 @@ function filterTrainees(event) {
   let filterText = event.target.value.toLowerCase();
   // filters trainees based on name, alternate names, location and birth year
   filteredTrainees = trainees.filter(function (trainee) {
-    let initialMatch = includesIgnCase(trainee.fullname, filterText) || includesIgnCase (trainee.age, filterText) || includesIgnCase (trainee.location, filterText);
-    // if alernates exists then check them as well
+    let initialMatch = includesIgnCase(trainee.fullname, filterText) || includesIgnCase(trainee.age, filterText) || includesIgnCase(trainee.location, filterText);
+    // if alternates exist then check them as well
     let alternateMatch = false;
-    let alternates = alternateRomanizations[trainee.fullname.toLowerCase()]
+    let alternates = alternateRomanizations[trainee.fullname.toLowerCase()];
     if (alternates) {
       for (let i = 0; i < alternates.length; i++) {
         alternateMatch = alternateMatch || includesIgnCase(alternates[i], filterText);
@@ -505,7 +485,7 @@ function includesIgnCase(mainString, subString) {
 // Finds the first blank spot for
 function addRankedTrainee(trainee) {
   for (let i = 0; i < ranking.length; i++) {
-    if (ranking[i].id === -1) { // if spot is blank denoted by -1 id
+   id === -1) { // if spot is blank denoted by -1 id
       ranking[i] = trainee;
       return true;
     }
@@ -525,8 +505,7 @@ function removeRankedTrainee(trainee) {
 
 const currentURL = "https://pbbcollab.github.io/";
 // Serializes the ranking into a string and appends that to the current URL
-function generateShareLink() {
-  let shareCode = ranking.map(function (trainee) {
+function = ranking.map(function (trainee) {
     let twoCharID = ("0" + trainee.id).slice(-2); // adds a zero to front of digit if necessary e.g 1 --> 01
     return twoCharID;
   }).join("");
@@ -555,10 +534,12 @@ var trainees = [];
 var filteredTrainees = [];
 // holds the ordered list of rankings that the user selects
 var ranking = newRanking();
-const rowNums = [1,1,1,1];
-//window.addEventListener("load", function () {
+const rowNums = [1, 1, 1, 1];
+
+// Initialize the application
+window.addEventListener("load", function () {
   populateRanking();
   readFromCSV("./housemate_info.csv");
-//});
-// checks the URL for a ranking and uses it to populate ranking
-getRanking();
+  // checks the URL for a ranking and uses it to populate ranking
+  getRanking();
+});
