@@ -73,7 +73,7 @@ function getRanking() {
     // refresh table to show checkboxes
     rerenderTable();
     // refresh ranking to show newly inserted trainees
-    if (trainee.agencysp) {
+    if (ranking[i].agencysp) {
       rerenderRanking2();
     } else {
       rerenderRanking();
@@ -406,7 +406,7 @@ function showShareLink(shareURL) {
 }
 
 function copyLink() {
- .getElementById("getlink-textbox");
+  let shareBox = document.getElementById("getlink-textbox");
   shareBox.select();
   document.execCommand("copy");
 }
