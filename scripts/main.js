@@ -57,12 +57,19 @@ function getRanking() {
 }
 
 window.onload = function() {
-    document.addEventListener("DOMContentLoaded", function () {
-  	// Initialize the page
-  	populateRanking();
-  	readFromCSV("./housemate_info.csv");
- 	 getRanking();
-    });
+  document.addEventListener("DOMContentLoaded", function () {
+  console.log("Page loaded. Initializing...");
+  
+  // Initialize blank rankings
+  ranking = newRanking();
+  console.log("Initialized rankings:", ranking);
+
+  // Fetch CSV and populate table
+  readFromCSV("./housemate_info.csv");
+
+  // Populate the ranking pyramids
+  populateRanking();
+});
     document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
 
     document.getElementById('.display-options-icon').addEventListener('click', function() {
@@ -127,15 +134,17 @@ function convertCSVArrayToTraineeData(csvArrays) {
 
 // Constructor for a blank trainee
 function newTrainee() {
-  return {
-    id: -1, // -1 denotes a blank trainee spot
-    fullname: '&#8203;', // this is a blank character 
+  const trainee = {
+    id: -1,
+    fullname: '&#8203;',
     shortname: '&#8203;',
     location: '&#8203;',
     age: '&#8203;',
     agencycolor: 'no',
     image: 'emptyrank.png',
   };
+  console.log("Created new trainee:", trainee);
+  return trainee;
 }
 
 // Constructor for a blank ranking list
