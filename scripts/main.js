@@ -57,25 +57,28 @@ async function readFromCSV(path) {
 
 // Enhanced populateRanking function
 function populateRanking() {
-  console.log("Clearing old rankings...");
+  console.log("Populating ranking pyramids...");
+
+  // Clear existing rankings
   clearRanking();
   clearRanking2();
 
-  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1);
-  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1);
+  // Get the rows for each pyramid
+  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // Rows for "A"
+  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // Rows for "B"
 
-  console.log("Populating pyramid A with rows:", rankRowsA);
-  console.log("Populating pyramid B with rows:", rankRowsB);
-
-  let rankCounterA = 0;
-  let rankCounterB = 0;
+  let rankCounterA = 0; // Counter for agency "A" trainees
+  let rankCounterB = 0; // Counter for agency "B" trainees
 
   ranking.forEach((trainee, index) => {
     console.log(`Processing trainee at index ${index}:`, trainee);
+
+    // Use a blank trainee if the slot is empty
     if (trainee.id === -1) {
       trainee = newTrainee();
     }
 
+    // Check if the trainee belongs to agency "A" or "B" and populate the respective pyramid
     if (trainee.agencysm && rankCounterA < 4) {
       addTraineeToRank(rankRowsA[rankCounterA], trainee, rankCounterA + 1, rankingClicked);
       rankCounterA++;
@@ -85,7 +88,17 @@ function populateRanking() {
     }
   });
 
-  console.log("Ranking pyramids populated. Agency A:", rankCounterA, "Agency B:", rankCounterB);
+  // Fill remaining slots with blank trainees
+  while (rankCounterA < 4) {
+    addTraineeToRank(rankRowsA[rankCounterA], newTrainee(), rankCounterA + 1, rankingClicked);
+    rankCounterA++;
+  }
+  while (rankCounterB < 4) {
+    addTraineeToRank(rankRowsB[rankCounterB], newTrainee(), rankCounterB + 1, rankingClicked2);
+    rankCounterB++;
+  }
+
+  console.log("Finished populating ranking pyramids.");
 }
 
 // Enhanced readFromCSV to handle errors gracefully
