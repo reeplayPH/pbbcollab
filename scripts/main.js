@@ -324,10 +324,10 @@ function populateRanking() {
       iconBorder.addEventListener("drop", createDropListener());
 
       rankCounterB++;
-    } else {
+    } /*else {
       rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounter0 + 1));
       rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounter0 + 1));
-      rankCounter0++;
+      rankCounter0++;*/
   }
 }
 
