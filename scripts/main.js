@@ -345,6 +345,7 @@ function populateRanking() {
       currentTrainee = newTrainee();
     }
 
+    // Check if the trainee belongs to agency "A" or "B" and populate the respective pyramid
     if (currentTrainee.agencysm && rankCounterA < 4) {
       // Add trainee to the "A" pyramid
       addTraineeToRank(rankRowsA[rankCounterA], currentTrainee, rankCounterA + 1, rankingClicked);
@@ -354,6 +355,19 @@ function populateRanking() {
       addTraineeToRank(rankRowsB[rankCounterB], currentTrainee, rankCounterB + 1, rankingClicked2);
       rankCounterB++;
     }
+  }
+
+  // Ensure remaining slots are filled with blank trainees if not filled
+  // Fill remaining slots for "A"
+  while (rankCounterA < 4) {
+    addTraineeToRank(rankRowsA[rankCounterA], newTrainee(), rankCounterA + 1, rankingClicked);
+    rankCounterA++;
+  }
+
+  // Fill remaining slots for "B"
+  while (rankCounterB < 4) {
+    addTraineeToRank(rankRowsB[rankCounterB], newTrainee(), rankCounterB + 1, rankingClicked2);
+    rankCounterB++;
   }
 }
 
@@ -382,37 +396,6 @@ function addTraineeToRank(rankRow, trainee, rank, clickHandler) {
   iconBorder.addEventListener("dragleave", createDragLeaveListener());
   iconBorder.addEventListener("dragover", createDragOverListener());
   iconBorder.addEventListener("drop", createDropListener());
-}
-
-function populateRankingEntry(trainee, currRank) {
-  let evicted = (showEvicted && trainee.evicted) && "evicted";
-  let big4 = (showBig4 && trainee.big4) && "big4";
-  let nominated = (showNominated && trainee.nominated) && "nominated";
-  let RankTag = "BIG WINNER"
-  if (currRank != 1) {
-	  RankTag = currRank.toString(); 
-  }
-  const rankingEntry = `
-  <div class="ranking__entry ${evicted}">
-    <div class="ranking__entry-view">
-      <div class="ranking__entry-icon">
-        <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
-        <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
-      </div>
-      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${RankTag}</div>
-      ${
-        big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''
-      }
-      ${
-        nominated ? '<div class="ranking__entry-nominated"></div>' : ''
-      }
-      </div>
-    <div class="ranking__row-text">
-      <div class="name"><strong>${trainee.shortname.toUpperCase()}</strong></div>
-      <div class="year">${trainee.age}</div>
-    </div>
-  </div>`;
-  return rankingEntry;
 }
 
 // Event handlers for table
