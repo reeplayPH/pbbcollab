@@ -462,6 +462,34 @@ function addTraineeToRank(rankRow, trainee, rank, clickHandler) {
   iconBorder.addEventListener("drop", createDropListener());
 }
 
+// Uses populated local data structure from getRanking to populate ranking
+function populateRankingEntry(trainee, currRank) {
+  let evicted = (showEvicted && trainee.evicted) ? "evicted" : "";
+  let big4 = (showBig4 && trainee.big4) ? "big4" : "";
+  let nominated = (showNominated && trainee.nominated) ? "nominated" : "";
+  let RankTag = "BIG WINNER";
+  if (currRank != 1) {
+    RankTag = currRank.toString(); 
+  }
+  const rankingEntry = `
+  <div class="ranking__entry ${evicted}">
+    <div class="ranking__entry-view">
+      <div class="ranking__entry-icon">
+        <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
+        <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
+      </div>
+      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${RankTag}</div>
+      ${big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''}
+      ${nominated ? '<div class="ranking__entry-nominated"></div>' : ''}
+    </div>
+    <div class="ranking__row-text">
+      <div class="name"><strong>${trainee.shortname.toUpperCase()}</strong></div>
+      <div class="year">${trainee.age}</div>
+    </div>
+  </div>`;
+  return rankingEntry;
+}
+
 // Event handlers for table
 function tableClicked(trainee) {
   if (trainee.selected) {
