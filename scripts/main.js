@@ -61,15 +61,19 @@ function populateRanking() {
   clearRanking();
   clearRanking2();
 
-  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // Rows for "A"
-  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // Rows for "B"
+  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1);
+  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1);
 
-  let rankCounterA = 0; // Counter for agency "A" trainees
-  let rankCounterB = 0; // Counter for agency "B" trainees
+  console.log("Populating pyramid A with rows:", rankRowsA);
+  console.log("Populating pyramid B with rows:", rankRowsB);
+
+  let rankCounterA = 0;
+  let rankCounterB = 0;
 
   ranking.forEach((trainee, index) => {
+    console.log(`Processing trainee at index ${index}:`, trainee);
     if (trainee.id === -1) {
-      trainee = newTrainee(); // Ensure blank trainee for empty slots
+      trainee = newTrainee();
     }
 
     if (trainee.agencysm && rankCounterA < 4) {
@@ -80,6 +84,9 @@ function populateRanking() {
       rankCounterB++;
     }
   });
+
+  console.log("Ranking pyramids populated. Agency A:", rankCounterA, "Agency B:", rankCounterB);
+}
 
 // Enhanced readFromCSV to handle errors gracefully
 async function readFromCSV(path) {
@@ -185,26 +192,34 @@ function toggleMenu() {
 }*/
 
 function convertCSVArrayToTraineeData(csvArrays) {
-  trainees = csvArrays.map(function(traineeArray, index) {
-    trainee = {};
-    trainee.fullname = traineeArray[0];
-    trainee.shortname = traineeArray[1];
-    trainee.agency = traineeArray[2];
-    trainee.location = traineeArray [3];
-    trainee.agencycolor = traineeArray[4];
-    trainee.agencysm = traineeArray[4] === 'A';
-    trainee.agencysp = traineeArray[4] === 'B';
-    trainee.age = traineeArray[5];
-    trainee.evicted = traineeArray[6] === 'e'; // sets trainee to be evicted if 'e' appears in 6th col
-    trainee.big4 = traineeArray[6] === 'b'; // sets trainee to top 6 if 't' appears in 6th column
-    trainee.nominated = traineeArray[6] === 'n'; // sets trainee to be nominated if 'e' appears in 6th column
-    trainee.id = parseInt(traineeArray[7]) - 1; // trainee id is the original ordering of the trainees in the first csv
-    trainee.image =
-      trainee.fullname.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
-    return trainee;
-  });
-  filteredTrainees = trainees;
-  return trainees;
+  try {
+    trainees = csvArrays.map(function (traineeArray, index) {
+      if (traineeArray.length < 8) {
+        console.warn(`Skipping invalid CSV row at index ${index}:`, traineeArray);
+        return newTrainee(); // Fallback to a blank trainee
+      }
+      trainee = {};
+      trainee.fullname = traineeArray[0];
+      trainee.shortname = traineeArray[1];
+      trainee.agency = traineeArray[2];
+      trainee.location = traineeArray[3];
+      trainee.agencycolor = traineeArray[4];
+      trainee.agencysm = traineeArray[4] === 'A';
+      trainee.agencysp = traineeArray[4] === 'B';
+      trainee.age = traineeArray[5];
+      trainee.evicted = traineeArray[6] === 'e'; // Evicted flag
+      trainee.big4 = traineeArray[6] === 'b'; // Top 4 flag
+      trainee.nominated = traineeArray[6] === 'n'; // Nominated flag
+      trainee.id = parseInt(traineeArray[7]) - 1; // Trainee ID
+      trainee.image = trainee.fullname.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
+      return trainee;
+    });
+    filteredTrainees = trainees;
+    return trainees;
+  } catch (error) {
+    console.error("Error converting CSV data to trainee objects:", error);
+    return [];
+  }
 }
 
 // Constructor for a blank trainee
