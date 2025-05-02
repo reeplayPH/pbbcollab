@@ -616,7 +616,7 @@ function includesIgnCase(mainString, subString) {
 }
 
 // Finds the first blank spot for
-function addRankedTrainee(trainee) {
+/*function addRankedTrainee(trainee) {
   for (let i = 0; i < ranking.length; i++) {
     if (ranking[i].id === -1) { // if spot is blank denoted by -1 id
       ranking[i] = trainee;
@@ -634,9 +634,9 @@ function removeRankedTrainee(trainee) {
     }
   }
   return false;
-}
+}*/
 
-/*function addRankedTrainee(trainee) {
+function addRankedTrainee(trainee) {
     // Check if the trainee is already in the ranking
     if (ranking.some(rankedTrainee => rankedTrainee.id === trainee.id)) {
         console.warn(`Trainee ${trainee.fullname} is already ranked and cannot be added again.`);
@@ -669,7 +669,7 @@ function removeRankedTrainee(trainee) {
 
     console.warn(`Trainee ${trainee.fullname} is not in the ranking and cannot be removed.`);
     return false; // Trainee not found in the ranking
-}*/
+}
 
 const currentURL = "https://reeplay.github.io/pbbcollab/";
 // Serializes the ranking into a string and appends that to the current URL
