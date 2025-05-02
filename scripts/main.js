@@ -266,6 +266,11 @@ function populateRanking() {
   for (let i = 0; i < ranking.length; i++) {
     let currentTrainee = ranking[i];
 
+    if (currentTrainee.id === -1) {
+      // If the current slot is blank, populate it with a new blank trainee
+      currentTrainee = newTrainee();
+    }
+
     if (currentTrainee.agencysm && rankCounterA < 4) {
       // Add trainee to "A" pyramid
       let rankRow = rankRowsA[rankCounterA];
@@ -274,19 +279,6 @@ function populateRanking() {
       let insertedEntry = rankRow.lastChild;
       let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
       let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-
-      // Only add event listeners if a trainee exists in this slot
-      if (currentTrainee.id >= 0) {
-        // Add event listener to remove item
-        insertedEntry.addEventListener("click", function (event) {
-          rankingClicked(currentTrainee);
-        });
-
-        // Add event listener for dragging
-        dragIcon.setAttribute("draggable", true);
-        dragIcon.classList.add("drag-cursor");
-        dragIcon.addEventListener("dragstart", createDragStartListener(rankCounterA));
-      }
 
       // Add event listeners for blank/filled ranking entries
       iconBorder.addEventListener("dragenter", createDragEnterListener());
@@ -304,19 +296,6 @@ function populateRanking() {
       let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
       let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
 
-      // Only add event listeners if a trainee exists in this slot
-      if (currentTrainee.id >= 0) {
-        // Add event listener to remove item
-        insertedEntry.addEventListener("click", function (event) {
-          rankingClicked2(currentTrainee);
-        });
-
-        // Add event listener for dragging
-        dragIcon.setAttribute("draggable", true);
-        dragIcon.classList.add("drag-cursor");
-        dragIcon.addEventListener("dragstart", createDragStartListener(rankCounterB));
-      }
-
       // Add event listeners for blank/filled ranking entries
       iconBorder.addEventListener("dragenter", createDragEnterListener());
       iconBorder.addEventListener("dragleave", createDragLeaveListener());
@@ -324,10 +303,7 @@ function populateRanking() {
       iconBorder.addEventListener("drop", createDropListener());
 
       rankCounterB++;
-    } else {
-      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounter0 + 1));
-      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounter0 + 1));
-      rankCounter0++;
+    }
   }
 }
 
