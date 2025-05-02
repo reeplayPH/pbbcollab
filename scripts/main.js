@@ -251,7 +251,7 @@ function populateTableEntry(trainee) {
 }
 
 // Uses populated local data structure from getRanking to populate ranking
-function populateRanking() {
+/*function populateRanking() {
   // Clear the current rankings
   clearRanking();
   clearRanking2();
@@ -324,6 +324,64 @@ function populateRanking() {
       rankCounterB++;
     }
   }
+}*/
+function populateRanking() {
+  // Clear the current rankings
+  clearRanking();
+  clearRanking2();
+
+  // Get the rows for each pyramid
+  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // rows for "A"
+  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // rows for "B"
+
+  let rankCounterA = 0; // Counter for agency "A" trainees
+  let rankCounterB = 0; // Counter for agency "B" trainees
+
+  for (let i = 0; i < ranking.length; i++) {
+    let currentTrainee = ranking[i];
+
+    // Use a blank trainee if the slot is empty
+    if (currentTrainee.id === -1) {
+      currentTrainee = newTrainee();
+    }
+
+    if (currentTrainee.agencysm && rankCounterA < 4) {
+      // Add trainee to the "A" pyramid
+      addTraineeToRank(rankRowsA[rankCounterA], currentTrainee, rankCounterA + 1, rankingClicked);
+      rankCounterA++;
+    } else if (currentTrainee.agencysp && rankCounterB < 4) {
+      // Add trainee to the "B" pyramid
+      addTraineeToRank(rankRowsB[rankCounterB], currentTrainee, rankCounterB + 1, rankingClicked2);
+      rankCounterB++;
+    }
+  }
+}
+
+function addTraineeToRank(rankRow, trainee, rank, clickHandler) {
+  // Add trainee entry to the ranking row
+  rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(trainee, rank));
+
+  let insertedEntry = rankRow.lastChild;
+  let dragIcon = insertedEntry.children[0].children[0]; // Drag icon (trainee image and border)
+  let iconBorder = dragIcon.children[1]; // Recipient of dragged elements
+
+  if (trainee.id >= 0) {
+    // Add click event listener to remove trainee
+    insertedEntry.addEventListener("click", function () {
+      clickHandler(trainee);
+    });
+
+    // Add drag-and-drop functionality
+    dragIcon.setAttribute("draggable", true);
+    dragIcon.classList.add("drag-cursor");
+    dragIcon.addEventListener("dragstart", createDragStartListener(rank - 1));
+  }
+
+  // Add event listeners for drag-and-drop on the icon border
+  iconBorder.addEventListener("dragenter", createDragEnterListener());
+  iconBorder.addEventListener("dragleave", createDragLeaveListener());
+  iconBorder.addEventListener("dragover", createDragOverListener());
+  iconBorder.addEventListener("drop", createDropListener());
 }
 
 function populateRankingEntry(trainee, currRank) {
