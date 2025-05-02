@@ -252,12 +252,12 @@ function newTrainee() {
 
 // rerender method for table (search box)
 // TODO: this site might be slow to rerender because it clears + adds everything each time
-/*function rerenderTable() {
+function rerenderTable() {
   clearTable();
   populateTable(filteredTrainees);
   // populateRanking();
-}*/
-function rerenderTable() {
+}
+/*function rerenderTable() {
     clearTable(); // Clear the table
     // Rebuild the table using the updated state of filteredTrainees
     filteredTrainees.forEach(trainee => {
@@ -265,7 +265,7 @@ function rerenderTable() {
         console.log(`Rerendering trainee: ${trainee.fullname}, selected: ${trainee.selected}`);
     });
     populateTable(filteredTrainees);
-}
+}*/
 
 // rerender method for ranking (KAPAMILYA)
 function rerenderRanking() {
