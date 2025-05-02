@@ -259,6 +259,7 @@ function populateRanking() {
   let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // rows for "A"
   let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // rows for "B"
 
+  let rankCounter0 = 0; 
   let rankCounterA = 0; // Counter for agencysm (A) trainees
   let rankCounterB = 0; // Counter for agencysp (B) trainees
 
@@ -323,7 +324,10 @@ function populateRanking() {
       iconBorder.addEventListener("drop", createDropListener());
 
       rankCounterB++;
-    }
+    } else {
+      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounter0 + 1));
+      rankRow2.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounter0 + 1));
+      rankCounter0++;
   }
 }
 
