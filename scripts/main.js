@@ -58,7 +58,10 @@ function getRanking() {
 
 window.onload = function() {
     document.addEventListener("DOMContentLoaded", function () {
+  	// Initialize the page
   	populateRanking();
+  	readFromCSV("./housemate_info.csv");
+ 	 getRanking();
     });
     document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
 
