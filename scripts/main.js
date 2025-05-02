@@ -269,7 +269,7 @@ function rerenderRanking() {
 // rerender method for ranking (KAPUSO)
 function rerenderRanking2() {
   clearRanking2();
-  populateRanking2();
+  populateRanking();
 }
 
 function removeAllChildren(element) {
