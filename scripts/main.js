@@ -57,7 +57,9 @@ function getRanking() {
 }
 
 window.onload = function() {
-    populateRanking();
+    document.addEventListener("DOMContentLoaded", function () {
+  	populateRanking();
+    });
     document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
 
     document.getElementById('.display-options-icon').addEventListener('click', function() {
