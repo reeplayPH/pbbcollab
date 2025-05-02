@@ -52,6 +52,11 @@ body {
   background-repeat: no-repeat;
   background-position: center;
 }
+#version {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 5px;
+  text-align: left;
+}
 #banner-image {
   width: 150px;
   margin-top: 45px;
