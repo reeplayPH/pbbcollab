@@ -1,13 +1,101 @@
-// Takes in name of csv and populates necessary data in table
+document.addEventListener("DOMContentLoaded", async function () {
+  console.log("Page loaded. Initializing...");
+
+  try {
+    // Step 1: Initialize blank rankings
+    ranking = newRanking();
+    console.log("Initialized rankings:", ranking);
+
+    // Step 2: Fetch any saved rankings from the URL
+    console.log("Fetching saved rankings (if any)...");
+    getRanking();
+
+    // Step 3: Fetch CSV and populate the table
+    console.log("Fetching CSV data...");
+    await readFromCSV("./housemate_info.csv");
+    console.log("CSV data successfully loaded and table populated.");
+
+    // Step 4: Populate the ranking pyramids
+    console.log("Populating ranking pyramids...");
+    populateRanking();
+    console.log("Ranking pyramids populated successfully.");
+
+  } catch (error) {
+    console.error("An error occurred during initialization:", error);
+  }
+});
+
+// Constructor for a blank ranking list
+function newRanking() {
+  // Holds the ordered list of rankings that the user selects
+  let ranking = new Array(8); // Adjust size as needed
+  for (let i = 0; i < ranking.length; i++) {
+    ranking[i] = newTrainee();
+  }
+  console.log("Created a new blank ranking:", ranking);
+  return ranking;
+}
+
+
+// Enhanced readFromCSV to handle errors gracefully
 async function readFromCSV(path) {
-  const response = await fetch(path);
-  if (response.ok) {
-    const allText = await response.text();
-    const csvData = CSV.parse(allText);
-    const trainees = convertCSVArrayToTraineeData(csvData);
-    populateTable(trainees);
-  } else {
-    console.error("Failed to fetch CSV:", response.status);
+  try {
+    const response = await fetch(path);
+    if (response.ok) {
+      const allText = await response.text();
+      const csvData = CSV.parse(allText);
+      const trainees = convertCSVArrayToTraineeData(csvData);
+      populateTable(trainees);
+      console.log("Table data populated:", trainees);
+    } else {
+      console.error("Failed to fetch CSV. HTTP Status:", response.status);
+    }
+  } catch (error) {
+    console.error("Error fetching or parsing the CSV file:", error);
+  }
+}
+
+// Enhanced populateRanking function
+function populateRanking() {
+  console.log("Clearing old rankings...");
+  clearRanking();
+  clearRanking2();
+
+  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // Rows for "A"
+  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // Rows for "B"
+
+  let rankCounterA = 0; // Counter for agency "A" trainees
+  let rankCounterB = 0; // Counter for agency "B" trainees
+
+  ranking.forEach((trainee, index) => {
+    if (trainee.id === -1) {
+      trainee = newTrainee(); // Ensure blank trainee for empty slots
+    }
+
+    if (trainee.agencysm && rankCounterA < 4) {
+      addTraineeToRank(rankRowsA[rankCounterA], trainee, rankCounterA + 1, rankingClicked);
+      rankCounterA++;
+    } else if (trainee.agencysp && rankCounterB < 4) {
+      addTraineeToRank(rankRowsB[rankCounterB], trainee, rankCounterB + 1, rankingClicked2);
+      rankCounterB++;
+    }
+  });
+
+// Enhanced readFromCSV to handle errors gracefully
+async function readFromCSV(path) {
+  try {
+    const response = await fetch(path);
+    if (response.ok) {
+      const allText = await response.text();
+      const csvData = CSV.parse(allText);
+      const trainees = convertCSVArrayToTraineeData(csvData);
+      populateTable(trainees);
+      console.log("Table data populated:", trainees);
+    } else {
+      console.error("Failed to fetch CSV. HTTP Status:", response.status);
+    }
+  } catch (error) {
+    console.error("Error fetching or parsing the CSV file:", error);
   }
 }
 
@@ -57,19 +145,6 @@ function getRanking() {
 }
 
 window.onload = function() {
-  document.addEventListener("DOMContentLoaded", function () {
-  console.log("Page loaded. Initializing...");
-  
-  // Initialize blank rankings
-  ranking = newRanking();
-  console.log("Initialized rankings:", ranking);
-
-  // Fetch CSV and populate table
-  readFromCSV("./housemate_info.csv");
-
-  // Populate the ranking pyramids
-  populateRanking();
-});
     document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
 
     document.getElementById('.display-options-icon').addEventListener('click', function() {
@@ -147,16 +222,6 @@ function newTrainee() {
   return trainee;
 }
 
-// Constructor for a blank ranking list
-function newRanking() {
-  // holds the ordered list of rankings that the user selects
-  let ranking = new Array(8);
-  for (let i = 0; i < ranking.length; i++) {
-    ranking[i] = newTrainee();
-  }
-  return ranking;
-}
-
 // rerender method for table (search box)
 // TODO: this site might be slow to rerender because it clears + adds everything each time
 function rerenderTable() {
@@ -191,31 +256,32 @@ function clearTable() {
 	removeAllChildren(table);
 }
 
-// Clears out the ranking
+// Enhanced clearRanking function
 function clearRanking() {
-  // Currently just duplicates first ranking entry
   let ranking_chart = document.getElementById("ranking__pyramid");
-  let rankRows = Array.from(ranking_chart.children).slice(1); // remove the title element
-  // let rankEntry = rankRows[0].children[0];
-  for (let i = 0; i < rowNums.length; i++) {
-    let rankRow = rankRows[i];
-    for (let j = 0; j < rowNums[i]; j++) {
-      removeAllChildren(rankRow);
-    }
+  if (!ranking_chart) {
+    console.error("Ranking pyramid A not found in DOM.");
+    return;
   }
+  let rankRows = Array.from(ranking_chart.children).slice(1); // Remove the title element
+  rankRows.forEach(row => removeAllChildren(row));
+  console.log("Cleared rankings for pyramid A.");
 }
 
-// Clears out the ranking
 function clearRanking2() {
-  // Currently just duplicates first ranking entry
   let ranking_chart2 = document.getElementById("ranking__pyramid2");
-  let rankRows2 = Array.from(ranking_chart2.children).slice(1); // remove the title element
-  // let rankEntry = rankRows[0].children[0];
-  for (let i = 0; i < rowNums.length; i++) {
-    let rankRow2 = rankRows2[i];
-    for (let j = 0; j < rowNums[i]; j++) {
-      removeAllChildren(rankRow2);
-    }
+  if (!ranking_chart2) {
+    console.error("Ranking pyramid B not found in DOM.");
+    return;
+  }
+  let rankRows2 = Array.from(ranking_chart2.children).slice(1); // Remove the title element
+  rankRows2.forEach(row => removeAllChildren(row));
+  console.log("Cleared rankings for pyramid B.");
+}
+
+function removeAllChildren(element) {
+  while (element.firstChild) {
+    element.removeChild(element.firstChild);
   }
 }
 
@@ -340,51 +406,6 @@ function populateTableEntry(trainee) {
     }
   }
 }*/
-function populateRanking() {
-  // Clear the current rankings
-  clearRanking();
-  clearRanking2();
-
-  // Get the rows for each pyramid
-  let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // rows for "A"
-  let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // rows for "B"
-
-  let rankCounterA = 0; // Counter for agency "A" trainees
-  let rankCounterB = 0; // Counter for agency "B" trainees
-
-  for (let i = 0; i < ranking.length; i++) {
-    let currentTrainee = ranking[i];
-
-    // Use a blank trainee if the slot is empty
-    if (currentTrainee.id === -1) {
-      currentTrainee = newTrainee();
-    }
-
-    // Check if the trainee belongs to agency "A" or "B" and populate the respective pyramid
-    if (currentTrainee.agencysm && rankCounterA < 4) {
-      // Add trainee to the "A" pyramid
-      addTraineeToRank(rankRowsA[rankCounterA], currentTrainee, rankCounterA + 1, rankingClicked);
-      rankCounterA++;
-    } else if (currentTrainee.agencysp && rankCounterB < 4) {
-      // Add trainee to the "B" pyramid
-      addTraineeToRank(rankRowsB[rankCounterB], currentTrainee, rankCounterB + 1, rankingClicked2);
-      rankCounterB++;
-    }
-  }
-
-  // Ensure remaining slots are filled with blank trainees if not filled
-  // Fill remaining slots for "A"
-  while (rankCounterA < 4) {
-    addTraineeToRank(rankRowsA[rankCounterA], newTrainee(), rankCounterA + 1, rankingClicked);
-    rankCounterA++;
-  }
-
-  // Fill remaining slots for "B"
-  while (rankCounterB < 4) {
-    addTraineeToRank(rankRowsB[rankCounterB], newTrainee(), rankCounterB + 1, rankingClicked2);
-    rankCounterB++;
-  }
-}
 
 function addTraineeToRank(rankRow, trainee, rank, clickHandler) {
   // Add trainee entry to the ranking row
