@@ -252,19 +252,10 @@ function newTrainee() {
 
 // rerender method for table (search box)
 // TODO: this site might be slow to rerender because it clears + adds everything each time
-/*function rerenderTable() {
+function rerenderTable() {
   clearTable();
   populateTable(filteredTrainees);
   // populateRanking();
-}*/
-function rerenderTable() {
-    clearTable(); // Clear the table
-    // Rebuild the table using the updated state of filteredTrainees
-    filteredTrainees.forEach(trainee => {
-        // Ensure the 'selected' state is honored during rendering
-        console.log(`Rerendering trainee: ${trainee.fullname}, selected: ${trainee.selected}`);
-    });
-    populateTable(filteredTrainees);
 }
 
 // rerender method for ranking (KAPAMILYA)
@@ -278,7 +269,7 @@ function rerenderRanking() {
 // rerender method for ranking (KAPUSO)
 function rerenderRanking2() {
   clearRanking2();
-  populateRanking();
+  populateRanking2();
 }
 
 function removeAllChildren(element) {
@@ -616,7 +607,7 @@ function includesIgnCase(mainString, subString) {
 }
 
 // Finds the first blank spot for
-/*function addRankedTrainee(trainee) {
+function addRankedTrainee(trainee) {
   for (let i = 0; i < ranking.length; i++) {
     if (ranking[i].id === -1) { // if spot is blank denoted by -1 id
       ranking[i] = trainee;
@@ -634,40 +625,6 @@ function removeRankedTrainee(trainee) {
     }
   }
   return false;
-}*/
-function addRankedTrainee(trainee) {
-    // Check if the trainee is already in the ranking
-    if (ranking.some(rankedTrainee => rankedTrainee.id === trainee.id)) {
-        console.warn(`Trainee ${trainee.fullname} is already ranked and cannot be added again.`);
-        return false; // Prevent duplicate addition
-    }
-
-    // Find the first blank spot (id === -1) and add the trainee
-    for (let i = 0; i < ranking.length; i++) {
-        if (ranking[i].id === -1) { // Blank spot
-            ranking[i] = trainee;
-            trainee.selected = true; // Mark trainee as selected
-            console.log(`Trainee ${trainee.fullname} added to ranking at position ${i + 1}.`);
-            return true;
-        }
-    }
-
-    console.warn("No empty slots available in the ranking to add the trainee.");
-    return false; // No empty slots available
-}
-
-function removeRankedTrainee(trainee) {
-    for (let i = 0; i < ranking.length; i++) {
-        if (ranking[i].id === trainee.id) { // Match found
-            ranking[i] = newTrainee(); // Replace with a blank trainee
-            trainee.selected = false; // Reset trainee's selected state
-            console.log(`Trainee ${trainee.fullname} removed from ranking at position ${i + 1}.`);
-            return true;
-        }
-    }
-
-    console.warn(`Trainee ${trainee.fullname} is not in the ranking and cannot be removed.`);
-    return false; // Trainee not found in the ranking
 }
 
 const currentURL = "https://pbbcollab.github.io/";
