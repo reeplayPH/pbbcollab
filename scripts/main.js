@@ -252,12 +252,12 @@ function newTrainee() {
 
 // rerender method for table (search box)
 // TODO: this site might be slow to rerender because it clears + adds everything each time
-/*function rerenderTable() {
+function rerenderTable() {
   clearTable();
   populateTable(filteredTrainees);
   // populateRanking();
-}*/
-function rerenderTable() {
+}
+/*function rerenderTable() {
     clearTable(); // Clear the table
     // Rebuild the table using the updated state of filteredTrainees
     filteredTrainees.forEach(trainee => {
@@ -265,7 +265,7 @@ function rerenderTable() {
         console.log(`Rerendering trainee: ${trainee.fullname}, selected: ${trainee.selected}`);
     });
     populateTable(filteredTrainees);
-}
+}*/
 
 // rerender method for ranking (KAPAMILYA)
 function rerenderRanking() {
@@ -616,7 +616,7 @@ function includesIgnCase(mainString, subString) {
 }
 
 // Finds the first blank spot for
-/*function addRankedTrainee(trainee) {
+function addRankedTrainee(trainee) {
   for (let i = 0; i < ranking.length; i++) {
     if (ranking[i].id === -1) { // if spot is blank denoted by -1 id
       ranking[i] = trainee;
@@ -634,8 +634,9 @@ function removeRankedTrainee(trainee) {
     }
   }
   return false;
-}*/
-function addRankedTrainee(trainee) {
+}
+
+/*function addRankedTrainee(trainee) {
     // Check if the trainee is already in the ranking
     if (ranking.some(rankedTrainee => rankedTrainee.id === trainee.id)) {
         console.warn(`Trainee ${trainee.fullname} is already ranked and cannot be added again.`);
@@ -668,9 +669,9 @@ function removeRankedTrainee(trainee) {
 
     console.warn(`Trainee ${trainee.fullname} is not in the ranking and cannot be removed.`);
     return false; // Trainee not found in the ranking
-}
+}*/
 
-const currentURL = "https://pbbcollab.github.io/";
+const currentURL = "https://reeplay.github.io/pbbcollab/";
 // Serializes the ranking into a string and appends that to the current URL
 function generateShareLink() {
   let shareCode = ranking.map(function (trainee) {
