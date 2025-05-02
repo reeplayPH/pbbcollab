@@ -278,7 +278,17 @@ function populateRanking() {
       let insertedEntry = rankRow.lastChild;
       let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
       let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-
+	      // only add these event listeners if a trainee exists in this slot
+	      if (currTrainee.id >= 0) {
+		      // add event listener to remove item
+		      insertedEntry.addEventListener("click", function (event) {
+			      rankingClicked(currTrainee);
+		      });
+		      // add event listener for dragging
+		      dragIcon.setAttribute('draggable', true);
+		      dragIcon.classList.add("drag-cursor");
+		      dragIcon.addEventListener("dragstart", createDragStartListener(sm - 1));
+	      }
       // Add event listeners for blank/filled ranking entries
       iconBorder.addEventListener("dragenter", createDragEnterListener());
       iconBorder.addEventListener("dragleave", createDragLeaveListener());
@@ -294,7 +304,17 @@ function populateRanking() {
       let insertedEntry = rankRow.lastChild;
       let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
       let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-
+	      // only add these event listeners if a trainee exists in this slot
+	      if (currTrainee.id >= 0) {
+		      // add event listener to remove item
+		      insertedEntry.addEventListener("click", function (event) {
+			      rankingClicked2(currTrainee);
+		      });
+		      // add event listener for dragging
+		      dragIcon.setAttribute('draggable', true);
+		      dragIcon.classList.add("drag-cursor");
+		      dragIcon.addEventListener("dragstart", createDragStartListener(sm - 1));
+	      }
       // Add event listeners for blank/filled ranking entries
       iconBorder.addEventListener("dragenter", createDragEnterListener());
       iconBorder.addEventListener("dragleave", createDragLeaveListener());
