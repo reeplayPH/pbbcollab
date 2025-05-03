@@ -6,33 +6,33 @@ var showEvicted = false;
 var showBig4 = false;
 var showNominated = false;
 
-// This a compare by id on the trainees and guarantees stability of the sort
-function idCompare(trainee1, trainee2) {
-  if (trainee1.id < trainee2.id) {
+// This a compare by id on the housemates and guarantees stability of the sort
+function idCompare(housemate1, housemate2) {
+  if (housemate1.id < housemate2.id) {
     return -1;
   }
-  else if (trainee1.id > trainee2.id) {
+  else if (housemate1.id > housemate2.id) {
     return 1;
   }
   return 0;
 }
 
-// compare by whether trainee is evicted and put evicted at bottom
-function evictedAtBottomCompare(trainee1, trainee2) {
-  if (trainee1.evicted && !trainee2.evicted) {
+// compare by whether housemate is evicted and put evicted at bottom
+function evictedAtBottomCompare(housemate1, housemate2) {
+  if (housemate1.evicted && !housemate2.evicted) {
     return 1;
   }
-  else if (!trainee1.evicted && trainee2.evicted) {
+  else if (!housemate1.evicted && housemate2.evicted) {
     return -1;
   }
   return 0;
 }
 
 // uses all compares in the activeCompare to return a final -1 or 1 or 0
-function combinedCompare(trainee1, trainee2) {
+function combinedCompare(housemate1, housemate2) {
   let finalCompare = 0;
   for (let compareFunc of activeCompares) {
-    let result = compareFunc(trainee1, trainee2);
+    let result = compareFunc(housemate1, housemate2);
     if (result != 0) {
       finalCompare = result;
     }
@@ -40,11 +40,11 @@ function combinedCompare(trainee1, trainee2) {
   return finalCompare;
 }
 
-// returns a list of sorted trainees based on the active compares
-function sortedTrainees(trainees) {
-  let sortedTrainees = trainees.slice();
-  sortedTrainees.sort(combinedCompare);
-  return sortedTrainees;
+// returns a list of sorted housemates based on the active compares
+function sortedHousemates(housemates) {
+  let sortedHousemates = housemates.slice();
+  sortedHousemates.sort(combinedCompare);
+  return sortedHousemates;
 }
 
 // Event handler for when user checks show evicted
@@ -88,6 +88,6 @@ function showNominatedClick(event) {
 
 // sort and rerender the table after applying sorting changes
 function sortRenderTable() {
-  filteredTrainees = sortedTrainees(filteredTrainees);
+  filteredHousemates = sortedHousemates(filteredHousemates);
   rerenderTable();
 }
