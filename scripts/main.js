@@ -128,7 +128,7 @@ function findHousemateById(id) {
 }
 
 // If the user has saved a ranking via id, then recover it here
-function getRanking() {
+/*function getRanking() {
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("r")) {
         let rankString = atob(urlParams.get("r")); // Decode the saved ranking
@@ -164,6 +164,45 @@ function getRanking() {
                 rerenderRanking(); // Re-render Pyramid A
             }
         });
+
+        console.log("Updated rankings:", ranking);
+    }
+}*/
+function getRanking() {
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("r")) {
+        let rankString = atob(urlParams.get("r")); // Decode the saved ranking
+        let rankingIds = [];
+        
+        for (let i = 0; i < rankString.length; i += 2) {
+            let housemateId = rankString.substr(i, 2); // Get ID in 2-character chunks
+            if (housemateId === "XX") {
+                // Add a blank housemate for "XX"
+                rankingIds.push(-1);
+            } else {
+                rankingIds.push(parseInt(housemateId));
+            }
+        }
+
+        console.log("Retrieved ranking IDs:", rankingIds);
+
+        // Populate rankings with the retrieved IDs
+        for (let i = 0; i < rankingIds.length; i++) {
+            let housemateId = rankingIds[i];
+            if (housemateId < 0) {
+                // Add a blank housemate for invalid IDs
+                ranking[i] = newHousemate();
+            } else {
+                let housemate = findHousemateById(housemateId);
+                housemate.selected = true; // Mark the housemate as selected
+                ranking[i] = housemate;
+            }
+        }
+
+        // Refresh the table and pyramids
+        rerenderTable();
+        rerenderRanking(rankingA); // Refresh Pyramid A
+        rerenderRanking(rankingB); // Refresh Pyramid B
 
         console.log("Updated rankings:", ranking);
     }
@@ -734,9 +773,10 @@ function removeRankedHousemate(housemate) {
     return false; // Housemate not found in the ranking
 }
 
-const currentURL = "https://reeplay.github.io/pbbcollab/";
+const currentURL = "https://reeplayph.github.io/pbbcollab/";
 // Serializes the ranking into a string and appends that to the current URL
-function generateShareLink() {
+
+/*function generateShareLink() {
   let shareCode = ranking.map(function (housemate) {
     let twoCharID = ("0" + housemate.id).slice(-2); // adds a zero to front of digit if necessary e.g 1 --> 01
     return twoCharID;
@@ -745,6 +785,30 @@ function generateShareLink() {
   shareCode = btoa(shareCode);
   shareURL = currentURL + "?r=" + shareCode;
   showShareLink(shareURL);
+}*/
+function generateShareLink() {
+    // Serialize the ranking into a string using only valid housemates
+    let shareCode = ranking
+        .map(function (housemate) {
+            if (housemate.id === -1) {
+                // Use "XX" for blank slots in the ranking
+                return "XX";
+            }
+            let twoCharID = ("0" + housemate.id).slice(-2); // Add leading zero if necessary
+            return twoCharID;
+        })
+        .join("");
+
+    console.log("Serialized share code:", shareCode);
+
+    // Encode the ranking as a Base64 string
+    let shareCodeEncoded = btoa(shareCode);
+    let shareURL = `${currentURL}?r=${shareCodeEncoded}`;
+
+    console.log("Generated share URL:", shareURL);
+
+    // Display the shareable link
+    showShareLink(shareURL);
 }
 
 function showShareLink(shareURL) {
