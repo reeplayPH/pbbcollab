@@ -445,30 +445,43 @@ function populateTableEntry(trainee) {
 }*/
 
 function addTraineeToRank(rankRow, trainee, rank, clickHandler) {
-  // Add trainee entry to the ranking row
-  rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(trainee, rank));
+    // Add trainee entry to the ranking row
+    rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(trainee, rank));
 
-  let insertedEntry = rankRow.lastChild;
-  let dragIcon = insertedEntry.children[0].children[0]; // Drag icon (trainee image and border)
-  let iconBorder = dragIcon.children[1]; // Recipient of dragged elements
+    let insertedEntry = rankRow.lastChild;
+    let dragIcon = insertedEntry.children[0].children[0]; // Drag icon (trainee image and border)
+    let iconBorder = dragIcon.children[1]; // Recipient of dragged elements
 
-  if (trainee.id >= 0) {
-    // Add click event listener to remove trainee
-    insertedEntry.addEventListener("click", function () {
-      clickHandler(trainee);
+    if (trainee.id >= 0) {
+        // Add click event listener to remove trainee
+        insertedEntry.addEventListener("click", function () {
+            clickHandler(trainee);
+        });
+
+        // Add drag-and-drop functionality
+        dragIcon.setAttribute("draggable", true);
+        dragIcon.classList.add("drag-cursor");
+        dragIcon.addEventListener("dragstart", function (event) {
+            event.dataTransfer.setData("text/plain", rank - 1); // Pass the current rank as data
+            event.dataTransfer.setData("pyramid", rankRow.parentElement.id); // Pass pyramid ID
+            console.log(`Drag started for trainee: ${trainee.fullname}`);
+        });
+    }
+
+    // Add event listeners for drag-and-drop on the icon border
+    iconBorder.addEventListener("dragenter", createDragEnterListener());
+    iconBorder.addEventListener("dragleave", createDragLeaveListener());
+    iconBorder.addEventListener("dragover", createDragOverListener());
+    iconBorder.addEventListener("drop", function (event) {
+        event.preventDefault();
+        const draggedRank = event.dataTransfer.getData("text/plain");
+        const sourcePyramidId = event.dataTransfer.getData("pyramid");
+        if (sourcePyramidId !== rankRow.parentElement.id) {
+            console.warn("Cannot drop trainee into a different pyramid.");
+            return;
+        }
+        swapTrainees(draggedRank, rank - 1);
     });
-
-    // Add drag-and-drop functionality
-    dragIcon.setAttribute("draggable", true);
-    dragIcon.classList.add("drag-cursor");
-    dragIcon.addEventListener("dragstart", createDragStartListener(rank - 1));
-  }
-
-  // Add event listeners for drag-and-drop on the icon border
-  iconBorder.addEventListener("dragenter", createDragEnterListener());
-  iconBorder.addEventListener("dragleave", createDragLeaveListener());
-  iconBorder.addEventListener("dragover", createDragOverListener());
-  iconBorder.addEventListener("drop", createDropListener());
 }
 
 // Uses populated local data structure from getRanking to populate ranking
@@ -501,29 +514,29 @@ function populateRankingEntry(trainee, currRank) {
 
 // Event handlers for table
 function tableClicked(trainee) {
-  if (trainee.selected) {
-    // Remove the trainee from the ranking
-    let success = removeRankedTrainee(trainee);
-    if (success) { // if removed successfully
-      trainee.selected = !trainee.selected;
+    if (trainee.selected) {
+        // Remove the trainee from the ranking
+        let success = removeRankedTrainee(trainee);
+        if (success) {
+            trainee.selected = false;
+        } else {
+            return;
+        }
     } else {
-      return;
+        // Add the trainee to the ranking
+        let success = addRankedTrainee(trainee);
+        if (success) {
+            trainee.selected = true;
+        } else {
+            return;
+        }
     }
-  } else {
-    // Add the trainee to the ranking
-    let success = addRankedTrainee(trainee);
-    if (success) { // if added successfully
-      trainee.selected = true;
-    } else {
-      return;
+    rerenderTable(); // Refresh table to show updated selection
+    if (trainee.agencysm) {
+        rerenderRanking();
+    } else if (trainee.agencysp) {
+        rerenderRanking2();
     }
-  }
-  rerenderTable();
-  if (trainee.agencysm) {
-	  rerenderRanking();
-  } else if (trainee.agencysp) {
-	  rerenderRanking2();
-  }
 }
 
 // Event handler for ranking
@@ -649,6 +662,7 @@ function addRankedTrainee(trainee) {
             ranking[i] = trainee;
             trainee.selected = true; // Mark trainee as selected
             console.log(`Trainee ${trainee.fullname} added to ranking at position ${i + 1}.`);
+            rerenderTable(); // Ensure table updates to reflect selection
             return true;
         }
     }
