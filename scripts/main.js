@@ -545,11 +545,11 @@ function tableClicked(housemate) {
     } else {
         // Check if adding this housemate exceeds the limit for their agency
         if (housemate.agencysm && selectedAgencySMCount >= 4) {
-            alert("You can only select up to 4 Kapuso Housemantes for Kapuso Big 4.");
+            alert("You can only select up to 4 Kapamilya Housemantes for Kapamilya Big 4.");
             return;
         }
         if (housemate.agencysp && selectedAgencySPCount >= 4) {
-            alert("You can only select up to 4 Kapamilya Housemates for Kapamilya Big 4.");
+            alert("You can only select up to 4 Kapuso Housemates for Kapuso Big 4.");
             return;
         }
 
