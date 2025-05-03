@@ -526,7 +526,11 @@ function populateRankingEntry(trainee, currRank) {
 
 // Event handlers for table
 function tableClicked(trainee) {
-    console.log(`Trainee clicked: ${trainee.fullname}, currently selected: ${trainee.selected}`);
+    console.log(`Trainee clicked: ${trainee.fullname}, selected: ${trainee.selected}`);
+
+    // Count the number of selected trainees for each agency
+    const selectedAgencySMCount = ranking.filter(t => t.agencysm && t.selected).length;
+    const selectedAgencySPCount = ranking.filter(t => t.agencysp && t.selected).length;
 
     if (trainee.selected) {
         // Deselect the trainee and remove them from the ranking
@@ -539,6 +543,16 @@ function tableClicked(trainee) {
             return;
         }
     } else {
+        // Check if adding this trainee exceeds the limit for their agency
+        if (trainee.agencysm && selectedAgencySMCount >= 4) {
+            alert("You can only select up to 4 trainees for Agency SM.");
+            return;
+        }
+        if (trainee.agencysp && selectedAgencySPCount >= 4) {
+            alert("You can only select up to 4 trainees for Agency SP.");
+            return;
+        }
+
         // Select the trainee and add them to the ranking
         let success = addRankedTrainee(trainee);
         if (success) {
@@ -555,9 +569,9 @@ function tableClicked(trainee) {
 
     // Re-render the appropriate ranking pyramid
     if (trainee.agencysm) {
-        rerenderRanking(rankingA); // For Pyramid A
+        rerenderRanking(rankingA); // For Pyramid A (Agency SM)
     } else if (trainee.agencysp) {
-        rerenderRanking(rankingB); // For Pyramid B
+        rerenderRanking(rankingB); // For Pyramid B (Agency SP)
     }
 }
 
