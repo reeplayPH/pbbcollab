@@ -30,7 +30,7 @@ function newRanking() {
   // Holds the ordered list of rankings that the user selects
   let ranking = new Array(8); // Adjust size as needed
   for (let i = 0; i < ranking.length; i++) {
-    ranking[i] = newTrainee();
+    ranking[i] = newHousemate();
   }
   console.log("Created a new blank ranking:", ranking);
   return ranking;
@@ -43,9 +43,9 @@ async function readFromCSV(path) {
     if (response.ok) {
       const allText = await response.text();
       const csvData = CSV.parse(allText);
-      const trainees = convertCSVArrayToTraineeData(csvData);
-      populateTable(trainees);
-      console.log("Table data populated:", trainees);
+      const housemates = convertCSVArrayToHousemateData(csvData);
+      populateTable(housemates);
+      console.log("Table data populated:", housemates);
     } else {
       console.error("Failed to fetch CSV. HTTP Status:", response.status);
     }
@@ -66,34 +66,34 @@ function populateRanking() {
   let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // Rows for "A"
   let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // Rows for "B"
 
-  let rankCounterA = 0; // Counter for agency "A" trainees
-  let rankCounterB = 0; // Counter for agency "B" trainees
+  let rankCounterA = 0; // Counter for agency "A" housemates
+  let rankCounterB = 0; // Counter for agency "B" housemates
 
-  ranking.forEach((trainee, index) => {
-    console.log(`Processing trainee at index ${index}:`, trainee);
+  ranking.forEach((housemate, index) => {
+    console.log(`Processing housemate at index ${index}:`, housemate);
 
-    // Use a blank trainee if the slot is empty
-    if (trainee.id === -1) {
-      trainee = newTrainee();
+    // Use a blank housemate if the slot is empty
+    if (housemate.id === -1) {
+      housemate = newHousemate();
     }
 
-    // Check if the trainee belongs to agency "A" or "B" and populate the respective pyramid
-    if (trainee.agencysm && rankCounterA < 4) {
-      addTraineeToRank(rankRowsA[rankCounterA], trainee, rankCounterA + 1, rankingClicked);
+    // Check if the housemate belongs to agency "A" or "B" and populate the respective pyramid
+    if (housemate.agencysm && rankCounterA < 4) {
+      addHousemateToRank(rankRowsA[rankCounterA], housemate, rankCounterA + 1, rankingClicked);
       rankCounterA++;
-    } else if (trainee.agencysp && rankCounterB < 4) {
-      addTraineeToRank(rankRowsB[rankCounterB], trainee, rankCounterB + 1, rankingClicked2);
+    } else if (housemate.agencysp && rankCounterB < 4) {
+      addHousemateToRank(rankRowsB[rankCounterB], housemate, rankCounterB + 1, rankingClicked2);
       rankCounterB++;
     }
   });
 
-  // Fill remaining slots with blank trainees
+  // Fill remaining slots with blank housemates
   while (rankCounterA < 4) {
-    addTraineeToRank(rankRowsA[rankCounterA], newTrainee(), rankCounterA + 1, rankingClicked);
+    addHousemateToRank(rankRowsA[rankCounterA], newHousemate(), rankCounterA + 1, rankingClicked);
     rankCounterA++;
   }
   while (rankCounterB < 4) {
-    addTraineeToRank(rankRowsB[rankCounterB], newTrainee(), rankCounterB + 1, rankingClicked2);
+    addHousemateToRank(rankRowsB[rankCounterB], newHousemate(), rankCounterB + 1, rankingClicked2);
     rankCounterB++;
   }
 
@@ -107,9 +107,9 @@ async function readFromCSV(path) {
     if (response.ok) {
       const allText = await response.text();
       const csvData = CSV.parse(allText);
-      const trainees = convertCSVArrayToTraineeData(csvData);
-      populateTable(trainees);
-      console.log("Table data populated:", trainees);
+      const housemates = convertCSVArrayToHousemateData(csvData);
+      populateTable(housemates);
+      console.log("Table data populated:", housemates);
     } else {
       console.error("Failed to fetch CSV. HTTP Status:", response.status);
     }
@@ -118,13 +118,13 @@ async function readFromCSV(path) {
   }
 }
 
-function findTraineeById(id) {
-  for (let i = 0; i < trainees.length; i++) {
-    if (id === trainees[i].id) { // if trainee's match
-      return trainees[i];
+function findHousemateById(id) {
+  for (let i = 0; i < housemates.length; i++) {
+    if (id === housemates[i].id) { // if housemate's match
+      return housemates[i];
     }
   }
-  return newTrainee();
+  return newHousemate();
 }
 
 // If the user has saved a ranking via id, then recover it here
@@ -134,20 +134,20 @@ function getRanking() {
         let rankString = atob(urlParams.get("r")); // Decode the saved ranking
         let rankingIds = [];
         for (let i = 0; i < rankString.length; i += 2) {
-            let traineeId = rankString.substr(i, 2); // Get each trainee ID by substringing every 2 chars
-            rankingIds.push(parseInt(traineeId));
+            let housemateId = rankString.substr(i, 2); // Get each housemate ID by substringing every 2 chars
+            rankingIds.push(parseInt(housemateId));
         }
         console.log("Retrieved ranking IDs:", rankingIds);
 
         // Use the retrieved ranking IDs to populate the rankings
         for (let i = 0; i < rankingIds.length; i++) {
-            let traineeId = rankingIds[i];
-            if (traineeId < 0) {
-                ranking[i] = newTrainee(); // Use a blank trainee if ID is invalid
+            let housemateId = rankingIds[i];
+            if (housemateId < 0) {
+                ranking[i] = newHousemate(); // Use a blank housemate if ID is invalid
             } else {
-                let trainee = findTraineeById(traineeId);
-                trainee.selected = true; // Mark the trainee as selected
-                ranking[i] = trainee;
+                let housemate = findHousemateById(housemateId);
+                housemate.selected = true; // Mark the housemate as selected
+                ranking[i] = housemate;
             }
         }
 
@@ -157,8 +157,8 @@ function getRanking() {
         // Refresh the ranking pyramids
         clearRanking(); // Clear Pyramid A
         clearRanking2(); // Clear Pyramid B
-        ranking.forEach(trainee => {
-            if (trainee.agencysp) {
+        ranking.forEach(housemate => {
+            if (housemate.agencysp) {
                 rerenderRanking2(); // Re-render Pyramid B
             } else {
                 rerenderRanking(); // Re-render Pyramid A
@@ -209,40 +209,40 @@ function toggleMenu() {
   }
 }*/
 
-function convertCSVArrayToTraineeData(csvArrays) {
+function convertCSVArrayToHousemateData(csvArrays) {
   try {
-    trainees = csvArrays.map(function (traineeArray, index) {
-      if (traineeArray.length < 8) {
-        console.warn(`Skipping invalid CSV row at index ${index}:`, traineeArray);
-        return newTrainee(); // Fallback to a blank trainee
+    housemates = csvArrays.map(function (housemateArray, index) {
+      if (housemateArray.length < 8) {
+        console.warn(`Skipping invalid CSV row at index ${index}:`, housemateArray);
+        return newHousemate(); // Fallback to a blank housemate
       }
-      trainee = {};
-      trainee.fullname = traineeArray[0];
-      trainee.shortname = traineeArray[1];
-      trainee.agency = traineeArray[2];
-      trainee.location = traineeArray[3];
-      trainee.agencycolor = traineeArray[4];
-      trainee.agencysm = traineeArray[4] === 'A';
-      trainee.agencysp = traineeArray[4] === 'B';
-      trainee.age = traineeArray[5];
-      trainee.evicted = traineeArray[6] === 'e'; // Evicted flag
-      trainee.big4 = traineeArray[6] === 'b'; // Top 4 flag
-      trainee.nominated = traineeArray[6] === 'n'; // Nominated flag
-      trainee.id = parseInt(traineeArray[7]) - 1; // Trainee ID
-      trainee.image = trainee.fullname.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
-      return trainee;
+      housemate = {};
+      housemate.fullname = housemateArray[0];
+      housemate.shortname = housemateArray[1];
+      housemate.agency = housemateArray[2];
+      housemate.location = housemateArray[3];
+      housemate.agencycolor = housemateArray[4];
+      housemate.agencysm = housemateArray[4] === 'A';
+      housemate.agencysp = housemateArray[4] === 'B';
+      housemate.age = housemateArray[5];
+      housemate.evicted = housemateArray[6] === 'e'; // Evicted flag
+      housemate.big4 = housemateArray[6] === 'b'; // Top 4 flag
+      housemate.nominated = housemateArray[6] === 'n'; // Nominated flag
+      housemate.id = parseInt(housemateArray[7]) - 1; // Housemate ID
+      housemate.image = housemate.fullname.replaceAll(" ", "").replaceAll("-", "") + ".JPG";
+      return housemate;
     });
-    filteredTrainees = trainees;
-    return trainees;
+    filteredHousemates = housemates;
+    return housemates;
   } catch (error) {
-    console.error("Error converting CSV data to trainee objects:", error);
+    console.error("Error converting CSV data to housemate objects:", error);
     return [];
   }
 }
 
-// Constructor for a blank trainee
-function newTrainee() {
-  const trainee = {
+// Constructor for a blank housemate
+function newHousemate() {
+  const housemate = {
     id: -1,
     fullname: '&#8203;',
     shortname: '&#8203;',
@@ -251,25 +251,25 @@ function newTrainee() {
     agencycolor: 'no',
     image: 'emptyrank.png',
   };
-  console.log("Created new trainee:", trainee);
-  return trainee;
+  console.log("Created new housemate:", housemate);
+  return housemate;
 }
 
 // rerender method for table (search box)
 // TODO: this site might be slow to rerender because it clears + adds everything each time
 function rerenderTable() {
   clearTable();
-  populateTable(filteredTrainees);
+  populateTable(filteredHousemates);
   // populateRanking();
 }
 /*function rerenderTable() {
     clearTable(); // Clear the table
-    // Rebuild the table using the updated state of filteredTrainees
-    filteredTrainees.forEach(trainee => {
+    // Rebuild the table using the updated state of filteredHousemates
+    filteredHousemates.forEach(housemate => {
         // Ensure the 'selected' state is honored during rendering
-        console.log(`Rerendering trainee: ${trainee.fullname}, selected: ${trainee.selected}`);
+        console.log(`Rerendering housemate: ${housemate.fullname}, selected: ${housemate.selected}`);
     });
-    populateTable(filteredTrainees);
+    populateTable(filteredHousemates);
 }*/
 
 // rerender method for ranking
@@ -331,44 +331,44 @@ function removeAllChildren(element) {
 }
 
 // Uses populated local data structure from readFromCSV to populate table
-function populateTable(trainees) {
+function populateTable(housemates) {
   // Currently just duplicates the first table entry
   let table = document.getElementById("table__entry-container");
   exampleEntry = table.children[0];
-  for (let i = 0; i < trainees.length; i++) {
-    // generate and insert the html for a new trainee table entry
-    table.insertAdjacentHTML("beforeend", populateTableEntry(trainees[i]));
+  for (let i = 0; i < housemates.length; i++) {
+    // generate and insert the html for a new housemate table entry
+    table.insertAdjacentHTML("beforeend", populateTableEntry(housemates[i]));
     // add the click listener to the just inserted element
     let insertedEntry = table.lastChild;
     insertedEntry.addEventListener("click", function (event) {
-      tableClicked(trainees[i]);
+      tableClicked(housemates[i]);
     });
   }
 }
 
-function populateTableEntry(trainee) {
-    console.log(`Rendering table entry for trainee: ${trainee.fullname}, selected: ${trainee.selected}`);
-    let evicted = (showEvicted && trainee.evicted) ? "evicted" : "";
-    let big4 = (showBig4 && trainee.big4) ? "big4" : "";
-    let nominated = (showNominated && trainee.nominated) ? "nominated" : "";
+function populateTableEntry(housemate) {
+    console.log(`Rendering table entry for housemate: ${housemate.fullname}, selected: ${housemate.selected}`);
+    let evicted = (showEvicted && housemate.evicted) ? "evicted" : "";
+    let big4 = (showBig4 && housemate.big4) ? "big4" : "";
+    let nominated = (showNominated && housemate.nominated) ? "nominated" : "";
 
     const tableEntry = `
     <div class="table__entry ${evicted}">
         <div class="table__entry-icon">
-            <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
-            <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
+            <img class="table__entry-img" src="assets/housemates/${housemate.image}" />
+            <div class="table__entry-icon-border ${housemate.agencycolor.toLowerCase()}-rank-border"></div>
             ${big4 ? '<div class="table__entry-icon-crown"></div>' : ''}
             ${nominated ? '<div class="table__entry-nominated"></div>' : ''}
             ${
-                trainee.selected
+                housemate.selected
                     ? '<img class="table__entry-check" src="assets/check.png"/>'
                     : '<!-- No check icon -->'
             }
         </div>
         <div class="table__entry-text">
-            <span class="fullname"><strong>${trainee.fullname}</strong></span>
-            <span class="agency">(${trainee.agency})</span>
-            <span class="ageandlocation">${trainee.age} • ${trainee.location.toUpperCase()}</span>
+            <span class="fullname"><strong>${housemate.fullname}</strong></span>
+            <span class="agency">(${housemate.agency})</span>
+            <span class="ageandlocation">${housemate.age} • ${housemate.location.toUpperCase()}</span>
         </div>
     </div>`;
     return tableEntry;
@@ -383,30 +383,30 @@ function populateTableEntry(trainee) {
   let rankRowsA = Array.from(document.getElementById("ranking__pyramid").children).slice(1); // rows for "A"
   let rankRowsB = Array.from(document.getElementById("ranking__pyramid2").children).slice(1); // rows for "B"
 
-  let rankCounterA = 0; // Counter for agencysm (A) trainees
-  let rankCounterB = 0; // Counter for agencysp (B) trainees
+  let rankCounterA = 0; // Counter for agencysm (A) housemates
+  let rankCounterB = 0; // Counter for agencysp (B) housemates
 
   for (let i = 0; i < ranking.length; i++) {
-    let currentTrainee = ranking[i];
+    let currentHousemate = ranking[i];
 
-    if (currentTrainee.id === -1) {
-      // If the current slot is blank, populate it with a new blank trainee
-      currentTrainee = newTrainee();
+    if (currentHousemate.id === -1) {
+      // If the current slot is blank, populate it with a new blank housemate
+      currentHousemate = newHousemate();
     }
 
-    if (currentTrainee.agencysm && rankCounterA < 4) {
-      // Add trainee to "A" pyramid
+    if (currentHousemate.agencysm && rankCounterA < 4) {
+      // Add housemate to "A" pyramid
       let rankRow = rankRowsA[rankCounterA];
-      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounterA + 1));
+      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentHousemate, rankCounterA + 1));
 
       let insertedEntry = rankRow.lastChild;
-      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
+      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the housemate image and border
       let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
+	      // only add these event listeners if a housemate exists in this slot
+	      if (currHousemate.id >= 0) {
 		      // add event listener to remove item
 		      insertedEntry.addEventListener("click", function (event) {
-			      rankingClicked(currTrainee);
+			      rankingClicked(currHousemate);
 		      });
 		      // add event listener for dragging
 		      dragIcon.setAttribute('draggable', true);
@@ -420,19 +420,19 @@ function populateTableEntry(trainee) {
       iconBorder.addEventListener("drop", createDropListener());
 
       rankCounterA++;
-    } else if (currentTrainee.agencysp && rankCounterB < 4) {
-      // Add trainee to "B" pyramid
+    } else if (currentHousemate.agencysp && rankCounterB < 4) {
+      // Add housemate to "B" pyramid
       let rankRow = rankRowsB[rankCounterB];
-      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentTrainee, rankCounterB + 1));
+      rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(currentHousemate, rankCounterB + 1));
 
       let insertedEntry = rankRow.lastChild;
-      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the trainee image and border
+      let dragIcon = insertedEntry.children[0].children[0]; // drag icon is just the housemate image and border
       let iconBorder = dragIcon.children[1]; // this is just the border and the recipient of dragged elements
-	      // only add these event listeners if a trainee exists in this slot
-	      if (currTrainee.id >= 0) {
+	      // only add these event listeners if a housemate exists in this slot
+	      if (currHousemate.id >= 0) {
 		      // add event listener to remove item
 		      insertedEntry.addEventListener("click", function (event) {
-			      rankingClicked2(currTrainee);
+			      rankingClicked2(currHousemate);
 		      });
 		      // add event listener for dragging
 		      dragIcon.setAttribute('draggable', true);
@@ -450,18 +450,18 @@ function populateTableEntry(trainee) {
   }
 }*/
 
-function addTraineeToRank(rankRow, trainee, rank, clickHandler, rankingArray) {
-    // Add trainee entry to the ranking row
-    rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(trainee, rank));
+function addHousemateToRank(rankRow, housemate, rank, clickHandler, rankingArray) {
+    // Add housemate entry to the ranking row
+    rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(housemate, rank));
 
     let insertedEntry = rankRow.lastChild;
-    let dragIcon = insertedEntry.children[0].children[0]; // Drag icon (trainee image and border)
+    let dragIcon = insertedEntry.children[0].children[0]; // Drag icon (housemate image and border)
     let iconBorder = dragIcon.children[1]; // Recipient of dragged elements
 
-    if (trainee.id >= 0) {
-        // Add click event listener to remove trainee
+    if (housemate.id >= 0) {
+        // Add click event listener to remove housemate
         insertedEntry.addEventListener("click", function () {
-            clickHandler(trainee);
+            clickHandler(housemate);
         });
 
         // Add drag-and-drop functionality
@@ -470,7 +470,7 @@ function addTraineeToRank(rankRow, trainee, rank, clickHandler, rankingArray) {
         dragIcon.addEventListener("dragstart", function (event) {
             event.dataTransfer.setData("text/plain", rank - 1); // Pass current rank as data
             event.dataTransfer.setData("pyramid", rankRow.closest(".ranking__pyramid").id); // Pass pyramid ID
-            console.log(`Drag started for trainee: ${trainee.fullname}, pyramid: ${rankRow.closest(".ranking__pyramid").id}`);
+            console.log(`Drag started for housemate: ${housemate.fullname}, pyramid: ${rankRow.closest(".ranking__pyramid").id}`);
         });
     }
 
@@ -487,20 +487,20 @@ function addTraineeToRank(rankRow, trainee, rank, clickHandler, rankingArray) {
         console.log(`Drop event: draggedRank = ${draggedRank}, sourcePyramidId = ${sourcePyramidId}, targetPyramidId = ${targetPyramidId}`);
 
         if (sourcePyramidId !== targetPyramidId) {
-            console.warn("Cannot drop trainee into a different pyramid.");
+            console.warn("Cannot drop housemate into a different pyramid.");
             return;
         }
 
-        // Swap trainees within the same pyramid
-        swapTrainees(draggedRank, rank - 1, rankingArray);
+        // Swap housemates within the same pyramid
+        swapHousemates(draggedRank, rank - 1, rankingArray);
     });
 }
 
 // Uses populated local data structure from getRanking to populate ranking
-function populateRankingEntry(trainee, currRank) {
-  let evicted = (showEvicted && trainee.evicted) ? "evicted" : "";
-  let big4 = (showBig4 && trainee.big4) ? "big4" : "";
-  let nominated = (showNominated && trainee.nominated) ? "nominated" : "";
+function populateRankingEntry(housemate, currRank) {
+  let evicted = (showEvicted && housemate.evicted) ? "evicted" : "";
+  let big4 = (showBig4 && housemate.big4) ? "big4" : "";
+  let nominated = (showNominated && housemate.nominated) ? "nominated" : "";
   let RankTag = "BIG WINNER";
   if (currRank != 1) {
     RankTag = currRank.toString(); 
@@ -509,57 +509,57 @@ function populateRankingEntry(trainee, currRank) {
   <div class="ranking__entry ${evicted}">
     <div class="ranking__entry-view">
       <div class="ranking__entry-icon">
-        <img class="ranking__entry-img" src="assets/housemates/${trainee.image}" />
-        <div class="ranking__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
+        <img class="ranking__entry-img" src="assets/housemates/${housemate.image}" />
+        <div class="ranking__entry-icon-border ${housemate.agencycolor.toLowerCase()}-rank-border" data-rankid="${currRank-1}"></div>
       </div>
-      <div class="ranking__entry-icon-badge bg-${trainee.agencycolor.toLowerCase()}">${RankTag}</div>
+      <div class="ranking__entry-icon-badge bg-${housemate.agencycolor.toLowerCase()}">${RankTag}</div>
       ${big4 ? '<div class="ranking__entry-icon-crown"></div>' : ''}
       ${nominated ? '<div class="ranking__entry-nominated"></div>' : ''}
     </div>
     <div class="ranking__row-text">
-      <div class="name"><strong>${trainee.shortname.toUpperCase()}</strong></div>
-      <div class="year">${trainee.age}</div>
+      <div class="name"><strong>${housemate.shortname.toUpperCase()}</strong></div>
+      <div class="year">${housemate.age}</div>
     </div>
   </div>`;
   return rankingEntry;
 }
 
 // Event handlers for table
-function tableClicked(trainee) {
-    console.log(`Trainee clicked: ${trainee.fullname}, selected: ${trainee.selected}`);
+function tableClicked(housemate) {
+    console.log(`Housemate clicked: ${housemate.fullname}, selected: ${housemate.selected}`);
 
-    // Count the number of selected trainees for each agency
+    // Count the number of selected housemates for each agency
     const selectedAgencySMCount = ranking.filter(t => t.agencysm && t.selected).length;
     const selectedAgencySPCount = ranking.filter(t => t.agencysp && t.selected).length;
 
-    if (trainee.selected) {
-        // Deselect the trainee and remove them from the ranking
-        let success = removeRankedTrainee(trainee);
+    if (housemate.selected) {
+        // Deselect the housemate and remove them from the ranking
+        let success = removeRankedHousemate(housemate);
         if (success) {
-            trainee.selected = false; // Update state
-            console.log(`Trainee ${trainee.fullname} deselected.`);
+            housemate.selected = false; // Update state
+            console.log(`Housemate ${housemate.fullname} deselected.`);
         } else {
-            console.warn(`Failed to remove trainee ${trainee.fullname} from the rankings.`);
+            console.warn(`Failed to remove housemate ${housemate.fullname} from the rankings.`);
             return;
         }
     } else {
-        // Check if adding this trainee exceeds the limit for their agency
-        if (trainee.agencysm && selectedAgencySMCount >= 4) {
-            alert("You can only select up to 4 trainees for Agency SM.");
+        // Check if adding this housemate exceeds the limit for their agency
+        if (housemate.agencysm && selectedAgencySMCount >= 4) {
+            alert("You can only select up to 4 Kapuso Housemantes for Kapuso Big 4.");
             return;
         }
-        if (trainee.agencysp && selectedAgencySPCount >= 4) {
-            alert("You can only select up to 4 trainees for Agency SP.");
+        if (housemate.agencysp && selectedAgencySPCount >= 4) {
+            alert("You can only select up to 4 Kapamilya Housemates for Kapamilya Big 4.");
             return;
         }
 
-        // Select the trainee and add them to the ranking
-        let success = addRankedTrainee(trainee);
+        // Select the housemate and add them to the ranking
+        let success = addRankedHousemate(housemate);
         if (success) {
-            trainee.selected = true; // Update state
-            console.log(`Trainee ${trainee.fullname} selected.`);
+            housemate.selected = true; // Update state
+            console.log(`Housemate ${housemate.fullname} selected.`);
         } else {
-            console.warn(`Failed to add trainee ${trainee.fullname} to the rankings.`);
+            console.warn(`Failed to add housemate ${housemate.fullname} to the rankings.`);
             return;
         }
     }
@@ -568,25 +568,25 @@ function tableClicked(trainee) {
     rerenderTable();
 
     // Re-render the appropriate ranking pyramid
-    if (trainee.agencysm) {
+    if (housemate.agencysm) {
         rerenderRanking(rankingA); // For Pyramid A (Agency SM)
-    } else if (trainee.agencysp) {
+    } else if (housemate.agencysp) {
         rerenderRanking(rankingB); // For Pyramid B (Agency SP)
     }
 }
 
 // Event handler for ranking
-function rankingClicked(trainee) {
-    console.log(`Ranking clicked for Pyramid A: ${trainee.fullname}, selected: ${trainee.selected}`);
+function rankingClicked(housemate) {
+    console.log(`Ranking clicked for Pyramid A: ${housemate.fullname}, selected: ${housemate.selected}`);
 
-    if (trainee.selected) {
-        // Deselect the trainee and remove them from the ranking
-        let success = removeRankedTrainee(trainee);
+    if (housemate.selected) {
+        // Deselect the housemate and remove them from the ranking
+        let success = removeRankedHousemate(housemate);
         if (success) {
-            trainee.selected = false; // Update state
-            console.log(`Trainee ${trainee.fullname} removed from Pyramid A.`);
+            housemate.selected = false; // Update state
+            console.log(`Housemate ${housemate.fullname} removed from Pyramid A.`);
         } else {
-            console.warn(`Failed to remove trainee ${trainee.fullname} from Pyramid A.`);
+            console.warn(`Failed to remove housemate ${housemate.fullname} from Pyramid A.`);
             return;
         }
     }
@@ -597,17 +597,17 @@ function rankingClicked(trainee) {
 }
 
 // Event handler for ranking
-function rankingClicked2(trainee) {
-    console.log(`Ranking clicked for Pyramid B: ${trainee.fullname}, selected: ${trainee.selected}`);
+function rankingClicked2(housemate) {
+    console.log(`Ranking clicked for Pyramid B: ${housemate.fullname}, selected: ${housemate.selected}`);
 
-    if (trainee.selected) {
-        // Deselect the trainee and remove them from the ranking
-        let success = removeRankedTrainee(trainee);
+    if (housemate.selected) {
+        // Deselect the housemate and remove them from the ranking
+        let success = removeRankedHousemate(housemate);
         if (success) {
-            trainee.selected = false; // Update state
-            console.log(`Trainee ${trainee.fullname} removed from Pyramid B.`);
+            housemate.selected = false; // Update state
+            console.log(`Housemate ${housemate.fullname} removed from Pyramid B.`);
         } else {
-            console.warn(`Failed to remove trainee ${trainee.fullname} from Pyramid B.`);
+            console.warn(`Failed to remove housemate ${housemate.fullname} from Pyramid B.`);
             return;
         }
     }
@@ -617,14 +617,14 @@ function rankingClicked2(trainee) {
     rerenderRanking2();
 }
 
-function swapTrainees(index1, index2, rankingArray) {
-    const tempTrainee = rankingArray[index1];
+function swapHousemates(index1, index2, rankingArray) {
+    const tempHousemate = rankingArray[index1];
     rankingArray[index1] = rankingArray[index2];
-    rankingArray[index2] = tempTrainee;
+    rankingArray[index2] = tempHousemate;
     rerenderRanking(rankingArray);
 }
 
-// Controls alternate ways to spell trainee names
+// Controls alternate ways to spell housemate names
 // to add new entries use the following format:
 // <original>: [<alternate1>, <alternate2>, <alternate3>, etc...]
 // <original> is the original name as appearing on csv
@@ -652,15 +652,15 @@ const alternateRomanizations = {
   'ashley ortega': ['ashley','ortega','ang independent tis-ice princess ng san juan','san juan','evicted','sparkle','kapuso']
 };
 
-// uses the current filter text to create a subset of trainees with matching info
-function filterTrainees(event) {
+// uses the current filter text to create a subset of housemates with matching info
+function filterHousemates(event) {
   let filterText = event.target.value.toLowerCase();
-  // filters trainees based on name, alternate names, location and birth year
-  filteredTrainees = trainees.filter(function (trainee) {
-    let initialMatch = includesIgnCase(trainee.fullname, filterText) || includesIgnCase (trainee.age, filterText) || includesIgnCase (trainee.location, filterText);
+  // filters housemates based on name, alternate names, location and birth year
+  filteredHousemates = housemates.filter(function (housemate) {
+    let initialMatch = includesIgnCase(housemate.fullname, filterText) || includesIgnCase (housemate.age, filterText) || includesIgnCase (housemate.location, filterText);
     // if alernates exists then check them as well
     let alternateMatch = false;
-    let alternates = alternateRomanizations[trainee.fullname.toLowerCase()]
+    let alternates = alternateRomanizations[housemate.fullname.toLowerCase()]
     if (alternates) {
       for (let i = 0; i < alternates.length; i++) {
         alternateMatch = alternateMatch || includesIgnCase(alternates[i], filterText);
@@ -668,7 +668,7 @@ function filterTrainees(event) {
     }
     return initialMatch || alternateMatch;
   });
-  filteredTrainees = sortedTrainees(filteredTrainees);
+  filteredHousemates = sortedHousemates(filteredHousemates);
   rerenderTable();
 }
 
@@ -678,67 +678,67 @@ function includesIgnCase(mainString, subString) {
 }
 
 // Finds the first blank spot for
-/*function addRankedTrainee(trainee) {
+/*function addRankedHousemate(housemate) {
   for (let i = 0; i < ranking.length; i++) {
     if (ranking[i].id === -1) { // if spot is blank denoted by -1 id
-      ranking[i] = trainee;
+      ranking[i] = housemate;
       return true;
     }
   }
   return false;
 }
 
-function removeRankedTrainee(trainee) {
+function removeRankedHousemate(housemate) {
   for (let i = 0; i < ranking.length; i++) {
-    if (ranking[i].id === trainee.id) { // if trainee's match
-      ranking[i] = newTrainee();
+    if (ranking[i].id === housemate.id) { // if housemate's match
+      ranking[i] = newHousemate();
       return true;
     }
   }
   return false;
 }*/
 
-function addRankedTrainee(trainee) {
-    // Check if the trainee is already in the ranking
-    if (ranking.some(rankedTrainee => rankedTrainee.id === trainee.id)) {
-        console.warn(`Trainee ${trainee.fullname} is already ranked and cannot be added again.`);
+function addRankedHousemate(housemate) {
+    // Check if the housemate is already in the ranking
+    if (ranking.some(rankedHousemate => rankedHousemate.id === housemate.id)) {
+        console.warn(`Housemate ${housemate.fullname} is already ranked and cannot be added again.`);
         return false; // Prevent duplicate addition
     }
 
-    // Find the first blank spot (id === -1) and add the trainee
+    // Find the first blank spot (id === -1) and add the housemate
     for (let i = 0; i < ranking.length; i++) {
         if (ranking[i].id === -1) { // Blank spot
-            ranking[i] = trainee;
-            trainee.selected = true; // Mark trainee as selected
-            console.log(`Trainee ${trainee.fullname} added to ranking at position ${i + 1}.`);
+            ranking[i] = housemate;
+            housemate.selected = true; // Mark housemate as selected
+            console.log(`Housemate ${housemate.fullname} added to ranking at position ${i + 1}.`);
             rerenderTable(); // Ensure table updates to reflect selection
             return true;
         }
     }
 
-    console.warn("No empty slots available in the ranking to add the trainee.");
+    console.warn("No empty slots available in the ranking to add the housemate.");
     return false; // No empty slots available
 }
 
-function removeRankedTrainee(trainee) {
+function removeRankedHousemate(housemate) {
     for (let i = 0; i < ranking.length; i++) {
-        if (ranking[i].id === trainee.id) { // Match found
-            ranking[i] = newTrainee(); // Replace with a blank trainee
-            trainee.selected = false; // Reset trainee's selected state
-            console.log(`Trainee ${trainee.fullname} removed from ranking at position ${i + 1}.`);
+        if (ranking[i].id === housemate.id) { // Match found
+            ranking[i] = newHousemate(); // Replace with a blank housemate
+            housemate.selected = false; // Reset housemate's selected state
+            console.log(`Housemate ${housemate.fullname} removed from ranking at position ${i + 1}.`);
             return true;
         }
     }
 
-    console.warn(`Trainee ${trainee.fullname} is not in the ranking and cannot be removed.`);
-    return false; // Trainee not found in the ranking
+    console.warn(`Housemate ${housemate.fullname} is not in the ranking and cannot be removed.`);
+    return false; // Housemate not found in the ranking
 }
 
 const currentURL = "https://reeplay.github.io/pbbcollab/";
 // Serializes the ranking into a string and appends that to the current URL
 function generateShareLink() {
-  let shareCode = ranking.map(function (trainee) {
-    let twoCharID = ("0" + trainee.id).slice(-2); // adds a zero to front of digit if necessary e.g 1 --> 01
+  let shareCode = ranking.map(function (housemate) {
+    let twoCharID = ("0" + housemate.id).slice(-2); // adds a zero to front of digit if necessary e.g 1 --> 01
     return twoCharID;
   }).join("");
   console.log(shareCode);
@@ -764,13 +764,13 @@ async function copyLink() {
   }
 }
 
-// holds the list of all trainees
-var trainees = [];
-// holds the list of trainees to be shown on the table
-var filteredTrainees = [];
+// holds the list of all housemates
+var housemates = [];
+// holds the list of housemates to be shown on the table
+var filteredHousemates = [];
 // holds the ordered list of rankings that the user selects
-var rankingA = new Array(4).fill(newTrainee()); // For Pyramid A
-var rankingB = new Array(4).fill(newTrainee()); // For Pyramid B
+var rankingA = new Array(4).fill(newHousemate()); // For Pyramid A
+var rankingB = new Array(4).fill(newHousemate()); // For Pyramid B
 const rowNums = [1,1,1,1];
 //window.addEventListener("load", function () {
   populateRanking();
