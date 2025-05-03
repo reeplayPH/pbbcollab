@@ -312,13 +312,44 @@ function rerenderTable() {
 }*/
 
 // rerender method for ranking
-function rerenderRanking(rankingArray) {
+/*function rerenderRanking(rankingArray) {
     if (rankingArray === rankingA) {
         clearRanking();
         populateRanking(rankingArray, "ranking__pyramid", rankingClicked);
     } else if (rankingArray === rankingB) {
         clearRanking2();
         populateRanking(rankingArray, "ranking__pyramid2", rankingClicked2);
+    }
+}*/
+function rerenderRanking(rankingArray) {
+    // Clear the current rankings
+    if (rankingArray === rankingA) {
+        clearRanking();
+    } else if (rankingArray === rankingB) {
+        clearRanking2();
+    }
+
+    // Re-populate the rankings with filtered housemates
+    let rankRows = rankingArray === rankingA 
+        ? Array.from(document.getElementById("ranking__pyramid").children).slice(1) 
+        : Array.from(document.getElementById("ranking__pyramid2").children).slice(1);
+
+    let rankCounter = 0;
+
+    filteredHousemates.forEach((housemate, index) => {
+        if (rankCounter >= rankRows.length) return; // Stop if slots are filled
+
+        // Only add housemates that match the current filter and are in the ranking array
+        if (rankingArray.includes(housemate)) {
+            addHousemateToRank(rankRows[rankCounter], housemate, rankCounter + 1, rankingClicked, rankingArray);
+            rankCounter++;
+        }
+    });
+
+    // Fill remaining slots with blank housemates
+    while (rankCounter < rankRows.length) {
+        addHousemateToRank(rankRows[rankCounter], newHousemate(), rankCounter + 1, rankingClicked, rankingArray);
+        rankCounter++;
     }
 }
 
