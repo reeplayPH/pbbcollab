@@ -692,7 +692,7 @@ const alternateRomanizations = {
 };
 
 // uses the current filter text to create a subset of housemates with matching info
-function filterHousemates(event) {
+/*function filterHousemates(event) {
   let filterText = event.target.value.toLowerCase();
   // filters housemates based on name, alternate names, location and birth year
   filteredHousemates = housemates.filter(function (housemate) {
@@ -709,6 +709,42 @@ function filterHousemates(event) {
   });
   filteredHousemates = sortedHousemates(filteredHousemates);
   rerenderTable();
+}*/
+function filterHousemates(event) {
+  let filterText = event.target.value.toLowerCase();
+  
+  // Filters housemates based on name, alternate names, location, and other attributes
+  filteredHousemates = housemates.filter(function (housemate) {
+    let initialMatch = includesIgnCase(housemate.fullname, filterText) || 
+                       includesIgnCase(housemate.age, filterText) || 
+                       includesIgnCase(housemate.location, filterText);
+
+    // Check alternate names
+    let alternateMatch = false;
+    let alternates = alternateRomanizations[housemate.fullname.toLowerCase()];
+    if (alternates) {
+      for (let i = 0; i < alternates.length; i++) {
+        alternateMatch = alternateMatch || includesIgnCase(alternates[i], filterText);
+      }
+    }
+
+    // Apply additional filters for evicted and nominated housemates
+    if (showEvicted && housemate.evicted) {
+      initialMatch = true;
+    }
+    if (showNominated && housemate.nominated) {
+      initialMatch = true;
+    }
+
+    return initialMatch || alternateMatch;
+  });
+
+  // Sort filtered housemates
+  filteredHousemates = sortedHousemates(filteredHousemates);
+
+  // Re-render the table and rankings
+  rerenderTable();
+  rerenderRanking(ranking); // Ensure the ranking respects the filter
 }
 
 // Checks if mainString includes a subString and ignores case
