@@ -451,6 +451,7 @@ function populateTableEntry(trainee) {
 }*/
 
 function addTraineeToRank(rankRow, trainee, rank, clickHandler, rankingArray) {
+    // Add trainee entry to the ranking row
     rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(trainee, rank));
 
     let insertedEntry = rankRow.lastChild;
@@ -458,32 +459,39 @@ function addTraineeToRank(rankRow, trainee, rank, clickHandler, rankingArray) {
     let iconBorder = dragIcon.children[1]; // Recipient of dragged elements
 
     if (trainee.id >= 0) {
+        // Add click event listener to remove trainee
         insertedEntry.addEventListener("click", function () {
-            clickHandler(trainee, rankingArray);
+            clickHandler(trainee);
         });
 
+        // Add drag-and-drop functionality
         dragIcon.setAttribute("draggable", true);
         dragIcon.classList.add("drag-cursor");
         dragIcon.addEventListener("dragstart", function (event) {
-            event.dataTransfer.setData("text/plain", rank - 1); // Pass rank as data
-            event.dataTransfer.setData("pyramid", rankingArray === rankingA ? "A" : "B"); // Pass pyramid ID
+            event.dataTransfer.setData("text/plain", rank - 1); // Pass current rank as data
+            event.dataTransfer.setData("pyramid", rankRow.closest(".ranking__pyramid").id); // Pass pyramid ID
+            console.log(`Drag started for trainee: ${trainee.fullname}, pyramid: ${rankRow.closest(".ranking__pyramid").id}`);
         });
     }
 
+    // Add event listeners for drag-and-drop on the icon border
     iconBorder.addEventListener("dragenter", createDragEnterListener());
     iconBorder.addEventListener("dragleave", createDragLeaveListener());
     iconBorder.addEventListener("dragover", createDragOverListener());
     iconBorder.addEventListener("drop", function (event) {
         event.preventDefault();
         const draggedRank = parseInt(event.dataTransfer.getData("text/plain"), 10);
-        const sourcePyramid = event.dataTransfer.getData("pyramid");
+        const sourcePyramidId = event.dataTransfer.getData("pyramid");
+        const targetPyramidId = rankRow.closest(".ranking__pyramid").id;
 
-        if ((sourcePyramid === "A" && rankingArray !== rankingA) ||
-            (sourcePyramid === "B" && rankingArray !== rankingB)) {
+        console.log(`Drop event: draggedRank = ${draggedRank}, sourcePyramidId = ${sourcePyramidId}, targetPyramidId = ${targetPyramidId}`);
+
+        if (sourcePyramidId !== targetPyramidId) {
             console.warn("Cannot drop trainee into a different pyramid.");
             return;
         }
 
+        // Swap trainees within the same pyramid
         swapTrainees(draggedRank, rank - 1, rankingArray);
     });
 }
