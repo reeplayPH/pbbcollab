@@ -33,11 +33,11 @@ function createDropListener() {
   return function (event) {
     event.preventDefault();
     let elem = event.target;
-    // get the two trainee indices
-    draggedTraineeIndex = event.dataTransfer.getData(rankIndex);
-    droppedTraineeIndex = elem.getAttribute("data-rankid");
+    // get the two housemate indices
+    draggedHousemateIndex = event.dataTransfer.getData(rankIndex);
+    droppedHousemateIndex = elem.getAttribute("data-rankid");
     // swap them
-    swapTrainees(draggedTraineeIndex, droppedTraineeIndex);
+    swapHousemates(draggedHousemateIndex, droppedHousemateIndex);
     // removeClass(elem, draggedOverClass);
   }
 }
