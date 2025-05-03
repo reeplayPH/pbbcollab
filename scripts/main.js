@@ -36,7 +36,6 @@ function newRanking() {
   return ranking;
 }
 
-
 // Enhanced readFromCSV to handle errors gracefully
 async function readFromCSV(path) {
   try {
