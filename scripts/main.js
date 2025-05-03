@@ -312,44 +312,13 @@ function rerenderTable() {
 }*/
 
 // rerender method for ranking
-/*function rerenderRanking(rankingArray) {
+function rerenderRanking(rankingArray) {
     if (rankingArray === rankingA) {
         clearRanking();
         populateRanking(rankingArray, "ranking__pyramid", rankingClicked);
     } else if (rankingArray === rankingB) {
         clearRanking2();
         populateRanking(rankingArray, "ranking__pyramid2", rankingClicked2);
-    }
-}*/
-function rerenderRanking(rankingArray) {
-    // Clear the current rankings
-    if (rankingArray === rankingA) {
-        clearRanking();
-    } else if (rankingArray === rankingB) {
-        clearRanking2();
-    }
-
-    // Re-populate the rankings with filtered housemates
-    let rankRows = rankingArray === rankingA 
-        ? Array.from(document.getElementById("ranking__pyramid").children).slice(1) 
-        : Array.from(document.getElementById("ranking__pyramid2").children).slice(1);
-
-    let rankCounter = 0;
-
-    filteredHousemates.forEach((housemate, index) => {
-        if (rankCounter >= rankRows.length) return; // Stop if slots are filled
-
-        // Only add housemates that match the current filter and are in the ranking array
-        if (rankingArray.includes(housemate)) {
-            addHousemateToRank(rankRows[rankCounter], housemate, rankCounter + 1, rankingClicked, rankingArray);
-            rankCounter++;
-        }
-    });
-
-    // Fill remaining slots with blank housemates
-    while (rankCounter < rankRows.length) {
-        addHousemateToRank(rankRows[rankCounter], newHousemate(), rankCounter + 1, rankingClicked, rankingArray);
-        rankCounter++;
     }
 }
 
@@ -723,7 +692,7 @@ const alternateRomanizations = {
 };
 
 // uses the current filter text to create a subset of housemates with matching info
-/*function filterHousemates(event) {
+function filterHousemates(event) {
   let filterText = event.target.value.toLowerCase();
   // filters housemates based on name, alternate names, location and birth year
   filteredHousemates = housemates.filter(function (housemate) {
@@ -740,42 +709,6 @@ const alternateRomanizations = {
   });
   filteredHousemates = sortedHousemates(filteredHousemates);
   rerenderTable();
-}*/
-function filterHousemates(event) {
-  let filterText = event.target.value.toLowerCase();
-  
-  // Filters housemates based on name, alternate names, location, and other attributes
-  filteredHousemates = housemates.filter(function (housemate) {
-    let initialMatch = includesIgnCase(housemate.fullname, filterText) || 
-                       includesIgnCase(housemate.age, filterText) || 
-                       includesIgnCase(housemate.location, filterText);
-
-    // Check alternate names
-    let alternateMatch = false;
-    let alternates = alternateRomanizations[housemate.fullname.toLowerCase()];
-    if (alternates) {
-      for (let i = 0; i < alternates.length; i++) {
-        alternateMatch = alternateMatch || includesIgnCase(alternates[i], filterText);
-      }
-    }
-
-    // Apply additional filters for evicted and nominated housemates
-    if (showEvicted && housemate.evicted) {
-      initialMatch = true;
-    }
-    if (showNominated && housemate.nominated) {
-      initialMatch = true;
-    }
-
-    return initialMatch || alternateMatch;
-  });
-
-  // Sort filtered housemates
-  filteredHousemates = sortedHousemates(filteredHousemates);
-
-  // Re-render the table and rankings
-  rerenderTable();
-  rerenderRanking(ranking); // Ensure the ranking respects the filter
 }
 
 // Checks if mainString includes a subString and ignores case
