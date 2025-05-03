@@ -129,38 +129,44 @@ function findTraineeById(id) {
 
 // If the user has saved a ranking via id, then recover it here
 function getRanking() {
-  var urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.has("r")) {
-    let rankString = atob(urlParams.get("r")) // decode the saved ranking
-    let rankingIds = [];
-    for (let i = 0; i < rankString.length; i += 2) {
-      let traineeId = rankString.substr(i, 2); // get each id of the trainee by substringing every 2 chars
-      rankingIds.push(parseInt(traineeId));
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("r")) {
+        let rankString = atob(urlParams.get("r")); // Decode the saved ranking
+        let rankingIds = [];
+        for (let i = 0; i < rankString.length; i += 2) {
+            let traineeId = rankString.substr(i, 2); // Get each trainee ID by substringing every 2 chars
+            rankingIds.push(parseInt(traineeId));
+        }
+        console.log("Retrieved ranking IDs:", rankingIds);
+
+        // Use the retrieved ranking IDs to populate the rankings
+        for (let i = 0; i < rankingIds.length; i++) {
+            let traineeId = rankingIds[i];
+            if (traineeId < 0) {
+                ranking[i] = newTrainee(); // Use a blank trainee if ID is invalid
+            } else {
+                let trainee = findTraineeById(traineeId);
+                trainee.selected = true; // Mark the trainee as selected
+                ranking[i] = trainee;
+            }
+        }
+
+        // Refresh the table to show updated checkboxes
+        rerenderTable();
+
+        // Refresh the ranking pyramids
+        clearRanking(); // Clear Pyramid A
+        clearRanking2(); // Clear Pyramid B
+        ranking.forEach(trainee => {
+            if (trainee.agencysp) {
+                rerenderRanking2(); // Re-render Pyramid B
+            } else {
+                rerenderRanking(); // Re-render Pyramid A
+            }
+        });
+
+        console.log("Updated rankings:", ranking);
     }
-    console.log(rankingIds);
-    // use the retrieved rankingIds to populate ranking
-    for (let i = 0; i < rankingIds.length; i++) {
-      traineeId = rankingIds[i];
-      if (traineeId < 0) {
-        ranking[i] = newTrainee();
-      } else {
-        let trainee = findTraineeById(rankingIds[i])
-        // let trainee = trainees[rankingIds[i]];
-        trainee.selected = true;
-        ranking[i] = trainee;
-      }
-    }
-    // refresh table to show checkboxes
-    rerenderTable();
-    // refresh ranking to show newly inserted trainees
-    if (trainee.agencysp) {
-	    rerenderRanking2();
-    } else {
-	    rerenderRanking();
-    }
-    /*rerenderRanking();*/
-    console.log(ranking);
-  }
 }
 
 window.onload = function() {
@@ -266,12 +272,15 @@ function rerenderTable() {
     populateTable(filteredTrainees);
 }*/
 
-// rerender method for ranking (KAPAMILYA)
-function rerenderRanking() {
-  clearRanking();
-  populateRanking();
-  /*clearRanking2();
-  populateRanking2();*/
+// rerender method for ranking
+function rerenderRanking(rankingArray) {
+    if (rankingArray === rankingA) {
+        clearRanking();
+        populateRanking(rankingArray, "ranking__pyramid", rankingClicked);
+    } else if (rankingArray === rankingB) {
+        clearRanking2();
+        populateRanking(rankingArray, "ranking__pyramid2", rankingClicked2);
+    }
 }
 
 // rerender method for ranking (KAPUSO)
@@ -338,33 +347,31 @@ function populateTable(trainees) {
 }
 
 function populateTableEntry(trainee) {
-  // evicted will have value "evicted" only if trainee is evicted and showEvicted is true, otherwise this is ""
-  let evicted = (showEvicted && trainee.evicted) && "evicted";
-  let big4 = (showBig4 && trainee.big4) && "big4";
-  let nominated = (showNominated && trainee.nominated) && "nominated";
-  const tableEntry = `
-  <div class="table__entry ${evicted}">
-    <div class="table__entry-icon">
-      <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
-      <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
-      ${
-        big4 ? '<div class="table__entry-icon-crown"></div>' : ''
-      }
-      ${
-        nominated ? '<div class="table__entry-nominated"></div>' : ''
-      }
-      ${
-        trainee.selected ? '<img class="table__entry-check" src="assets/check.png"/>' : ""
-      }
-    </div>
-    <div class="table__entry-text">
-      <span class="fullname"><strong>${trainee.fullname}</strong></span>
-      <span class="agency">(${trainee.agency})</span>
-      <span class="ageandlocation">${trainee.age} •
-      ${trainee.location.toUpperCase()}</span>
-    </div>
-  </div>`;
-  return tableEntry;
+    console.log(`Rendering table entry for trainee: ${trainee.fullname}, selected: ${trainee.selected}`);
+    let evicted = (showEvicted && trainee.evicted) ? "evicted" : "";
+    let big4 = (showBig4 && trainee.big4) ? "big4" : "";
+    let nominated = (showNominated && trainee.nominated) ? "nominated" : "";
+
+    const tableEntry = `
+    <div class="table__entry ${evicted}">
+        <div class="table__entry-icon">
+            <img class="table__entry-img" src="assets/housemates/${trainee.image}" />
+            <div class="table__entry-icon-border ${trainee.agencycolor.toLowerCase()}-rank-border"></div>
+            ${big4 ? '<div class="table__entry-icon-crown"></div>' : ''}
+            ${nominated ? '<div class="table__entry-nominated"></div>' : ''}
+            ${
+                trainee.selected
+                    ? '<img class="table__entry-check" src="assets/check.png"/>'
+                    : '<!-- No check icon -->'
+            }
+        </div>
+        <div class="table__entry-text">
+            <span class="fullname"><strong>${trainee.fullname}</strong></span>
+            <span class="agency">(${trainee.agency})</span>
+            <span class="ageandlocation">${trainee.age} • ${trainee.location.toUpperCase()}</span>
+        </div>
+    </div>`;
+    return tableEntry;
 }
 
 // Uses populated local data structure from getRanking to populate ranking
@@ -443,8 +450,7 @@ function populateTableEntry(trainee) {
   }
 }*/
 
-function addTraineeToRank(rankRow, trainee, rank, clickHandler) {
-    // Add trainee entry to the ranking row
+function addTraineeToRank(rankRow, trainee, rank, clickHandler, rankingArray) {
     rankRow.insertAdjacentHTML("beforeend", populateRankingEntry(trainee, rank));
 
     let insertedEntry = rankRow.lastChild;
@@ -452,34 +458,33 @@ function addTraineeToRank(rankRow, trainee, rank, clickHandler) {
     let iconBorder = dragIcon.children[1]; // Recipient of dragged elements
 
     if (trainee.id >= 0) {
-        // Add click event listener to remove trainee
         insertedEntry.addEventListener("click", function () {
-            clickHandler(trainee);
+            clickHandler(trainee, rankingArray);
         });
 
-        // Add drag-and-drop functionality
         dragIcon.setAttribute("draggable", true);
         dragIcon.classList.add("drag-cursor");
         dragIcon.addEventListener("dragstart", function (event) {
-            event.dataTransfer.setData("text/plain", rank - 1); // Pass the current rank as data
-            event.dataTransfer.setData("pyramid", rankRow.parentElement.id); // Pass pyramid ID
-            console.log(`Drag started for trainee: ${trainee.fullname}`);
+            event.dataTransfer.setData("text/plain", rank - 1); // Pass rank as data
+            event.dataTransfer.setData("pyramid", rankingArray === rankingA ? "A" : "B"); // Pass pyramid ID
         });
     }
 
-    // Add event listeners for drag-and-drop on the icon border
     iconBorder.addEventListener("dragenter", createDragEnterListener());
     iconBorder.addEventListener("dragleave", createDragLeaveListener());
     iconBorder.addEventListener("dragover", createDragOverListener());
     iconBorder.addEventListener("drop", function (event) {
         event.preventDefault();
-        const draggedRank = event.dataTransfer.getData("text/plain");
-        const sourcePyramidId = event.dataTransfer.getData("pyramid");
-        if (sourcePyramidId !== rankRow.parentElement.id) {
+        const draggedRank = parseInt(event.dataTransfer.getData("text/plain"), 10);
+        const sourcePyramid = event.dataTransfer.getData("pyramid");
+
+        if ((sourcePyramid === "A" && rankingArray !== rankingA) ||
+            (sourcePyramid === "B" && rankingArray !== rankingB)) {
             console.warn("Cannot drop trainee into a different pyramid.");
             return;
         }
-        swapTrainees(draggedRank, rank - 1);
+
+        swapTrainees(draggedRank, rank - 1, rankingArray);
     });
 }
 
@@ -513,65 +518,88 @@ function populateRankingEntry(trainee, currRank) {
 
 // Event handlers for table
 function tableClicked(trainee) {
+    console.log(`Trainee clicked: ${trainee.fullname}, currently selected: ${trainee.selected}`);
+
     if (trainee.selected) {
-        // Remove the trainee from the ranking
+        // Deselect the trainee and remove them from the ranking
         let success = removeRankedTrainee(trainee);
         if (success) {
-            trainee.selected = false;
+            trainee.selected = false; // Update state
+            console.log(`Trainee ${trainee.fullname} deselected.`);
         } else {
+            console.warn(`Failed to remove trainee ${trainee.fullname} from the rankings.`);
             return;
         }
     } else {
-        // Add the trainee to the ranking
+        // Select the trainee and add them to the ranking
         let success = addRankedTrainee(trainee);
         if (success) {
-            trainee.selected = true;
+            trainee.selected = true; // Update state
+            console.log(`Trainee ${trainee.fullname} selected.`);
         } else {
+            console.warn(`Failed to add trainee ${trainee.fullname} to the rankings.`);
             return;
         }
     }
-    rerenderTable(); // Refresh table to show updated selection
+
+    // Re-render the table to reflect changes
+    rerenderTable();
+
+    // Re-render the appropriate ranking pyramid
     if (trainee.agencysm) {
-        rerenderRanking();
+        rerenderRanking(rankingA); // For Pyramid A
     } else if (trainee.agencysp) {
-        rerenderRanking2();
+        rerenderRanking(rankingB); // For Pyramid B
     }
 }
 
 // Event handler for ranking
 function rankingClicked(trainee) {
-	if (trainee.selected) {
-		trainee.selected = !trainee.selected;
-		// Remove the trainee from the ranking
-		removeRankedTrainee(trainee);
-	}
-	rerenderTable();
-	rerenderRanking();
+    console.log(`Ranking clicked for Pyramid A: ${trainee.fullname}, selected: ${trainee.selected}`);
+
+    if (trainee.selected) {
+        // Deselect the trainee and remove them from the ranking
+        let success = removeRankedTrainee(trainee);
+        if (success) {
+            trainee.selected = false; // Update state
+            console.log(`Trainee ${trainee.fullname} removed from Pyramid A.`);
+        } else {
+            console.warn(`Failed to remove trainee ${trainee.fullname} from Pyramid A.`);
+            return;
+        }
+    }
+
+    // Re-render the table and Pyramid A
+    rerenderTable();
+    rerenderRanking(rankingA); // Ensure it uses the correct ranking array for Pyramid A
 }
 
 // Event handler for ranking
 function rankingClicked2(trainee) {
-	if (trainee.selected) {
-		trainee.selected = !trainee.selected;
-		// Remove the trainee from the ranking
-		removeRankedTrainee(trainee);
-	}
-	rerenderTable();
-	rerenderRanking2();
+    console.log(`Ranking clicked for Pyramid B: ${trainee.fullname}, selected: ${trainee.selected}`);
+
+    if (trainee.selected) {
+        // Deselect the trainee and remove them from the ranking
+        let success = removeRankedTrainee(trainee);
+        if (success) {
+            trainee.selected = false; // Update state
+            console.log(`Trainee ${trainee.fullname} removed from Pyramid B.`);
+        } else {
+            console.warn(`Failed to remove trainee ${trainee.fullname} from Pyramid B.`);
+            return;
+        }
+    }
+
+    // Re-render the table and Pyramid B
+    rerenderTable();
+    rerenderRanking2();
 }
 
-function swapTrainees(index1, index2) {
-	tempTrainee = ranking[index1];
-	ranking[index1] = ranking[index2];
-	ranking[index2] = tempTrainee;
-	rerenderRanking();
-}
-
-function swapTrainees2(index1, index2) {
-	tempTrainee = ranking[index1];
-	ranking[index1] = ranking[index2];
-	ranking[index2] = tempTrainee;
-	rerenderRanking2();
+function swapTrainees(index1, index2, rankingArray) {
+    const tempTrainee = rankingArray[index1];
+    rankingArray[index1] = rankingArray[index2];
+    rankingArray[index2] = tempTrainee;
+    rerenderRanking(rankingArray);
 }
 
 // Controls alternate ways to spell trainee names
@@ -719,7 +747,8 @@ var trainees = [];
 // holds the list of trainees to be shown on the table
 var filteredTrainees = [];
 // holds the ordered list of rankings that the user selects
-var ranking = newRanking();
+var rankingA = new Array(4).fill(newTrainee()); // For Pyramid A
+var rankingB = new Array(4).fill(newTrainee()); // For Pyramid B
 const rowNums = [1,1,1,1];
 //window.addEventListener("load", function () {
   populateRanking();
