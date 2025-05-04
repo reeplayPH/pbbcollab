@@ -49,19 +49,20 @@ function sortedHousemates(housemates) {
 
 // Event handler for when user checks show evicted
 function showEvictedClick(event) {
-  console.log(event);
-  let checkbox = event.target;
-  if (checkbox.checked) {
-    activeCompares.push(evictedAtBottomCompare);
-    showEvicted = true;
-  } else {
-    // remove the show evicted compare
-    let i = activeCompares.indexOf(evictedAtBottomCompare)
-    if (i >= 0) activeCompares.splice(i, 1);
-    showEvicted = false;
-  }
-  sortRenderTable();
-  rerenderRanking();
+    console.log(event);
+    let checkbox = event.target;
+    if (checkbox.checked) {
+        activeCompares.push(evictedAtBottomCompare);
+        showEvicted = true;
+    } else {
+        // Remove the show evicted compare
+        let i = activeCompares.indexOf(evictedAtBottomCompare);
+        if (i >= 0) activeCompares.splice(i, 1);
+        showEvicted = false;
+    }
+    sortRenderTable();
+    rerenderRanking(); // Updates both ranking pyramids
+    populateRanking(); // Ensure pyramids reflect changes
 }
 
 function showBig4Click(event) {
@@ -72,7 +73,8 @@ function showBig4Click(event) {
     showBig4 = false;
   }
   rerenderTable();
-  rerenderRanking();
+  rerenderRanking(); // Updates both ranking pyramids
+  populateRanking(); // Ensure pyramids reflect changes
 }
 
 function showNominatedClick(event) {
@@ -83,7 +85,8 @@ function showNominatedClick(event) {
     showNominated = false;
   }
   rerenderTable();
-  rerenderRanking();
+  rerenderRanking(); // Updates both ranking pyramids
+  populateRanking(); // Ensure pyramids reflect changes
 }
 
 // sort and rerender the table after applying sorting changes
