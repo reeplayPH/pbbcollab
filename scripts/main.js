@@ -657,10 +657,29 @@ function rankingClicked2(housemate) {
 }
 
 function swapHousemates(index1, index2, rankingArray) {
+    // Ensure indices are valid
+    if (index1 < 0 || index1 >= rankingArray.length || index2 < 0 || index2 >= rankingArray.length) {
+        console.warn(`Invalid indices for swap: index1 = ${index1}, index2 = ${index2}`);
+        return;
+    }
+
+    console.log(`Swapping housemates at index ${index1} and ${index2} in ranking array.`);
+
+    // Swap the housemates
     const tempHousemate = rankingArray[index1];
     rankingArray[index1] = rankingArray[index2];
     rankingArray[index2] = tempHousemate;
-    rerenderRanking(rankingArray);
+
+    console.log(`Swapped housemates at index ${index1} (${rankingArray[index1].fullname}) and ${index2} (${rankingArray[index2].fullname}).`);
+
+    // Re-render the correct ranking pyramid based on the array being updated
+    if (rankingArray === rankingA) {
+        rerenderRanking(rankingA); // Refresh Pyramid A
+    } else if (rankingArray === rankingB) {
+        rerenderRanking(rankingB); // Refresh Pyramid B
+    } else {
+        console.error("Unknown ranking array. Cannot re-render.");
+    }
 }
 
 // Controls alternate ways to spell housemate names
