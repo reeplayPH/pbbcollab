@@ -787,6 +787,12 @@ const currentURL = "https://reeplayph.github.io/pbbcollab/";
   showShareLink(shareURL);
 }*/
 function generateShareLink() {
+    // Ensure ranking is populated
+    if (!ranking || ranking.length === 0) {
+        console.error("Ranking array is empty or not initialized.");
+        return;
+    }
+
     // Serialize the ranking into a string using only valid housemates
     let shareCode = ranking
         .map(function (housemate) {
