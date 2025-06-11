@@ -213,7 +213,7 @@ window.addEventListener('load', function () {
 
   if (userChoice) {
     // User clicked OK
-    window.location.href = "https://reeplay.github.io";
+    window.location.href = "https://reeplayph.github.io";
   } else {
     // User clicked Cancel
     // Do nothing, stay on the current page
