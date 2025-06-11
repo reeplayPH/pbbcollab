@@ -208,6 +208,19 @@ function getRanking() {
     }
 }
 
+window.addEventListener('load', function () {
+  const userChoice = window.confirm("Do you want to rank your Final Big 4 Duos?");
+
+  if (userChoice) {
+    // User clicked OK
+    window.location.href = "https://reeplay.github.io";
+  } else {
+    // User clicked Cancel
+    // Do nothing, stay on the current page
+  }
+});
+
+
 window.onload = function() {
     document.getElementById('clickMenu').style.display = 'none'; // Ensure menu is hidden on page load
 
